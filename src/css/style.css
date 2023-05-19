@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn-head
+{
+    @apply rounded-3xl px-5 py-2 mx-1 hover:bg-white duration-500;
+}
+.btn-head-mobile
+{
+    @apply rounded-3xl text-center px-3 py-2 my-1 hover:bg-white duration-500;
+}
+.btn-link
+{
+    @apply text-center font-medium mx-2 px-5 py-3 border-2 border-orange-200 bg-orange-200 rounded-full hover:bg-transparent duration-300;
+}
+.btn-normal
+{
+    @apply text-center font-medium mx-2 px-5 py-1 border-2 border-orange-200 bg-orange-200 rounded-lg hover:bg-transparent duration-500;
+}
+table
+{
+    table-layout: fixed;
+}
