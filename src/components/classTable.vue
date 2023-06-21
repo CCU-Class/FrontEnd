@@ -1,8 +1,8 @@
 <template>
-    <table class = 'w-11/12 bg-orange-100/50 rounded-md my-3 py-1 mx-auto border-separate md:w-9/12'>
+    <table class = 'w-11/12 bg-orange-100/50 rounded-lg px-2 my-3 py-2 mx-auto border-separate shadow-lg md:w-9/12' id = "class_table">
         <thead>
             <tr>
-                <th class = "py-3 border-collapse bg-orange-100 " v-for = "day in week"> {{ day }} </th>
+                <th class = "py-3 border-collapse bg-orange-100 rounded-lg" v-for = "day in week"> {{ day }} </th>
             </tr>
         </thead>
         <tbody>
@@ -35,11 +35,11 @@ var data = [
     ["7", "E", "", "", "", "", "", ""], 
     ["7", "E", "", "", "", "", "", ""], 
     ["8", "E", "", "", "", "", "", ""], 
-    ["8", "F", "", "", "", "", "", ""], 
-    ["9", "F", "", "", "", "", "", ""], 
-    ["9", "F", "", "", "", "", "", ""], 
-    ["10", "G", "", "", "", "", "", ""], 
-    ["10", "G", "", "", "", "", "", ""], 
+    ["8", "F", "", "", "", "", "", "5"], 
+    ["9", "F", "", "", "", "", "", "5"], 
+    ["9", "F", "", "", "", "", "", "7"], 
+    ["10", "G", "", "", "", "", "", "7"], 
+    ["10", "G", "", "", "", "", "", "7"], 
     ["11", "G", "", "", "", "", "", ""], 
     ["11", "H", "", "", "", "", "", ""], 
     ["12", "H", "", "", "", "", "", ""], 
@@ -51,7 +51,7 @@ var data = [
     ["15", "J", "", "", "", "", "", ""], 
     ["15", "J", "", "", "", "", "", ""]
 ]
-
+/*
 function rowspanData(data)
 {
     let rowspanData = []
@@ -82,8 +82,46 @@ function rowspanData(data)
         rowspanData.push(rowsArray)
     }
     return rowspanData
-}
+}*/
 
+function rowspanData(data)
+{
+    // we create a table with data, and then we will use this table to create a rowspan table
+    // if the data element is the same as the previous one, we will try to merge them together
+    let rowspanData = []
+    for(let i = 0; i < data.length; i++)
+    {
+        let rowsArray = [] //一行
+        for(let j = 0; j < data[i].length; j++)
+        {
+            let obj = 
+            {
+                name: data[i][j],
+                rowspan: 1, //行
+                visible: 1
+            }
+            if(i == 0)
+                rowsArray.push(obj)
+            if(i > 0)
+            {
+                if(data[i][j] == data[i - 1][j])
+                {
+                    obj.rowspan = rowspanData[i - 1][j].rowspan + 1;
+                    rowspanData[i - 1][j].visible = 0;
+                    rowspanData[i - 1][j].rowspan = 0;
+                }
+                else
+                    rowspanData[i - 1][j].visible = 1;
+                if(i == data.length - 1)
+                    obj.visible = 1;
+                rowsArray.push(obj)
+            }
+        }
+        rowspanData.push(rowsArray)
+    }
+    console.log(rowspanData)
+    return rowspanData
+}
 var renderData = rowspanData(data)
 
 </script>

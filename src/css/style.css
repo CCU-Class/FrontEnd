@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+img
+{
+    display: unset;
+}
 .btn-head
 {
     @apply rounded-3xl px-5 py-2 mx-1 hover:bg-white duration-500;
@@ -16,7 +20,7 @@
 }
 .btn-normal
 {
-    @apply text-center font-medium mx-2 px-5 py-1 border-2 border-orange-200 bg-orange-200 rounded-lg hover:bg-transparent duration-500;
+    @apply text-center shadow-2xl text-white font-medium mx-2 px-5 py-1 border-2 border-gray-500 bg-gray-500 rounded-lg hover:bg-transparent hover:text-black duration-500;
 }
 table
 {
