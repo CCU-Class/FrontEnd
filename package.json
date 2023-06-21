@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "hotfix": "npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify --watch"
   },
   "dependencies": {
     "vue": "^3.2.47",

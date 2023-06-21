@@ -7,7 +7,7 @@ const router = useRouter();
     <div class = "z-40 bg-orange-200 px-3 py-3 flex items-center place-content-between">
         <router-link to = "/">
             <div class = "font-bold text-2xl bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text">
-                阿梨課表
+                鳳梨課表
             </div>
         </router-link>
         <div class = "text-md hidden md:block">
