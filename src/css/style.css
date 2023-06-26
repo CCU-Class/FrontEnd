@@ -26,3 +26,7 @@ table
 {
     table-layout: fixed;
 }
+.table-head
+{
+    @apply text-center text-gray-900 bg-orange-200/80 rounded-xl py-1.5 font-semibold min-w-[9rem];
+}

@@ -40,6 +40,51 @@
                     v 4.0.0 使用 Vue 來完全重構本網站
                 </div>
             </div>
+            <div class = 'w-11/12 md:w-7/12 mx-auto my-3'>
+                <div class = 'text-center text-3xl font-bold border-b-2 mb-3 bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text'>
+                    成員介紹
+                </div>
+                <div class = 'grid grid-cols-1 md:grid-cols-4 mx-auto border pb-3'>
+                    
+                    <div class = 'col-span-1 mx-auto my-7 md:my-0'>
+                        <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member01.jpg'>
+                    </div>
+                    <div class = 'col-span-1 text-xl flex items-center mx-auto'>
+                        創辦人 吳翰平
+                    </div>
+                    <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto'>
+                        現在就讀於中正大學資訊工程學系三年級，<br>
+                        目前正在鑽研程式演算法競賽與網頁前後端工程。
+                    </div>
+
+                    <div class = 'col-span-1 mx-auto my-7 md:my-0'>
+                        <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member02.jpg'>
+                    </div>
+                    <div class = 'col-span-1 text-xl flex items-center mx-auto'>
+                        王子銜
+                    </div>
+                    <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto'>
+                        現在就讀於中正大學通訊工程學系三年級，<br>
+                        主要研究網頁前後端，與演算法競賽。<br>
+                        最近開始學習ML方面的相關知識
+                    </div>
+
+                    <div class = 'col-span-1 mx-auto my-7 md:my-0'>
+                        <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member03.jpg'>
+                    </div>
+                    <div class = 'col-span-1 text-xl flex items-center mx-auto'>
+                       <a href="https://ben99933.github.io/">楊其龍</a>
+                    </div>
+                    <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto'>
+                        中正大學資訊工程學系三年級，<br>
+                        主要研究軟體工程，網頁前後端，演算法競賽<br>
+                        目前主要學習ML相關知識。<br>
+                        於此專案負責將靜態網頁改建為動態網頁。<br/>
+                        
+                    </div>
+
+                </div>
+            </div>
             <div class = "w-full text-center px-3 md:w-8/12 mx-auto py-9">
                 <div class = 'text-orange-300 font-semibold text-3xl'>
                     聯絡我們
