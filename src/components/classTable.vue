@@ -41,6 +41,8 @@
 </template>
 
 <script setup>
+import { onMounted, onUpdated } from 'vue';
+import { Rowspanizer } from '../functions/rowspanizer';
 
 class RowspanData
 {
@@ -98,8 +100,24 @@ function rowspanData(data)
         }
         return_data.push(row)
     }
-    console.log(return_data)
     return return_data
 }
+
+onMounted(() =>
+{
+    const temp = new Rowspanizer({
+        target: "#class_table",
+        colspan_index: 0
+    })
+    temp.rowspanize()
+})
+onUpdated(() =>
+{
+    const temp = new Rowspanizer({
+        target: "#class_table",
+        colspan_index: 0
+    })
+    temp.rowspanize()
+})
 
 </script>

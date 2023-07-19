@@ -14,6 +14,7 @@ export class Rowspanizer
         }
     public rowspanize(): void 
     {
+        console.log('Rowspanizing', this.options.target);
         const targetElement = document.querySelector(this.options.target) as HTMLElement;
         if(!targetElement)
         {
@@ -27,21 +28,49 @@ export class Rowspanizer
         {
             let currentCellValue: string | null = null;
             let rowspan = 1;
-
+            let the_target_cell: HTMLTableCellElement | null = null;
             for(let row = 0; row < rowCount; row++)
             {
-                const cell = rows[row].getElementsByTagName('td')[col];
-
-                if(currentCellValue === cell.innerText)
+                // Get the cell value
+                let cellValue: string | null = null;
+                const rowElement = rows[row];
+                const cells = rowElement.getElementsByTagName('td');
+                const cell = cells[col];
+                if(cell)
                 {
-                    rowspan++;
-                    cell.style.display = 'none';
+                    cellValue = cell.innerText;
                 }
                 else
                 {
-                    currentCellValue = cell.innerText;
-                    cell.setAttribute('rowspan', rowspan.toString());
+                    continue;
+                }
+                if(!the_target_cell)
+                {
+                    the_target_cell = cell;
+                }
+                // If the cell value is the same as the previous cell value
+                if(cellValue === currentCellValue && cellValue !== null)
+                {
+                    // add a class specifying that the cell should be hidden
+                    cell.remove();
+                    rowspan++;
+                }
+                // If the cell value is different from the previous cell value
+                else if(cellValue !== currentCellValue && cellValue !== null)
+                {
+                    if(the_target_cell && currentCellValue !== null)
+                    {
+                        // Set the rowspan of the target cell to the rowspan value
+                        the_target_cell.setAttribute('rowspan', rowspan.toString());
+                        the_target_cell = null;
+                    }
+                    currentCellValue = cellValue;
                     rowspan = 1;
+                }
+                if(row === rowCount - 1 && the_target_cell && rowspan > 1)
+                {
+                    // If we are at the end of the table and the_target_cell is not null, set the rowspan
+                    the_target_cell.setAttribute('rowspan', rowspan.toString());
                 }
             }
         }
@@ -61,3 +90,4 @@ export class Rowspanizer
         return maxColCount;
     }
 };
+
