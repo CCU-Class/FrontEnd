@@ -30,7 +30,7 @@ export class Rowspanizer
             let rowspan = 1;
             let the_target_cell: HTMLTableCellElement | null = null;
             for(let row = 0; row < rowCount; row++)
-            {
+            {   
                 // Get the cell value
                 let cellValue: string | null = null;
                 const rowElement = rows[row];
@@ -41,7 +41,7 @@ export class Rowspanizer
                     cellValue = cell.innerText;
                 }
                 else
-                {
+                {   
                     continue;
                 }
                 if(!the_target_cell)
@@ -52,7 +52,7 @@ export class Rowspanizer
                 if(cellValue === currentCellValue && cellValue !== null)
                 {
                     // add a class specifying that the cell should be hidden
-                    cell.remove();
+                    cell.style.display = 'none';
                     rowspan++;
                 }
                 // If the cell value is different from the previous cell value
@@ -62,7 +62,7 @@ export class Rowspanizer
                     {
                         // Set the rowspan of the target cell to the rowspan value
                         the_target_cell.setAttribute('rowspan', rowspan.toString());
-                        the_target_cell = null;
+                        the_target_cell = cell;
                     }
                     currentCellValue = cellValue;
                     rowspan = 1;
@@ -72,6 +72,7 @@ export class Rowspanizer
                     // If we are at the end of the table and the_target_cell is not null, set the rowspan
                     the_target_cell.setAttribute('rowspan', rowspan.toString());
                 }
+                currentCellValue = cellValue;
             }
         }
     }
