@@ -28,5 +28,13 @@ table
 }
 .table-head
 {
-    @apply text-center text-gray-900 bg-orange-200/80 rounded-xl py-1.5 font-semibold min-w-[9rem];
+    @apply text-center text-gray-900 border-b border-black py-1.5 font-semibold min-w-[9rem];
+}
+.title
+{
+    @apply bg-orange-200/50 w-16 text-xl text-gray-700 font-serif;
+}
+.course
+{
+    @apply bg-[#c0d7c1] rounded-md font-bold text-base ;
 }
