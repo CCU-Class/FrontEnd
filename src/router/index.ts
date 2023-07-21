@@ -1,6 +1,12 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+import { RouteRecordRaw } from 'vue-router'
 
-const routes = [
+const routes : RouteRecordRaw[] = [
+  {
+    path: "/:pathMatch(.*)*",
+    name: 'Error404',
+    component: () => import('../views/page_404.vue'),
+  },
   {
     path: '/',
     name: 'Home',
@@ -10,8 +16,11 @@ const routes = [
     path: '/main',
     name: 'Main',
     component: () => import('../views/page_main.vue'),
-  }
+  },
+  
+  
 ];
+
 
 export default createRouter({
     history: createWebHashHistory(),

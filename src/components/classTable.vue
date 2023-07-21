@@ -9,7 +9,7 @@
                     <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
                         課程搜尋
                     </div>
-                    <input class = 'mx-2 w-10/12 py-1 rounded-md text-center' type = "text" placeholder = "在此搜尋課程"/>
+                    <CourseSearchBox/>
                 </div>
                 <div class = 'flex py-1 mx-auto items-center'>
                     <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
@@ -121,6 +121,7 @@ import { Rowspanizer } from '../functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '../functions/general';
 import renderImage from "../functions/image_render.ts"
 import { courseAdd, searchAdd } from "../functions/course_add.ts"
+import CourseSearchBox from './courseSearchBox.vue';
 
 const week = ["一", "二", "三", "四", "五", "六"]
 const classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']

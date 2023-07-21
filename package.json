@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@types/jquery": "^3.5.16",
+    "axios": "^1.4.0",
     "fund": "^1.0.0",
     "jquery": "^3.7.0",
     "update": "^0.4.2",
