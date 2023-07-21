@@ -16,7 +16,12 @@ npm install
 ### Run
 
 ```bash
-npm run dev
+使用 run.ps1
+```
+或者確保vue已經打包成靜態物建以及tailwind動態更新後
+```bash
+cd ./server
+npm start
 ```
 
 ### Build
