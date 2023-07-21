@@ -9,7 +9,13 @@
 
 ### Installation
 
+#### vue
 ```bash
+npm install
+```
+#### express
+```bash
+cd ./server
 npm install
 ```
 
