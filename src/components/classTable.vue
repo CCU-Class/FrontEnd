@@ -29,7 +29,7 @@
                         <option selected>終堂</option>
                         <option v-for = "cla in classes" :value = "cla">{{cla}}</option>
                     </select>
-                    <button class = 'btn-normal' v-on:click = "push_to_table">
+                    <button class = 'btn-normal' v-on:click = "push_to_table(1)">
                         +
                     </button>
                 </div>
@@ -60,6 +60,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            
                         </tbody>
                     </table>
                 </div>
@@ -119,7 +120,7 @@ import { onMounted, onUpdated, ref } from 'vue';
 import { Rowspanizer } from '../functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '../functions/general';
 import renderImage from "../functions/image_render.ts"
-import courseAdd from "../functions/course_add.ts"
+import { courseAdd, searchAdd } from "../functions/course_add.ts"
 
 const week = ["一", "二", "三", "四", "五", "六"]
 const classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
@@ -148,18 +149,82 @@ var show_list = function() {
     class_list_visible.value = !class_list_visible.value
 }
 
-var push_to_table = function() {
+var push_to_table = function(type) {
     // 手動新增課程
     // courseAdd(className.value: string, classRoom.value: string, weekDay.value: string, start.value: string, end.value: string)
-    let check = courseAdd(className.value, classRoom.value, weekDay.value, start.value, end.value);
-    if(!check)
+    if(type == 1)
     {
-        alert("課程時間衝突");
+        // check if the input is valid
+        if(className.value == "" || classRoom.value == "" || weekDay.value == "星期" || start.value == "始堂" || end.value == "終堂")
+        {
+            alert("請檢查輸入資料是否填寫完整");
+            return;
+        }
+
+        let check = courseAdd(className.value, classRoom.value, weekDay.value, start.value, end.value);
+        if(check)
+        {
+            /*
+            course_data.value = GetCourseTable()
+            const temp = new Rowspanizer({
+                target: "#class_table",
+                colspan_index: 0
+            })
+            temp.rowspanize()
+            */
+            // 這裡有 bug，但是我不知道為什麼，理論上應該要是上面那樣寫才對
+            window.location.reload();
+        }
+        else
+        {
+            alert("新增課程失敗，請檢查輸入資料是否正確");
+            return;
+        }
     }
     else
     {
-        // force to refresh the webpage
+        // 從搜尋結果新增課程
+        let data = []; // 這裡要填入搜尋結果的資料
+        
+        /*
+            結構如下
+            interface CourseData
+            {
+                start_time: string;
+                end_time?: string;
+                week_day?: string;
+                course_name: string;
+                classroom: string;
+                is_title: boolean;
+                is_course: boolean;
+            }
+        */
+        let check = searchAdd(data);
+        if(check)
+        {
+            window.location.reload();
+        }
+        else
+        {
+            alert("新增課程失敗，請檢查輸入資料是否正確");
+            return;
+        }
+    }
+    
+}
+
+var clearTable = function() {
+    // 顯示確認視窗
+    if(confirm("確定要清空課表嗎？"))
+    {
+        // 清空課表
+        localStorage.clear();
+        InitTable();
         window.location.reload();
+    }
+    else
+    {
+        return;
     }
 }
 

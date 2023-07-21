@@ -93,6 +93,8 @@ export const WeekDayToInt: { [key: string]: number } = {
 interface CourseData
 {
     start_time: string;
+    end_time?: string;
+    week_day?: string;
     course_name: string;
     classroom: string;
     is_title: boolean;
@@ -109,6 +111,14 @@ export class Course
     public getStartTime(): string
     {
         return this.courseData.start_time;
+    }
+    public getEndTime(): string
+    {
+        return this.courseData.end_time!;
+    }
+    public getWeekDay(): string
+    {
+        return this.courseData.week_day!;
     }
     public getCourseName(): string
     {
