@@ -9,7 +9,15 @@
                     <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
                         課程搜尋
                     </div>
-                    <input class = 'mx-2 w-10/12 py-1 rounded-md text-center' type = "text" placeholder = "在此搜尋課程"/>
+                    <input class = 'mx-2 w-10/12 py-1 rounded-md text-center' type = "text" placeholder = "在此搜尋課程" v-model="searchInput"/>
+                </div>
+                <div class = 'flex py-1 mx-auto'>
+                    <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
+                        課程搜尋
+                    </div>
+                    <ul class="mx-2">
+                        <li class="mx-2 w-10/12 py-1 rounded-md text-center" style="background-color: red;">1233213</li>
+                    </ul>
                 </div>
                 <div class = 'flex py-1 mx-auto items-center'>
                     <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
@@ -116,11 +124,13 @@
 </template>
 
 <script setup>
-import { onMounted, onUpdated, ref } from 'vue';
+import { onMounted, onUpdated, ref, watch } from 'vue';
 import { Rowspanizer } from '../functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '../functions/general';
 import renderImage from "../functions/image_render.ts"
 import { courseAdd, searchAdd } from "../functions/course_add.ts"
+import { searchCourse } from '../functions/course_search.ts';
+
 
 const week = ["一", "二", "三", "四", "五", "六"]
 const classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
@@ -129,12 +139,22 @@ const classRoom = ref()
 const weekDay = ref("星期")
 const start = ref("始堂")
 const end = ref("終堂")
+const searchInput = ref('');
+const isInputEmpty = ref(false);
 let class_list_title = ["課程名稱", "課程教室", "課程時間", "操作"];
 let class_list_visible = ref(false);
 let checked = ref(false);
 let credit = ref(0);
 
 let course_data = ref(GetCourseTable())
+
+let inputValue = searchInput.value.trim();
+
+watch(searchInput, (inputValue) => {
+    console.log(inputValue)
+    searchCourse(inputValue)
+});
+
 
 onMounted(() =>
 {
