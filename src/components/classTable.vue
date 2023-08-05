@@ -15,8 +15,8 @@
                     <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
                         課程搜尋
                     </div>
-                    <ul class="mx-2">
-                        <li class="mx-2 w-10/12 py-1 rounded-md text-center" style="background-color: red;">1233213</li>
+                    <ul class = "mx-2">
+                        <li class = "py-1 px-2 rounded-md text-center" style="background-color: red;">1233213</li>
                     </ul>
                 </div>
                 <div class = 'flex py-1 mx-auto items-center'>
