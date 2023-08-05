@@ -16,8 +16,8 @@
                         <div class = 'mx-3 font-semibold min-w-[4rem]'>
                         </div>
                         <ul class = "w-10/12 text-center result" id = "result">
-                            <li v-for = "item in searchResult" class = "x-2 w-full bg-white/70 py-1"></li>
-                            <li class = "mx-2 w-full bg-white/70 py-1">測試</li>
+                            <li v-for = "item in data" class = "mx-2 w-full bg-white/70 py-1">{{item.class_name}}</li>
+                            <!-- <li class = "mx-2 w-full bg-white/70 py-1">{{item.c}}</li> -->
                         </ul>
                     </div>
                 </div>
@@ -128,7 +128,7 @@
 </template>
 
 <script setup>
-import { onMounted, onUpdated, ref, watch } from 'vue';
+import { onMounted, onUpdated, ref, watch} from 'vue';
 import { Rowspanizer } from '../functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '../functions/general';
 import renderImage from "../functions/image_render.ts"
@@ -153,13 +153,15 @@ let credit = ref(0);
 let course_data = ref(GetCourseTable())
 
 let inputValue = searchInput.value.trim();
+let data = ref([])
 
-watch(searchInput, (inputValue) => {
+watch(searchInput, async (inputValue) => {
     let list = document.getElementById("result");
     if(inputValue != "")
-    {
+    {   
         list.classList.remove("result");
         list.classList.add("result-show");
+        data.value = await searchCourse(inputValue)
     }
     else
     {
@@ -167,7 +169,6 @@ watch(searchInput, (inputValue) => {
         list.classList.add("result");
     }
     console.log(inputValue)
-    searchCourse(inputValue)
 });
 
 
