@@ -5,19 +5,23 @@
                 開始建置你的課表    
             </div>
             <div class = "my-2">
-                <div class = 'flex py-1 mx-auto'>
-                    <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
-                        課程搜尋
+                <div class = 'flex flex-col py-1 mx-auto'>
+                    <div class = "flex w-full">
+                        <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
+                            課程搜尋
+                        </div>
+                        <input class = 'mx-2 w-10/12 py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程" v-model = "searchInput"/>
                     </div>
-                    <input class = 'mx-2 w-10/12 py-1 rounded-md text-center' type = "text" placeholder = "在此搜尋課程" v-model="searchInput"/>
+                    <div class = "flex w-full">
+                        <div class = 'mx-3 font-semibold min-w-[4rem]'>
+                        </div>
+                        <ul class = "w-10/12 text-center result" id = "result">
+                            <li v-for = "item in searchResult" class = "x-2 w-full bg-white/70 py-1"></li>
+                            <li class = "mx-2 w-full bg-white/70 py-1">測試</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class = 'flex py-1 mx-auto'>
-                    <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
-                        課程搜尋
-                    </div>
-                    <ul class = "mx-2">
-                        <li class = "py-1 px-2 rounded-md text-center" style="background-color: red;">1233213</li>
-                    </ul>
                 </div>
                 <div class = 'flex py-1 mx-auto items-center'>
                     <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
@@ -151,6 +155,17 @@ let course_data = ref(GetCourseTable())
 let inputValue = searchInput.value.trim();
 
 watch(searchInput, (inputValue) => {
+    let list = document.getElementById("result");
+    if(inputValue != "")
+    {
+        list.classList.remove("result");
+        list.classList.add("result-show");
+    }
+    else
+    {
+        list.classList.remove("result-show");
+        list.classList.add("result");
+    }
     console.log(inputValue)
     searchCourse(inputValue)
 });
