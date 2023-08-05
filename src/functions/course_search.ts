@@ -16,6 +16,7 @@ export async function searchCourse(Input: string) {
         })
         .then((response) => {
             // 在這裡處理回應資料
+            // console.log(response.data)
             resolve(response.data);
         })
         .catch((error) => {

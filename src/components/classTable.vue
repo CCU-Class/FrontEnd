@@ -10,14 +10,15 @@
                         <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
                             課程搜尋
                         </div>
-                        <input class = 'mx-2 w-10/12 py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程" v-model = "searchInput"/>
+                        <input class = 'mx-2 w-10/12 py-1 px-1 course_search' type = "search" placeholder = "在此搜尋課程" v-model = "searchInput"/>
                     </div>
                     <div class = "flex w-full">
                         <div class = 'mx-3 font-semibold min-w-[4rem]'>
                         </div>
-                        <ul class = "w-10/12 text-center result" id = "result">
-                            <li v-for = "item in data" class = "mx-2 w-full bg-white/70 py-1">{{item.class_name}}</li>
-                            <!-- <li class = "mx-2 w-full bg-white/70 py-1">{{item.c}}</li> -->
+                        <ul class = "w-10/12 result overflow-y-auto max-h-24 overflow-x-hidden" id = "result">
+                            <li v-for = "item in data" class = "mx-2 w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
+                                [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -134,6 +135,7 @@ import { Course, InitTable, GetCourseTable } from '../functions/general';
 import renderImage from "../functions/image_render.ts"
 import { courseAdd, searchAdd } from "../functions/course_add.ts"
 import { searchCourse } from '../functions/course_search.ts';
+import { splittime } from '../functions/tool.ts';
 
 
 const week = ["一", "二", "三", "四", "五", "六"]
@@ -168,7 +170,6 @@ watch(searchInput, async (inputValue) => {
         list.classList.remove("result-show");
         list.classList.add("result");
     }
-    console.log(inputValue)
 });
 
 
@@ -185,7 +186,7 @@ var show_list = function() {
     class_list_visible.value = !class_list_visible.value
 }
 
-var push_to_table = function(type) {
+var push_to_table = function(type, item) {
     // 手動新增課程
     // courseAdd(className.value: string, classRoom.value: string, weekDay.value: string, start.value: string, end.value: string)
     if(type == 1)
@@ -200,14 +201,14 @@ var push_to_table = function(type) {
         let check = courseAdd(className.value, classRoom.value, weekDay.value, start.value, end.value);
         if(check)
         {
-            /*
-            course_data.value = GetCourseTable()
-            const temp = new Rowspanizer({
-                target: "#class_table",
-                colspan_index: 0
-            })
-            temp.rowspanize()
-            */
+            
+            // course_data.value = GetCourseTable();
+            // console.log(course_data.value);
+            // const temp = new Rowspanizer({
+            //     target: "#class_table",
+            //     colspan_index: 0
+            // })
+            // temp.rowspanize()
             // 這裡有 bug，但是我不知道為什麼，理論上應該要是上面那樣寫才對
             window.location.reload();
         }
@@ -217,10 +218,26 @@ var push_to_table = function(type) {
             return;
         }
     }
-    else
+    else if(type == 2)
     {
         // 從搜尋結果新增課程
-        let data = []; // 這裡要填入搜尋結果的資料
+
+        let time = splittime(item.class_time);
+        let data = [];
+        for(let i = 0; i < time.length; i++){
+            let obj = {
+                start_time: time[i][1],
+                end_time: time[i][2],
+                week_day: time[i][0],
+                course_name: item.class_name,
+                classroom: item.class_room,
+                is_title: false,
+                is_course: true
+            }
+            data.push(new Course(obj));
+        }
+
+        // 這裡要填入搜尋結果的資料
         
         /*
             結構如下
@@ -242,7 +259,7 @@ var push_to_table = function(type) {
         }
         else
         {
-            alert("新增課程失敗，請檢查輸入資料是否正確");
+            alert("新增課程失敗，請檢查是否衝堂");
             return;
         }
     }
