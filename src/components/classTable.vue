@@ -6,17 +6,15 @@
             </div>
             <div class = "my-2">
                 <div class = 'flex flex-col py-1 mx-auto'>
-                    <div class = "flex w-full">
-                        <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
+                    <div class = "flex flex-col w-full">
+                        <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1'>
                             課程搜尋
                         </div>
-                        <input class = 'mx-2 w-10/12 py-1 px-1 course_search' type = "search" placeholder = "在此搜尋課程" v-model = "searchInput"/>
-                    </div>
-                    <div class = "flex w-full">
-                        <div class = 'mx-3 font-semibold min-w-[4rem]'>
-                        </div>
-                        <ul class = "w-10/12 result overflow-y-auto max-h-24 overflow-x-hidden" id = "result">
-                            <li v-for = "item in data" class = "mx-2 w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
+                        <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程" v-model = "searchInput"/>
+                        <!-- <div class = 'w-2/12 mx-3 py-1 font-semibold min-w-[4rem]'>
+                        </div> -->
+                        <ul class = "mx-auto w-11/12 result overflow-y-auto max-h-24 overflow-x-hidden" id = "result">
+                            <li v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
                                 [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
                             </li>
                         </ul>

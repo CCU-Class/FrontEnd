@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const apiSite = "http://localhost:3000/";
+const apiSite = "http://137.184.18.28:3000/";
 
 export async function searchCourse(Input: string) {
     
