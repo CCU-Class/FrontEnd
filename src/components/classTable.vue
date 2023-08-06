@@ -221,7 +221,7 @@ var push_to_table = function(type, item) {
     else if(type == 2)
     {
         // 從搜尋結果新增課程
-
+        console.log(item.class_time)
         let time = splittime(item.class_time);
         let data = [];
         for(let i = 0; i < time.length; i++){
