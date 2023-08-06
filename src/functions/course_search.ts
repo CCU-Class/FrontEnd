@@ -1,10 +1,16 @@
 import axios from 'axios';
 
-const apiSite = "http://137.184.18.28:3000/";
+//require dotenv
+const env = import.meta.env;
+
+
+const apiSite = `http://${env.VITE_BACKEND_DEVICE}:${env.VITE_BACKEND_DEVICE_PORT}/`;
+
 
 export async function searchCourse(Input: string) {
     
     const apiUrl = apiSite + "searchCourse";
+    //console.log(apiUrl);
     const keyword = Input.trim();
 
     
