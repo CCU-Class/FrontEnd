@@ -11,9 +11,7 @@
                             課程搜尋
                         </div>
                         <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程" v-model = "searchInput"/>
-                        <!-- <div class = 'w-2/12 mx-3 py-1 font-semibold min-w-[4rem]'>
-                        </div> -->
-                        <ul class = "mx-auto w-11/12 result overflow-y-auto max-h-24 overflow-x-hidden" id = "result">
+                        <ul class = "mx-auto w-11/12 result overflow-y-auto overflow-x-hidden" id = "result">
                             <li v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
                                 [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
                             </li>
@@ -135,6 +133,7 @@ import { courseAdd, searchAdd } from "../functions/course_add.ts"
 import { searchCourse } from '../functions/course_search.ts';
 import { splittime } from '../functions/tool.ts';
 
+const env = import.meta.env;
 
 const week = ["一", "二", "三", "四", "五", "六"]
 const classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
@@ -178,6 +177,13 @@ onMounted(() =>
         colspan_index: 0
     })
     temp.rowspanize()
+    // using env to control <ul> display
+    let ul = document.getElementById("result");
+    if(ul != null)
+    {
+        // ul's max-height is 2rem x env.VITE_UL_ROW
+        ul.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
+    }
 })
 
 var show_list = function() {
