@@ -130,7 +130,7 @@ import { Rowspanizer } from '../functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '../functions/general';
 import renderImage from "../functions/image_render.ts"
 import { courseAdd, searchAdd } from "../functions/course_add.ts"
-import { searchCourse } from '../functions/course_search.ts';
+import { searchCourse, recordcourse } from '../functions/course_search.ts';
 import { splittime } from '../functions/tool.ts';
 
 const env = import.meta.env;
@@ -225,7 +225,7 @@ var push_to_table = function(type, item) {
     else if(type == 2)
     {
         // 從搜尋結果新增課程
-        console.log(item.class_time)
+        recordcourse(item)
         let time = splittime(item.class_time);
         let data = [];
         for(let i = 0; i < time.length; i++){
@@ -259,7 +259,7 @@ var push_to_table = function(type, item) {
         let check = searchAdd(data);
         if(check)
         {
-            window.location.reload();
+            // window.location.reload();
         }
         else
         {

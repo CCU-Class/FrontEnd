@@ -15,6 +15,7 @@ export async function searchCourse(Input: string) {
 
     
     return new Promise((resolve, reject) => {
+        const startTime = performance.now();
         axios.get(apiUrl, {
             params: {
                 keyword: keyword
@@ -23,6 +24,9 @@ export async function searchCourse(Input: string) {
         .then((response) => {
             // 在這裡處理回應資料
             // console.log(response.data)
+            const endTime = performance.now();
+            // 計算http request 時間
+            // console.log('查詢課程請求到回應時間:', endTime - startTime, '毫秒');
             resolve(response.data);
         })
         .catch((error) => {
@@ -32,3 +36,33 @@ export async function searchCourse(Input: string) {
         });
     });
 }
+
+export async function recordcourse(course: object) {
+    
+    const apiUrl = apiSite + "record/userSelectClass";
+    //console.log(apiUrl)
+
+    
+    return new Promise((resolve, reject) => {
+        const startTime = performance.now();
+        axios.get(apiUrl, {
+            params: {
+                keyword: course
+            }
+        })
+        .then((response) => {
+            // 在這裡處理回應資料
+            // console.log(response.data)
+            const endTime = performance.now();
+            // 計算http request 時間
+            // console.log('查詢課程請求到回應時間:', endTime - startTime, '毫秒');
+            resolve(response.data);
+        })
+        .catch((error) => {
+            // 在這裡處理錯誤
+            console.error(error);
+            reject(error);
+        });
+    });
+}
+
