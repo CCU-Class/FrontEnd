@@ -69,12 +69,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- <tr v-for = "item in single_row_data" class = "text-center py-2 px-2 border-collapse">
-                                <td v-if = "item.getIsCourse()"> {{ item.getCourseName() }} </td>
-                                <td v-if = "item.getIsCourse()"> {{ item.getClassroom() }} </td>
-                                <td v-if = "item.getIsCourse()"> {{ item.getStartTime() }} </td>
-                                <td v-if = "item.getIsCourse()"></td>
-                            </tr> -->
+                            <tr v-for = "item in single_row_data" class = "text-center py-2 px-2 border-collapse">
+                                <td> {{ item.getCourseName() }} </td>
+                                <td> {{ item.getClassroom() }} </td>
+                                <td> {{ item.getStartTime() }} </td>
+                                <td>
+                                    <button class = "bg-gray-700 py-2 my-1 px-6 rounded-lg text-white hover:bg-gray-500">
+                                        刪除
+                                    </button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -121,10 +125,10 @@
                             <div> {{ item.getStartTime() }} </div>
                             <div> {{ item.getCourseName() }} </div>
                             <div> {{ item.getClassroom() }} </div>
-                            <div id = "popover" class = "hidden absolute bg-white border p-4 shadow-md">
-                                <!-- Popover 內容 -->
+                            <!-- <div id = "popover" class = "hidden absolute bg-white border p-4 shadow-md">
+                                Popover 內容
                                 This is a popover content.
-                            </div>
+                            </div> -->
                         </td>
                     </tr> 
                 </tbody>
@@ -171,9 +175,24 @@ function _2data_to_1d()
     {
         for(let j = 0; j < course_data.value[i].length; j++)
         {
-            single_row_data.value.push(course_data.value[i][j]);
+            if(course_data.value[i][j].getIsCourse())
+            {
+                let check = true;
+                for(let k = 0; k < single_row_data.value.length; k++)
+                {
+                    if(single_row_data.value[k] == course_data.value[i][j])
+                    {
+                        check = false;
+                        break;
+                    }
+                }
+                if(check)
+                {
+                    single_row_data.value.push(course_data.value[i][j]);
+                }
+            }
         }
-    }
+    }   
 }
 
 watch(searchInput, async (inputValue) => {
@@ -208,7 +227,6 @@ onMounted(() =>
     }
 })
 
-
 var show_popover = function() {
     // 顯示 popover
     let popover = document.getElementById("popover");
@@ -219,13 +237,6 @@ var show_popover = function() {
 var show_list = function() {
     // 顯示課程列表
     _2data_to_1d();
-    for(let i = 0; i < single_row_data.value.length; i++)
-    {
-        console.log(single_row_data.value[i].getClassroom());
-        // single_row_data.value[i] is a Proxy object
-        // how to get the value of the object?
-
-    }
     class_list_visible.value = !class_list_visible.value
 }
 
@@ -242,20 +253,7 @@ var push_to_table = function(type, item) {
         }
 
         let check = courseAdd(className.value, classRoom.value, weekDay.value, start.value, end.value);
-        if(check)
-        {
-            
-            // course_data.value = GetCourseTable();
-            // console.log(course_data.value);
-            // const temp = new Rowspanizer({
-            //     target: "#class_table",
-            //     colspan_index: 0
-            // })
-            // temp.rowspanize()
-            // 這裡有 bug，但是我不知道為什麼，理論上應該要是上面那樣寫才對
-            window.location.reload();
-        }
-        else
+        if(!check)
         {
             alert("新增課程失敗，請檢查輸入資料是否正確");
             return;
@@ -280,17 +278,15 @@ var push_to_table = function(type, item) {
             data.push(new Course(obj));
         }
         let check = searchAdd(data);
-        if(check)
-        {
-            window.location.reload();
-        }
-        else
+        if(!check)
         {
             alert("新增課程失敗，請檢查是否衝堂");
             return;
         }
     }
-    
+    course_data.value = GetCourseTable();
+    // 刷新網頁
+    window.location.reload();
 }
 
 var clearTable = function() {
@@ -300,11 +296,7 @@ var clearTable = function() {
         // 清空課表
         localStorage.clear();
         InitTable();
-        window.location.reload();
-    }
-    else
-    {
-        return;
+        course_data.value = GetCourseTable();
     }
 }
 
