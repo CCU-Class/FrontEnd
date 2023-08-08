@@ -1,0 +1,7 @@
+NODE_ENV = 'development'
+
+VITE_BACKEND_DEVICE=
+VITE_BACKEND_DEVICE_PORT=
+
+# frontend
+VITE_UL_ROW=
