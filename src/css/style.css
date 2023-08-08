@@ -84,3 +84,15 @@ table
     border-color: #ffb676;
     box-shadow: 0 0 5px #f8efcf;
 }
+[type=password]
+{
+    outline: none;
+    border-width: 0.1px;
+}
+[type=password]:focus
+{
+    outline: none;
+    border-width: 0.1px;
+    border-color: #ffb676;
+    box-shadow: 0 0 5px #f8efcf;
+}

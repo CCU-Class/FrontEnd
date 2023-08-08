@@ -56,7 +56,7 @@
                         下載課表
                     </button>
                 </div>
-                <div id = "class_list" v-if = "class_list_visible == true">
+                <div id = "class_list" v-if = "class_list_visible === true">
                     <p class = "text-right py-2 mx-3" v-show = "checked">
                         目前學分: {{credit}}
                     </p>
@@ -64,12 +64,17 @@
                         <thead>
                             <tr>
                                 <th v-for = "title in class_list_title" class = "text-center py-2 px-2 border-collapse bg-gray-200">
-                                    {{title}}
+                                    {{ title }}
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            
+                            <!-- <tr v-for = "item in single_row_data" class = "text-center py-2 px-2 border-collapse">
+                                <td v-if = "item.getIsCourse()"> {{ item.getCourseName() }} </td>
+                                <td v-if = "item.getIsCourse()"> {{ item.getClassroom() }} </td>
+                                <td v-if = "item.getIsCourse()"> {{ item.getStartTime() }} </td>
+                                <td v-if = "item.getIsCourse()"></td>
+                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -81,7 +86,7 @@
             <p class = "text-right py-2 mx-3" v-show = "checked">
                 目前學分: {{credit}}
             </p>
-            <table class = 'border-separate w-full' id = "class_table">
+            <table class = 'bg-orange-100 border-separate w-full' id = "class_table">
                 <thead>
                     <tr>
                         <th class = "w-[10px]">
@@ -112,12 +117,16 @@
                 </thead>
                 <tbody>
                     <tr v-for = "row in course_data">
-                        <td v-for = "item in row" class = "text-center p-0 h-full overflow-auto" :class = "{ title: item.getIsTitle(), course: item.getIsCourse() }" style = "height: 50px;">
+                        <td v-for = "item in row" class = "text-center p-0 h-full overflow-auto" v-on:click = "show_popover()" :class = "{ title: item.getIsTitle(), course: item.getIsCourse() }" style = "height: 50px;">
                             <div> {{ item.getStartTime() }} </div>
                             <div> {{ item.getCourseName() }} </div>
                             <div> {{ item.getClassroom() }} </div>
+                            <div id = "popover" class = "hidden absolute bg-white border p-4 shadow-md">
+                                <!-- Popover 內容 -->
+                                This is a popover content.
+                            </div>
                         </td>
-                    </tr>
+                    </tr> 
                 </tbody>
             </table>
         </div>
@@ -148,11 +157,24 @@ let class_list_title = ["課程名稱", "課程教室", "課程時間", "操作"
 let class_list_visible = ref(false);
 let checked = ref(false);
 let credit = ref(0);
+let data = ref([]);
 
 let course_data = ref(GetCourseTable())
 
 let inputValue = searchInput.value.trim();
-let data = ref([])
+let single_row_data = ref([])
+
+function _2data_to_1d()
+{
+    single_row_data.value = [];
+    for(let i = 0; i < course_data.value.length; i++)
+    {
+        for(let j = 0; j < course_data.value[i].length; j++)
+        {
+            single_row_data.value.push(course_data.value[i][j]);
+        }
+    }
+}
 
 watch(searchInput, async (inputValue) => {
     let list = document.getElementById("result");
@@ -186,7 +208,24 @@ onMounted(() =>
     }
 })
 
+
+var show_popover = function() {
+    // 顯示 popover
+    let popover = document.getElementById("popover");
+    popover.classList.remove("hidden");
+    popover.classList.add("block");
+}
+
 var show_list = function() {
+    // 顯示課程列表
+    _2data_to_1d();
+    for(let i = 0; i < single_row_data.value.length; i++)
+    {
+        console.log(single_row_data.value[i].getClassroom());
+        // single_row_data.value[i] is a Proxy object
+        // how to get the value of the object?
+
+    }
     class_list_visible.value = !class_list_visible.value
 }
 
@@ -240,26 +279,10 @@ var push_to_table = function(type, item) {
             }
             data.push(new Course(obj));
         }
-
-        // 這裡要填入搜尋結果的資料
-        
-        /*
-            結構如下
-            interface CourseData
-            {
-                start_time: string;
-                end_time?: string;
-                week_day?: string;
-                course_name: string;
-                classroom: string;
-                is_title: boolean;
-                is_course: boolean;
-            }
-        */
         let check = searchAdd(data);
         if(check)
         {
-            // window.location.reload();
+            window.location.reload();
         }
         else
         {
