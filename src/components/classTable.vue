@@ -180,7 +180,7 @@ function _2data_to_1d()
                 let check = true;
                 for(let k = 0; k < single_row_data.value.length; k++)
                 {
-                    if(single_row_data.value[k] == course_data.value[i][j])
+                    if(single_row_data.value[k].getClassroom() == course_data.value[i][j].getClassroom() && single_row_data.value[k].getCourseName() == course_data.value[i][j].getCourseName() && single_row_data.value[k].getStartTime() == course_data.value[i][j].getStartTime() && single_row_data.value[k].getWeekDay() == course_data.value[i][j].getWeekDay())
                     {
                         check = false;
                         break;

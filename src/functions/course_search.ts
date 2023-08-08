@@ -25,6 +25,7 @@ export async function searchCourse(Input: string) {
             // 在這裡處理回應資料
             // console.log(response.data)
             const endTime = performance.now();
+            console.log('查詢課程請求到回應時間:', endTime - startTime, '毫秒');
             // 計算http request 時間
             // console.log('查詢課程請求到回應時間:', endTime - startTime, '毫秒');
             resolve(response.data);
@@ -54,6 +55,7 @@ export async function recordcourse(course: object) {
             // 在這裡處理回應資料
             // console.log(response.data)
             const endTime = performance.now();
+            console.log('查詢課程請求到回應時間:', endTime - startTime, '毫秒');
             // 計算http request 時間
             // console.log('查詢課程請求到回應時間:', endTime - startTime, '毫秒');
             resolve(response.data);
