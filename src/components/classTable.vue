@@ -74,7 +74,8 @@
                                 <td> {{ item.getClassroom() }} </td>
                                 <td> {{ item.getStartTime() }} </td>
                                 <td>
-                                    <button class = "bg-gray-700 py-2 my-1 px-6 rounded-lg text-white hover:bg-gray-500">
+                                    <button class = "bg-gray-700 py-2 my-1 px-6 rounded-lg text-white hover:bg-gray-500"
+                                        v-on:click="delete_course(item)">
                                         刪除
                                     </button>
                                 </td>
@@ -86,7 +87,7 @@
         </div>
     </div>
     <div class = "overflow-x-auto">
-        <div class = 'bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto shadow-lg md:w-9/12 min-w-[60rem]'>
+        <div class = 'bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto shadow-lg md:w-8/12 min-w-[60rem]'>
             <p class = "text-right py-2 mx-3" v-show = "checked">
                 目前學分: {{credit}}
             </p>
@@ -145,6 +146,7 @@ import renderImage from "../functions/image_render.ts"
 import { courseAdd, searchAdd } from "../functions/course_add.ts"
 import { searchCourse, recordcourse } from '../functions/course_search.ts';
 import { splittime } from '../functions/tool.ts';
+import { courseDelete } from '../functions/course_delete.ts';
 
 const env = import.meta.env;
 
@@ -226,6 +228,14 @@ onMounted(() =>
         ul.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
     }
 })
+
+var delete_course = function(item)
+{
+    // 刪除課程
+    courseDelete(item)
+    course_data.value = GetCourseTable()
+    _2data_to_1d();
+}
 
 var show_popover = function() {
     // 顯示 popover
