@@ -43,9 +43,11 @@
                     </button>
                 </div>
                 <hr class = 'mx-3 my-3 text-slate-300'>
-                <div class = 'flex place-content-end'>
-                    <input type = "checkbox" id = "checkbox" v-model = "checked">
-                    <label for = "checkbox" class = "px-3 items-center flex">顯示學分</label>
+                <div class = 'flex place-content-end items-center'>
+                    <a-switch v-model:checked = "state.checked">顯示學分</a-switch>
+                    <span class = 'mx-3 py-1 min-w-[4rem]'>
+                        顯示學分
+                    </span>
                     <button class = 'btn-normal min-w-[8rem]' v-on:click = "show_list">
                         展開課程列表
                     </button>
@@ -57,7 +59,7 @@
                     </button>
                 </div>
                 <div id = "class_list" v-if = "class_list_visible === true">
-                    <p class = "text-right py-2 mx-3" v-show = "checked">
+                    <p class = "text-right py-2 mx-3" v-show = "state.  checked">
                         目前學分: {{credit}}
                     </p>
                     <table class = "w-full my-1 mb-1">
@@ -88,7 +90,7 @@
     </div>
     <div class = "overflow-x-auto">
         <div class = 'bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto shadow-lg md:w-8/12 min-w-[60rem]'>
-            <p class = "text-right py-2 mx-3" v-show = "checked">
+            <p class = "text-right py-2 mx-3" v-show = "state.checked">
                 目前學分: {{credit}}
             </p>
             <table class = 'bg-orange-100 border-separate w-full' id = "class_table">
@@ -139,7 +141,9 @@
 </template>
 
 <script setup>
-import { onMounted, onUpdated, ref, watch} from 'vue';
+import { onMounted, onUpdated, ref, watch, reactive } from 'vue';
+import { Switch } from 'ant-design-vue'
+
 import { Rowspanizer } from '../functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '../functions/general';
 import renderImage from "../functions/image_render.ts"
@@ -313,5 +317,9 @@ var clearTable = function() {
 var download = function() {
     renderImage("class_table") // finish 
 }
+
+const state = reactive({
+    checked: false
+})
 
 </script>

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@types/jquery": "^3.5.16",
+    "ant-design-vue": "^4.0.0-rc.6",
     "axios": "^1.4.0",
     "dotenv": "^16.3.1",
     "dotenv-cli": "^7.2.1",
@@ -28,6 +29,7 @@
     "postcss": "^8.4.24",
     "tailwindcss": "^3.3.2",
     "typescript": "^5.0.2",
+    "unplugin-vue-components": "^0.25.1",
     "vite": "^4.3.9",
     "vue-tsc": "^1.4.2"
   }
