@@ -8,7 +8,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     Announcement: typeof import('./src/components/announcement.vue')['default']
-    ASpace: typeof import('ant-design-vue/es')['Space']
     ASwitch: typeof import('ant-design-vue/es')['Switch']
     ClassTable: typeof import('./src/components/classTable.vue')['default']
     Footer: typeof import('./src/components/footer.vue')['default']
@@ -17,5 +16,6 @@ declare module 'vue' {
     Navbar: typeof import('./src/components/navbar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Search_box: typeof import('./src/components/search_box.vue')['default']
   }
 }
