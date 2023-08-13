@@ -1,5 +1,5 @@
 <template>
-    <div class="sticky right-0 w-8 h-8">
-        <img src="/search_box_icon.png">
+    <div class="w-full h-8 flex justify-end">
+        <img src = "/search_box_icon.png" class = "sticky ms-auto">
     </div>
 </template> 
