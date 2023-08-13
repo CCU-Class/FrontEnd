@@ -4,7 +4,7 @@
   "version": "4.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port=8180",
+    "dev": "vite --port=8080",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "hotfix": "npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify --watch"
