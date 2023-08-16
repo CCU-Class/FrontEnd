@@ -1,3 +1,5 @@
+
+
 <template>
     <div class = "overflow-x-auto">
         <div class = "w-full mx-auto my-6 px-4 py-4 bg-gray-100 rounded-lg shadow-lg md:w-9/12">
@@ -16,6 +18,9 @@
                                 [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
                             </li>
                         </ul>
+                        
+                        <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
+                        
                     </div>
                 </div>
                 <div class = 'flex py-1 mx-auto'>
@@ -152,6 +157,9 @@ import { searchCourse, recordcourse } from '../functions/course_search.ts';
 import { splittime } from '../functions/tool.ts';
 import { courseDelete } from '../functions/course_delete.ts';
 
+//component
+import loadingSpinner from './loadingSpinner.vue';
+
 const env = import.meta.env;
 
 const week = ["一", "二", "三", "四", "五", "六"]
@@ -162,6 +170,7 @@ const weekDay = ref("星期")
 const start = ref("始堂")
 const end = ref("終堂")
 const searchInput = ref('');
+const isLoading = ref(false);
 const isInputEmpty = ref(false);
 let class_list_title = ["課程名稱", "課程教室", "課程時間", "操作"];
 let class_list_visible = ref(false);
@@ -203,14 +212,19 @@ function _2data_to_1d()
 
 watch(searchInput, async (inputValue) => {
     let list = document.getElementById("result");
+    
     if(inputValue != "")
     {   
+        
+        isLoading.value = true;
+        data.value = await searchCourse(inputValue);
         list.classList.remove("result");
         list.classList.add("result-show");
-        data.value = await searchCourse(inputValue)
+        isLoading.value = false;
     }
     else
     {
+        isLoading.value = false;
         list.classList.remove("result-show");
         list.classList.add("result");
     }

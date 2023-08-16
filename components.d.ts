@@ -12,6 +12,7 @@ declare module 'vue' {
     ClassTable: typeof import('./src/components/classTable.vue')['default']
     Footer: typeof import('./src/components/footer.vue')['default']
     Intro: typeof import('./src/components/intro.vue')['default']
+    LoadingSpinner: typeof import('./src/components/loadingSpinner.vue')['default']
     Loginarea: typeof import('./src/components/loginarea.vue')['default']
     Navbar: typeof import('./src/components/navbar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

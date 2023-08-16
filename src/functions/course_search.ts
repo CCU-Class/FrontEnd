@@ -12,7 +12,8 @@ export async function searchCourse(Input: string) {
     const apiUrl = apiSite + "searchCourse";
     //console.log(apiUrl);
     const keyword = Input.trim();
-
+    const delay = (n:number) => new Promise( r => setTimeout(r, n*1000));
+    //await delay(1);
     
     return new Promise((resolve, reject) => {
         const startTime = performance.now();
