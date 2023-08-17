@@ -5,14 +5,14 @@
                 後台登入
             </div>
             <hr class = "w-10/12 mx-auto mt-3">
-            <form class = 'text-center py-6'>
+            <form class = 'text-center py-6' @submit.prevent="login">
                 <table class = "py-3 mx-auto content-center">
                     <tr>
                         <td class = "text-left text-xl font-mono px-3">
                             Account
                         </td>
                         <td>
-                            <input type = "text" placeholder = "在此輸入帳號" class = "rounded-lg py-1 px-3">
+                            <input type = "text" placeholder = "在此輸入帳號" class = "rounded-lg py-1 px-3" v-model="username">
                         </td>
                     </tr>
                     <tr>
@@ -20,7 +20,7 @@
                             Password
                         </td>
                         <td>
-                            <input type = "password" placeholder = "在此輸入密碼" class = "rounded-lg py-1 px-3" autocomplete="on">
+                            <input type = "password" placeholder = "在此輸入密碼" class = "rounded-lg py-1 px-3" autocomplete="on" v-model="password">
                         </td>
                     </tr>
                 </table>
@@ -31,3 +31,43 @@
         </div>
     </div>
 </template>
+
+<script>
+    import axios from 'axios';
+    const env = import.meta.env;
+    import Token from '../functions/token.ts';
+
+    const apiSite = `http://${env.VITE_BACKEND_DEVICE}:${env.VITE_BACKEND_DEVICE_PORT}/`;
+
+
+    export default{
+        name:"login",
+        data(){
+            return{
+                username:"",
+                password:"",
+            }
+        },
+        methods:{
+            login(){
+                const apiURL = apiSite + "login";
+                axios.post(apiURL,{
+                    username:this.username,
+                    password:this.password,
+                }).then((res)=>{
+                    console.log(res.data);
+                    Token.saveToken(res.data.token);
+                    if(Boolean(res.data.status)){
+                        //跳轉頁面
+                        this.$router.push({name:"Admin"});
+                    }
+                    else{
+                        alert("帳號或密碼錯誤");
+                    }
+                }).catch((err)=>{
+                    console.log(err);
+                })
+            }
+        }
+    }
+</script>

@@ -14,6 +14,7 @@
     "@ant-design/icons-vue": "^6.1.0",
     "@types/jquery": "^3.5.16",
     "ant-design-vue": "^4.0.0",
+    "argon2": "^0.31.0",
     "axios": "^1.4.0",
     "dotenv": "^16.3.1",
     "dotenv-cli": "^7.2.1",
@@ -21,6 +22,7 @@
     "jquery": "^3.7.0",
     "update": "^0.7.4",
     "vue": "^3.2.36",
+    "vue-cookies": "^1.8.3",
     "vue-html2canvas": "^0.0.4",
     "vue-router": "^4.2.2"
   },
