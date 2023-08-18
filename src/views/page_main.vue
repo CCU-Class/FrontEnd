@@ -1,8 +1,8 @@
 <script setup>
-import Navbar from '../components/navbar.vue';
-import Foot from '../components/footer.vue';
-import classTable from '../components/classTable.vue';
-import box from '../components/search_box.vue';
+import Navbar from '@components/layout/navbar.vue';
+import Foot from '@components/layout/footer.vue';
+import classTable from '@components/pages/main/classTable.vue';
+import box from '@components/pages/main/search_box.vue';
 
 </script>
 

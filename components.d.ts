@@ -7,16 +7,16 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    Announcement: typeof import('./src/components/announcement.vue')['default']
+    Announcement: typeof import('./src/components/pages/home/announcement.vue')['default']
     ASwitch: typeof import('ant-design-vue/es')['Switch']
-    ClassTable: typeof import('./src/components/classTable.vue')['default']
-    Footer: typeof import('./src/components/footer.vue')['default']
-    Intro: typeof import('./src/components/intro.vue')['default']
-    LoadingSpinner: typeof import('./src/components/loadingSpinner.vue')['default']
-    Loginarea: typeof import('./src/components/loginarea.vue')['default']
-    Navbar: typeof import('./src/components/navbar.vue')['default']
+    ClassTable: typeof import('./src/components/pages/main/classTable.vue')['default']
+    Footer: typeof import('./src/components/layout/footer.vue')['default']
+    Intro: typeof import('./src/components/pages/home/intro.vue')['default']
+    LoadingSpinner: typeof import('./src/components/common/loadingSpinner.vue')['default']
+    Loginarea: typeof import('./src/components/pages/login/loginarea.vue')['default']
+    Navbar: typeof import('./src/components/layout/navbar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Search_box: typeof import('./src/components/search_box.vue')['default']
+    Search_box: typeof import('./src/components/pages/main/search_box.vue')['default']
   }
 }

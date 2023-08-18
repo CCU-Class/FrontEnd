@@ -1,8 +1,8 @@
 <script setup>
-import Navbar from '../components/navbar.vue';
-import Intro from '../components/intro.vue';
-import Foot from '../components/footer.vue';
-import Announce from '../components/announcement.vue';
+import Navbar from '@components/layout/navbar.vue';
+import Foot from '@components/layout/footer.vue';
+import Intro from '@components/pages/home/intro.vue';
+import Announce from '@components/pages/home/announcement.vue';
 </script>
 
 <template>
