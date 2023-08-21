@@ -4,15 +4,14 @@ import axios from 'axios';
 const env = import.meta.env;
 
 
-const apiSite = `http://${env.VITE_BACKEND_DEVICE}:${env.VITE_BACKEND_DEVICE_PORT}/`;
+const apiSite = `https://${env.VITE_BACKEND_DEVICE}/`;
 
 
 export async function searchCourse(Input: string) {
     
     const apiUrl = apiSite + "searchCourse";
-    //console.log(apiUrl);
     const keyword = Input.trim();
-    const delay = (n:number) => new Promise( r => setTimeout(r, n*1000));
+    // const delay = (n:number) => new Promise( r => setTimeout(r, n*1000));
     //await delay(1);
     
     return new Promise((resolve, reject) => {

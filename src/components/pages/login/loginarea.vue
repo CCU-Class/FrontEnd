@@ -35,9 +35,9 @@
 <script>
     import axios from 'axios';
     const env = import.meta.env;
-    import Token from '../functions/token.ts';
+    import Token from '../../../functions/token.ts';
 
-    const apiSite = `http://${env.VITE_BACKEND_DEVICE}:${env.VITE_BACKEND_DEVICE_PORT}/`;
+    const apiSite = `https://${env.VITE_BACKEND_DEVICE}/`;
 
 
     export default{

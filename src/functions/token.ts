@@ -1,6 +1,6 @@
 import axios from 'axios';
 const env = import.meta.env;
-const apiSite = `http://${env.VITE_BACKEND_DEVICE}:${env.VITE_BACKEND_DEVICE_PORT}/`;
+const apiSite = `https://${env.VITE_BACKEND_DEVICE}/`;
 
 
 
