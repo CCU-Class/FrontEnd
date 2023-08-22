@@ -1,13 +1,15 @@
 <template>
-    <div class="w-full top-8 h-8 flex sticky" draggable="true">
+    <div class="w-full top-8 h-8 sticky" draggable="true">
         <div
             class="ml-auto text-orange-400 w-8 text-3xl relative small animate"
             ref="toolbox"
             @click="openSearch"
             @transitionend="transitionend"
-        >
+        >   
             <SearchOutlined class="absolute left-0 top-0" ref="searchBox" />
             <!-- <img src = "/search_box_icon.png" class = "ml-auto"> -->
+        </div>
+        <div class = "ml-auto relative bg-black hidden" ref="content" @click="openSearch">
         </div>
     </div>
 </template>
@@ -18,6 +20,7 @@ import { ref } from "vue";
 const count = ref(0);
 const searchBox = ref(null);
 const toolbox = ref(null);
+const content = ref(null)
 
 const openSearch = () => {
     if (count.value === 0) {
@@ -34,7 +37,9 @@ const transitionend = () => {
     if (count.value == 0) {
         searchBox.value.classList.remove("hidden");
     } else {
-        
+        toolbox.value.classList.add("hidden");
+        content.value.classList.add("content")
+        content.value.classList.remove("hidden")
     }
 };
 
@@ -54,4 +59,14 @@ const transitionend = () => {
     transform: scale(10, 14) translateY(15px) translateX(-15px);
     border-radius: 0.10rem;
 }
+
+
+.content {
+    width: 20rem;
+    height: 112rem;
+    right: 15px;
+    top: 15px;
+    background-color: black;
+}
+
 </style>
