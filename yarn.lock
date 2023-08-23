@@ -10306,6 +10306,11 @@
     "@vue/server-renderer" "3.2.36"
     "@vue/shared" "3.2.36"
 
+"vue3-draggable-resizable@^1.6.5":
+  "integrity" "sha512-31142E31fGNnq3HKqvmFLSsqIbhck7TyGuQWhUKrDw6DOcGAuRx4ddRjaxvT6fe7dgeKH53qAh+i0ZlWtPLl2g=="
+  "resolved" "https://registry.npmjs.org/vue3-draggable-resizable/-/vue3-draggable-resizable-1.6.5.tgz"
+  "version" "1.6.5"
+
 "warning-symbol@^0.1.0":
   "integrity" "sha512-1S0lwbHo3kNUKA4VomBAhqn4DPjQkIKSdbOin5K7EFUQNwyIKx+wZMGXKI53RUjla8V2B8ouQduUlgtx8LoSMw=="
   "resolved" "https://registry.npmjs.org/warning-symbol/-/warning-symbol-0.1.0.tgz"

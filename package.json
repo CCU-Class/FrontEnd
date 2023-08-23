@@ -25,7 +25,8 @@
     "vue": "^3.2.36",
     "vue-cookies": "^1.8.3",
     "vue-html2canvas": "^0.0.4",
-    "vue-router": "^4.2.2"
+    "vue-router": "^4.2.2",
+    "vue3-draggable-resizable": "^1.6.5"
   },
   "devDependencies": {
     "@types/node": "^20.4.8",

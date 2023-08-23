@@ -10,6 +10,7 @@ declare module 'vue' {
     Announcement: typeof import('./src/components/pages/home/announcement.vue')['default']
     ASwitch: typeof import('ant-design-vue/es')['Switch']
     ClassTable: typeof import('./src/components/pages/main/classTable.vue')['default']
+    Comment: typeof import('./src/components/pages/main/comment.vue')['default']
     Footer: typeof import('./src/components/layout/footer.vue')['default']
     Intro: typeof import('./src/components/pages/home/intro.vue')['default']
     LoadingSpinner: typeof import('./src/components/common/loadingSpinner.vue')['default']

@@ -1,8 +1,10 @@
 import { createApp } from 'vue';
 import App from './App.vue';
+import Vue3DraggableResizable from 'vue3-draggable-resizable';
 import router from './router';
 import './css/tailwind.css';
 import * as Icons from '@ant-design/icons-vue';
+import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css';
 
 const app = createApp(App);
 
@@ -12,7 +14,8 @@ for (const i in icons) {
   app.component(i, icons[i]);
 }
 
-app.use(icons)
+app.use(icons);
 app.use(router);
+app.use(Vue3DraggableResizable);
 app.mount('#app');
 
