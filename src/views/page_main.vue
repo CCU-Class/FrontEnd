@@ -10,14 +10,14 @@ import comment from '@components/pages/main/comment.vue';
 </script>
 
 <template>
-    <div id = "main" class="flex">
+    <div id = "main" class="flex relative">
         <div>
             <Navbar/>
             <Box/>
             <classTable/>
             <Foot/>
         </div>
-        <div id="box"></div>
+        <!-- <div id="box"></div> -->
         <!-- <comment/> -->
     </div>
 </template>
