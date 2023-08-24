@@ -99,3 +99,12 @@ table
 .ant-switch{
     background-color: #ffb676;
  }
+.splitpanes
+{
+    @apply bg-white;
+}
+.splitpanes--vertical > .splitpanes__splitter
+{
+    min-width: 6px;
+    background: linear-gradient(90deg, #ccc, #111);
+}

@@ -21,12 +21,14 @@
     "dotenv-cli": "^7.2.1",
     "fund": "^1.0.0",
     "jquery": "^3.7.0",
-    "update": "^0.7.4",
+    "splitpanes": "^3.1.5",
+    "update": "^0.4.2",
     "vue": "^3.2.36",
     "vue-cookies": "^1.8.3",
     "vue-html2canvas": "^0.0.4",
     "vue-router": "^4.2.2",
-    "vue3-draggable-resizable": "^1.6.5"
+    "vue3-draggable-resizable": "^1.6.5",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@types/node": "^20.4.8",

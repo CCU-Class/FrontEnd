@@ -1,155 +1,164 @@
 
 
 <template>
-    <div class = "overflow-x-auto">
-        <div class = "w-full mx-auto my-6 px-4 py-4 bg-gray-100 rounded-lg shadow-lg md:w-9/12">
-            <div class = 'text-xl font-semibold'>
-                開始建置你的課表    
-            </div>
-            <div class = "my-2">
-                <div class = 'flex flex-col py-1 mx-auto'>
-                    <div class = "flex flex-col w-full">
-                        <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1'>
-                            課程搜尋
+    <splitpanes class = "bg-white">
+        <pane class = "w-full">
+            <div class = "overflow-x-auto">
+                <div class = "w-full mx-auto my-6 px-4 py-4 bg-gray-100 rounded-lg shadow-lg md:w-9/12">
+                    <div class = 'text-xl font-semibold'>
+                        開始建置你的課表    
+                    </div>
+                    <div class = "my-2">
+                        <div class = 'flex flex-col py-1 mx-auto'>
+                            <div class = "flex flex-col w-full">
+                                <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1'>
+                                    課程搜尋
+                                </div>
+                                <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程" v-model = "searchInput">
+                                
+                                <ul class = "mx-auto w-11/12 result overflow-y-auto overflow-x-hidden" id = "result">
+                                    <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
+                                    <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
+                                        [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
+                                    </li>
+                                </ul>
+                                
+                                
+                                
+                                
+                            </div>
                         </div>
-                        <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程" v-model = "searchInput">
-                        
-                        <ul class = "mx-auto w-11/12 result overflow-y-auto overflow-x-hidden" id = "result">
-                            <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
-                            <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
-                                [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
-                            </li>
-                        </ul>
-                        
-                        
-                        
-                        
+                        <div class = 'flex py-1 mx-auto'>
+                        </div>
+                        <div class = 'flex py-1 mx-auto items-center'>
+                            <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
+                                課程資訊
+                            </div>
+                            <input class = 'mx-2 w-full md:w-4/12 py-1 rounded-md text-center' type = "text" placeholder = "課程名稱" v-model = "className"/>
+                            <input class = 'mx-2 w-full md:w-3/12 py-1 rounded-md text-center' type = "text" placeholder = "課程教室" v-model = "classRoom"/>
+                            <select class = 'mx-1 py-1 rounded-md text-center' v-model = "weekDay">
+                                <option selected>星期</option>
+                                <option v-for = "day in week" :value = "day">{{day}}</option>
+                            </select>
+                            <select class = 'mx-1 py-1 rounded-md text-center' v-model = "start">
+                                <option selected>始堂</option>
+                                <option v-for = "cla in classes" :value = "cla">{{cla}}</option>
+                            </select>
+                            <select class = 'mx-1 py-1 rounded-md text-center' v-model = "end">
+                                <option selected>終堂</option>
+                                <option v-for = "cla in classes" :value = "cla">{{cla}}</option>
+                            </select>
+                            <button class = 'btn-normal' v-on:click = "push_to_table(1)">
+                                +
+                            </button>
+                        </div>
+                        <hr class = 'mx-3 my-3 text-slate-300'>
+                        <div class = 'flex place-content-end items-center'>
+                            <a-switch v-model:checked = "state.checked">顯示學分</a-switch>
+                            <span class = 'mx-3 py-1 min-w-[4rem]'>
+                                顯示學分
+                            </span>
+                            <button class = 'btn-normal min-w-[8rem]' v-on:click = "show_list">
+                                展開課程列表
+                            </button>
+                            <button class = 'btn-normal min-w-[4rem]' v-on:click = "clearTable">
+                                清空課表
+                            </button>
+                            <button class = 'btn-normal min-w-[8rem]' v-on:click = "download">
+                                下載課表
+                            </button>
+                        </div>
+                        <div id = "class_list" v-if = "class_list_visible === true">
+                            <p class = "text-right py-2 mx-3" v-show = "state.checked">
+                                目前學分: {{credit}}
+                            </p>
+                            <table class = "w-full my-1 mb-1">
+                                <thead>
+                                    <tr>
+                                        <th v-for = "title in class_list_title" class = "text-center py-2 px-2 border-collapse bg-gray-200">
+                                            {{ title }}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for = "item in single_row_data" class = "text-center py-2 px-2 border-collapse">
+                                        <td> {{ item.getCourseName() }} </td>
+                                        <td> {{ item.getClassroom() }} </td>
+                                        <td> {{ item.getStartTime() }} </td>
+                                        <td>
+                                            <button class = "bg-gray-700 py-2 my-1 px-6 rounded-lg text-white hover:bg-gray-500"
+                                                v-on:click="delete_course(item)">
+                                                刪除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-                <div class = 'flex py-1 mx-auto'>
-                </div>
-                <div class = 'flex py-1 mx-auto items-center'>
-                    <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
-                        課程資訊
-                    </div>
-                    <input class = 'mx-2 w-full md:w-4/12 py-1 rounded-md text-center' type = "text" placeholder = "課程名稱" v-model = "className"/>
-                    <input class = 'mx-2 w-full md:w-3/12 py-1 rounded-md text-center' type = "text" placeholder = "課程教室" v-model = "classRoom"/>
-                    <select class = 'mx-1 py-1 rounded-md text-center' v-model = "weekDay">
-                        <option selected>星期</option>
-                        <option v-for = "day in week" :value = "day">{{day}}</option>
-                    </select>
-                    <select class = 'mx-1 py-1 rounded-md text-center' v-model = "start">
-                        <option selected>始堂</option>
-                        <option v-for = "cla in classes" :value = "cla">{{cla}}</option>
-                    </select>
-                    <select class = 'mx-1 py-1 rounded-md text-center' v-model = "end">
-                        <option selected>終堂</option>
-                        <option v-for = "cla in classes" :value = "cla">{{cla}}</option>
-                    </select>
-                    <button class = 'btn-normal' v-on:click = "push_to_table(1)">
-                        +
-                    </button>
-                </div>
-                <hr class = 'mx-3 my-3 text-slate-300'>
-                <div class = 'flex place-content-end items-center'>
-                    <a-switch v-model:checked = "state.checked">顯示學分</a-switch>
-                    <span class = 'mx-3 py-1 min-w-[4rem]'>
-                        顯示學分
-                    </span>
-                    <button class = 'btn-normal min-w-[8rem]' v-on:click = "show_list">
-                        展開課程列表
-                    </button>
-                    <button class = 'btn-normal min-w-[4rem]' v-on:click = "clearTable">
-                        清空課表
-                    </button>
-                    <button class = 'btn-normal min-w-[8rem]' v-on:click = "download">
-                        下載課表
-                    </button>
-                </div>
-                <div id = "class_list" v-if = "class_list_visible === true">
-                    <p class = "text-right py-2 mx-3" v-show = "state.  checked">
+            </div>
+            <div class = "overflow-x-auto">
+                <div class = 'bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto shadow-lg md:w-6/12 min-w-[60rem]'>
+                    <p class = "text-right py-2 mx-3" v-show = "state.checked">
                         目前學分: {{credit}}
                     </p>
-                    <table class = "w-full my-1 mb-1">
+                    <table class = 'bg-orange-100 border-separate w-full' id = "class_table">
                         <thead>
                             <tr>
-                                <th v-for = "title in class_list_title" class = "text-center py-2 px-2 border-collapse bg-gray-200">
-                                    {{ title }}
+                                <th class = "w-[10px]">
+                                    ⠀
+                                </th>
+                                <th class = 'table-head w-36' colspan = "2">
+                                    節次
+                                </th>   
+                                <th class = 'table-head'>
+                                    星期一
+                                </th>
+                                <th class = 'table-head'>
+                                    星期二
+                                </th>
+                                <th class = 'table-head'>
+                                    星期三
+                                </th>
+                                <th class = 'table-head'>
+                                    星期四
+                                </th>
+                                <th class = 'table-head'>
+                                    星期五
+                                </th>
+                                <th class = 'table-head'>
+                                    星期六
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for = "item in single_row_data" class = "text-center py-2 px-2 border-collapse">
-                                <td> {{ item.getCourseName() }} </td>
-                                <td> {{ item.getClassroom() }} </td>
-                                <td> {{ item.getStartTime() }} </td>
-                                <td>
-                                    <button class = "bg-gray-700 py-2 my-1 px-6 rounded-lg text-white hover:bg-gray-500"
-                                        v-on:click="delete_course(item)">
-                                        刪除
-                                    </button>
+                            <tr v-for = "row in course_data">
+                                <td v-for = "item in row" class = "text-center p-0 h-full overflow-auto" v-on:click = "show_popover()" :class = "{ title: item.getIsTitle(), course: item.getIsCourse() }" style = "height: 50px;">
+                                    <div> {{ item.getStartTime() }} </div>
+                                    <div> {{ item.getCourseName() }} </div>
+                                    <div> {{ item.getClassroom() }} </div>
+                                    <!-- <div id = "popover" class = "hidden absolute bg-white border p-4 shadow-md">
+                                        Popover 內容
+                                        This is a popover content.
+                                    </div> -->
                                 </td>
-                            </tr>
+                            </tr> 
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class = "overflow-x-auto">
-        <div class = 'bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto shadow-lg md:w-6/12 min-w-[60rem]'>
-            <p class = "text-right py-2 mx-3" v-show = "state.checked">
-                目前學分: {{credit}}
-            </p>
-            <table class = 'bg-orange-100 border-separate w-full' id = "class_table">
-                <thead>
-                    <tr>
-                        <th class = "w-[10px]">
-                            ⠀
-                        </th>
-                        <th class = 'table-head w-36' colspan = "2">
-                            節次
-                        </th>   
-                        <th class = 'table-head'>
-                            星期一
-                        </th>
-                        <th class = 'table-head'>
-                            星期二
-                        </th>
-                        <th class = 'table-head'>
-                            星期三
-                        </th>
-                        <th class = 'table-head'>
-                            星期四
-                        </th>
-                        <th class = 'table-head'>
-                            星期五
-                        </th>
-                        <th class = 'table-head'>
-                            星期六
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for = "row in course_data">
-                        <td v-for = "item in row" class = "text-center p-0 h-full overflow-auto" v-on:click = "show_popover()" :class = "{ title: item.getIsTitle(), course: item.getIsCourse() }" style = "height: 50px;">
-                            <div> {{ item.getStartTime() }} </div>
-                            <div> {{ item.getCourseName() }} </div>
-                            <div> {{ item.getClassroom() }} </div>
-                            <!-- <div id = "popover" class = "hidden absolute bg-white border p-4 shadow-md">
-                                Popover 內容
-                                This is a popover content.
-                            </div> -->
-                        </td>
-                    </tr> 
-                </tbody>
-            </table>
-        </div>
-    </div>
+        </pane>
+        <pane v-if = "status">
+            <span>
+                <button v-on:click = "hidden" class = 'btn-normal min-w-[8rem] mx-3 my-3'>關閉評價</button>
+            </span>
+        </pane>
+    </splitpanes>
 </template>
 
 <script setup>
-import { onMounted, onUpdated, ref, watch, reactive } from 'vue';
+import { onMounted, onUpdated, ref, watch, reactive, computed } from 'vue';
 import { Switch } from 'ant-design-vue'
 
 import { Rowspanizer } from '@functions/rowspanizer';
@@ -159,6 +168,17 @@ import { courseAdd, searchAdd } from "@functions/course_add.ts"
 import { searchCourse, recordcourse } from '@functions/course_search.ts';
 import { splittime } from '@functions/tool.ts';
 import { courseDelete } from '@functions/course_delete.ts';
+
+import { Splitpanes, Pane } from 'splitpanes'
+import 'splitpanes/dist/splitpanes.css'
+import { useStore } from 'vuex';
+
+const store = useStore();
+const status = computed(() => store.state.show);
+const hidden = () =>
+{
+    store.dispatch("hidden")
+};
 
 //component
 import loadingSpinner from '@components/common/loadingSpinner.vue';

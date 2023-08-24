@@ -23,7 +23,7 @@
                         </ul>
                         <div class="bg-orange-200 w-full h-20"></div>
                         <div class="flex w-full h-8 p-2">
-                            <div class="m-auto text-base rounded-2xl bg-orange-300 px-3 py-1 hover:bg-orange-200">查看評價</div>
+                            <div class="m-auto text-base rounded-2xl bg-orange-300 px-3 py-1 hover:bg-orange-200" v-on:click="show_comment">查看評價</div>
                             <div class="m-auto text-base rounded-2xl bg-orange-300 px-3 py-1 hover:bg-orange-200">加入課表</div>
                         </div>
                     </div>
@@ -35,9 +35,14 @@
 
 <script setup>
 import { ref } from "vue";
+import { useStore } from "vuex";
 
+const store = useStore();
 
-
+const show_comment = () =>
+{
+    store.dispatch("display");
+}
 const show = ref(true);
 const show_icon = ref(true);
 const transitionCount = ref(0);
@@ -51,9 +56,7 @@ const search_button = () => {
     }else{
         show_icon.value = !show_icon.value;
     }
-}
-
-
+};
 </script>
 
 <style>
