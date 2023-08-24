@@ -1,5 +1,5 @@
 <template>
-    <Vue3DraggableResizable :draggable="true" :resizable="false">
+    <Vue3DraggableResizable :draggable="true" :resizable="false" @dragging="handle_drag" @drag-end="drag_end">
         <div class="w-full top-8 h-8 flex sticky z-50">
             <div class="mr-1 ml-auto w-8 text-3xl relative small transition-all ease-in-out duration-500" 
             :class="{ 'large mr-2 border': !show}" @transitionend="transitionComplete" >
@@ -9,12 +9,12 @@
                 <div class = "block large border ml-auto mr-2" v-if="!show">
                     <div class="m-2">
                         <div class = "flex w-full">
-                            <div class = "text-black font-bold">
+                            <div class = "text-black font-bold text-xl">
                                 課程搜尋
                             </div>
                             <CloseCircleOutlined class="ml-auto -6" @click="search_button"/>
                         </div>
-                        <input class = 'w-full mx-auto py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程">
+                        <input class = 'w-full mx-auto py-1 text-center course_search text-xl' type = "search" placeholder = "在此搜尋課程">
                         <ul class = "mx-auto w-11/12 result overflow-y-auto overflow-x-hidden" id = "result">
                             <!-- <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner> -->
                             <!-- <li v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
@@ -43,11 +43,14 @@ const show_comment = () =>
 {
     store.dispatch("display");
 }
+
 const show = ref(true);
 const show_icon = ref(true);
 const transitionCount = ref(0);
+let can_open = false;
 
 const search_button = () => {
+    if(!can_open) return;
     show.value = !show.value;
     if(show.value == true){
         setTimeout(() => {
@@ -57,6 +60,16 @@ const search_button = () => {
         show_icon.value = !show_icon.value;
     }
 };
+
+const handle_drag = () => {
+    can_open = false;    
+};
+const drag_end = () => {
+    setTimeout(() => {
+        can_open = true;
+    }, 100);
+};
+
 </script>
 
 <style>
@@ -77,6 +90,4 @@ const search_button = () => {
     height: 28rem;
     background-color: white;
 }
-
-
 </style>
