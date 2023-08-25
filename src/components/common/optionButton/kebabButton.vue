@@ -2,9 +2,12 @@
     <button type="button" class="optionButtion" v-on:click="showOption()">&#xFE19;</button>
     <div>
         <ul id="content-list" v-if="isShowOption" class="mx-auto option-list bg-white " @mouseleave="isShowOption=false" >
-            <slot class="w-full bg-white/70 px-1 py-1">
+            <div>
+                <slot>
 
-            </slot>
+                </slot>
+            </div>
+            
         </ul>
     </div>
     
@@ -22,12 +25,16 @@
     }
     .option-list{
         position: absolute;
-        width: 50%;
-        right: 0;
-        top: 0;
+        width: auto;
+        right: 0.3rem;
+        top: 0.3rem;
         z-index: 2;
         transform: translate(0, 0.01rem);
         text-align: left;
+        border: 2px gray solid;
+    }
+    .option:hover{
+        background-color: #e2e8f0;
     }
 </style>
 
