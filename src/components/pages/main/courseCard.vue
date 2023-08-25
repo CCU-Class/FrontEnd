@@ -6,10 +6,9 @@
         @mouseleave="showButton =false">
 
 
-        <kebabButton v-if="item.getIsCourse()" class="optionButtion">
+        <kebabButton v-if="item.getIsCourse()">
             <li>刪除</li>
         </kebabButton>
-        
         <div> {{ item.getStartTime() }} </div>
         <div> {{ item.getCourseName() }} </div>
         <div> {{ item.getClassroom() }} </div>
@@ -27,10 +26,11 @@
 
 <script>
     import kebabButton from '@components/common/optionButton/kebabButton.vue';
+    import {Course} from '@functions/general.ts';
 
     export default {
         props: {
-            item: Object // 传入单元格数据的 prop
+            item: Course // 传入单元格数据的 prop
         },
         methods: {
             show_popover() {
