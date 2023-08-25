@@ -133,16 +133,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for = "row in course_data">
+                            <!-- <tr v-for = "row in course_data">
                                 <td v-for = "item in row" class = "text-center p-0 h-full overflow-auto" v-on:click = "show_popover()" :class = "{ title: item.getIsTitle(), course: item.getIsCourse() }" style = "height: 50px;">
                                     <div> {{ item.getStartTime() }} </div>
                                     <div> {{ item.getCourseName() }} </div>
                                     <div> {{ item.getClassroom() }} </div>
-                                    <!-- <div id = "popover" class = "hidden absolute bg-white border p-4 shadow-md">
-                                        Popover 內容
-                                        This is a popover content.
-                                    </div> -->
+                                    
                                 </td>
+                            </tr>  -->
+                            <tr v-for = "row in course_data" :key="row.id">
+                                <courseCard v-for="item in row" :key="item.id" :item="item" />
                             </tr> 
                         </tbody>
                     </table>
@@ -169,6 +169,8 @@ import { searchCourse, recordcourse } from '@functions/course_search.ts';
 import { splittime } from '@functions/tool.ts';
 import { courseDelete } from '@functions/course_delete.ts';
 
+
+
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 import { useStore } from 'vuex';
@@ -182,6 +184,7 @@ const hidden = () =>
 
 //component
 import loadingSpinner from '@components/common/loadingSpinner.vue';
+import courseCard from "@components/pages/main/courseCard.vue";
 
 const env = import.meta.env;
 
