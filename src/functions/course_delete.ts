@@ -1,4 +1,5 @@
 import { Course} from "./general";
+import store from "../store";
 
 export function courseDelete(item: Course)
 {
@@ -24,6 +25,7 @@ export function courseDelete(item: Course)
         }
         table.push(row)
     }
-    localStorage.setItem("courseTable", JSON.stringify(table));
+    // 不要在這邊儲存localstorage，使用store
+    store.dispatch('addCourse', table);
     return true;
 }

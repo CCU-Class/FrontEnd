@@ -45,7 +45,7 @@ export class Rowspanizer
                 {   
                     continue;
                 }
-                console.log(cellValue, rowspan);
+                // console.log(cellValue, rowspan);
                 if(!the_target_cell)
                 {
                     the_target_cell = cell;
@@ -64,7 +64,7 @@ export class Rowspanizer
                     {
                         // Set the rowspan of the target cell to the rowspan value
                         the_target_cell.setAttribute('rowspan', rowspan.toString());
-                        console.log(the_target_cell, rowspan);
+                        // console.log(the_target_cell, rowspan);
                         the_target_cell = cell;
                     }
                     currentCellValue = cellValue;

@@ -1,4 +1,5 @@
 import store from '../store';
+import { computed } from 'vue';
 
 // using a key-value pair to map courseID to time
 export const courseToTime: { [key: string]: string } = {
@@ -214,34 +215,35 @@ export function InitTable()
 }
 
 export function GetCourseTable()
-{
+{   
+    return computed(() => store.state.classStorage);
     // retrieve the course table from the local storage
-    let courseTable = localStorage.getItem("courseTable")
-    if(courseTable == null)
-    {
-        return InitTable()
-    }
-    else
-    {
-        // change the loaded data to the Course object 2D array
-        let table: Course[][] = []
-        let data = JSON.parse(courseTable)
-        console.log(store.state.classStorage[0])
-        for(let i = 0; i < data.length; i++)
-        {
-            let row: Course[] = []
-            for(let j = 0; j < data[i].length; j++)
-            {
-                row.push(new Course({
-                    course_name: data[i][j].courseData.course_name,
-                    start_time: data[i][j].courseData.start_time,
-                    classroom: data[i][j].courseData.classroom,
-                    is_title: data[i][j].courseData.is_title,
-                    is_course: data[i][j].courseData.is_course
-                }))
-            }
-            table.push(row)
-        }
-        return table
-    }
+    // let courseTable = localStorage.getItem("courseTable")
+    // if(courseTable == null)
+    // {
+    //     return InitTable()
+    // }
+    // else
+    // {
+    //     // change the loaded data to the Course object 2D array
+    //     let table: Course[][] = []
+    //     let data = JSON.parse(courseTable)
+    //     console.log(store.state.classStorage[0])
+    //     for(let i = 0; i < data.length; i++)
+    //     {
+    //         let row: Course[] = []
+    //         for(let j = 0; j < data[i].length; j++)
+    //         {
+    //             row.push(new Course({
+    //                 course_name: data[i][j].courseData.course_name,
+    //                 start_time: data[i][j].courseData.start_time,
+    //                 classroom: data[i][j].courseData.classroom,
+    //                 is_title: data[i][j].courseData.is_title,
+    //                 is_course: data[i][j].courseData.is_course
+    //             }))
+    //         }
+    //         table.push(row)
+    //     }
+    //     return table
+    // }
 }

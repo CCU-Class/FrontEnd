@@ -179,7 +179,7 @@ import { useStore } from 'vuex';
 const store = useStore();
 store.dispatch('initCourseFromLocalstorage');
 const status = computed(() => store.state.show);
-let course_data = computed(() => store.state.classStorage);
+let course_data = ref(store.state.classStorage);
 const hidden = () =>
 {
     store.dispatch("hidden")
@@ -216,6 +216,7 @@ let single_row_data = ref([])
 function _2data_to_1d()
 {
     single_row_data.value = [];
+    console.log(course_data.value);
     for(let i = 0; i < course_data.value.length; i++)
     {
         for(let j = 0; j < course_data.value[i].length; j++)
@@ -237,7 +238,8 @@ function _2data_to_1d()
                 }
             }
         }
-    }   
+    }
+    console.log(single_row_data.value);
 }
 
 watch(searchInput, async (inputValue) => {
@@ -263,11 +265,7 @@ watch(searchInput, async (inputValue) => {
 
 onMounted(() =>
 {   
-    const temp = new Rowspanizer({
-        target: "#class_table",
-        colspan_index: 0
-    })
-    temp.rowspanize()
+    remerge_table();
     // using env to control <ul> display
     let ul = document.getElementById("result");
     if(ul != null)
@@ -280,8 +278,9 @@ onMounted(() =>
 var delete_course = function(item)
 {
     // 刪除課程
-    courseDelete(item)
-    course_data.value = GetCourseTable()
+    console.log(item);
+    courseDelete(item);
+    course_data.value = GetCourseTable();
     _2data_to_1d();
 }
 
@@ -306,30 +305,45 @@ function Sleep(time) {
     });
 }
 
+function remerge_table(){
+    const temp = new Rowspanizer({
+        target: "#class_table",
+        colspan_index: 0
+    })
+    temp.rowspanize()
+}
+
+async function refresh_table(){
+    return new Promise(async (resolve, reject) => {
+        show.value = !show.value;
+        await Sleep(20);
+        show.value = !show.value;
+        resolve();
+    });
+}
+
 var push_to_table = async function(type, item) {
     // 手動新增課程
     // courseAdd(className.value: string, classRoom.value: string, weekDay.value: string, start.value: string, end.value: string)
     // console.log(48763);
-    show.value = !show.value;
-    await Sleep(10);
-    show.value = !show.value;
     // console.log(48763);
     if(type == 1)
     {
         // check if the input is valid
         if(className.value == "" || classRoom.value == "" || weekDay.value == "星期" || start.value == "始堂" || end.value == "終堂")
-        {
-            alert("請檢查輸入資料是否填寫完整");
+        {   
+            refresh_table();
             return;
         }
 
         let check = courseAdd(className.value, classRoom.value, weekDay.value, start.value, end.value);
         if(!check)
-        {
+        {   
             alert("新增課程失敗，請檢查輸入資料是否正確");
             return;
         }
-        course_data = check;
+        await refresh_table();
+        course_data.value = check;
     }
     else if(type == 2)
     {
@@ -352,20 +366,15 @@ var push_to_table = async function(type, item) {
         }
         let check = searchAdd(data);
         if(!check)
-        {
+        {   
             alert("新增課程失敗，請檢查是否衝堂");
             return;
         }
-        let temp = course_data;
-        course_data = check;
-        console.log(course_data == temp);
+        await refresh_table();
+        course_data.value = check;
     }
     await Sleep(30);
-    const temp = new Rowspanizer({
-        target: "#class_table",
-        colspan_index: 0
-    })
-    temp.rowspanize()
+    remerge_table();
     await Sleep(10);
     // 刷新網頁
     // window.location.reload();
@@ -376,19 +385,15 @@ var clearTable = function() {
     if(confirm("確定要清空課表嗎？"))
     {
         // 清空課表
-        localStorage.clear();
-        InitTable();
-        course_data.value = GetCourseTable();
+        store.dispatch('clearCourse');
+        course_data.value = store.state.classStorage;
     }
-    store.commit('clearCourse');
+    
 }
-
 var download = function() {
     renderImage("class_table") // finish 
 }
-
 const state = reactive({
     checked: false
 })
-
 </script>

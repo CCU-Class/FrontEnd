@@ -40,11 +40,12 @@ const store = createStore<State>({
         },
         addCourse(state: State, data : any){
             state.classStorage = Transfer(data);
-            console.log(48763)
             localStorage.setItem("courseTable", JSON.stringify(data));
         },
         clearCourse(state: State){
             state.classStorage = InitTable();
+            let courseTable: string | null = localStorage.getItem("courseTable");
+            localStorage.setItem("courseTable", JSON.stringify(state.classStorage));
         }
     },
     actions: {
