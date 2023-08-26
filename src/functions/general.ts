@@ -1,6 +1,6 @@
 import store from '../store';
 import { computed } from 'vue';
-
+const env = import.meta.env;
 // using a key-value pair to map courseID to time
 export const courseToTime: { [key: string]: string } = {
     "1" : "07:10",
@@ -102,6 +102,12 @@ interface CourseData
     classroom: string;
     is_title: boolean;
     is_course: boolean;
+    color: string;
+    ID: string | null;
+    Credit: Number | null;
+    is_custom: boolean | null;
+    Teacher: string | null;
+    Memo: string | null;
 }
 
 export class Course
@@ -143,6 +149,31 @@ export class Course
     {
         return this.courseData.is_course;
     }
+    public getColor(): string
+    {
+        return this.courseData.color;
+    }
+    public getCId(): string | null
+    {
+        return this.courseData.ID;
+    }
+    public getCredit(): Number | null
+    {
+        return this.courseData.Credit;
+    }
+    public getIsCustom(): boolean | null
+    {
+        return this.courseData.is_custom;
+    }
+    public getTeacher(): string | null
+    {
+        return this.courseData.Teacher;
+    }
+    public getMemo(): string | null
+    {
+        return this.courseData.Memo;
+    }
+    
 }
 
 
@@ -194,7 +225,13 @@ export function InitTable()
                     start_time: data[i][j],
                     classroom: "",
                     is_title: true,
-                    is_course: false
+                    is_course: false,
+                    color: env.VITE_TITLE_DEFAULT_COLOR,
+                    ID: null,
+                    Credit: null,
+                    is_custom: null,
+                    Teacher: null,
+                    Memo: null
                 }))
             }
             else
@@ -204,7 +241,13 @@ export function InitTable()
                     start_time: "",
                     classroom: "",
                     is_title: false,
-                    is_course: false
+                    is_course: false,
+                    color: env.VITE_CARD_DEFAULT_COLOR,
+                    ID: null,
+                    Credit: null,
+                    is_custom: null,
+                    Teacher: null,
+                    Memo: null
                 }))
             }
         }
@@ -216,7 +259,7 @@ export function InitTable()
 
 export function GetCourseTable()
 {   
-    return computed(() => store.state.classStorage);
+    return store.state.classStorage;
     // retrieve the course table from the local storage
     // let courseTable = localStorage.getItem("courseTable")
     // if(courseTable == null)

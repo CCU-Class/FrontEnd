@@ -19,7 +19,13 @@ export function courseDelete(item: Course)
                     start_time: data[i][j].courseData.start_time,
                     classroom: data[i][j].courseData.classroom,
                     is_title: data[i][j].courseData.is_title,
-                    is_course: data[i][j].courseData.is_course
+                    is_course: data[i][j].courseData.is_course,
+                    color: data[i][j].courseData.color,
+                    ID: data[i][j].courseData.ID,
+                    Credit: data[i][j].courseData.Credit,
+                    is_custom: data[i][j].courseData.is_custom,
+                    Teacher: data[i][j].courseData.Teacher,
+                    Memo: data[i][j].courseData.Memo
                 }))
             }
         }

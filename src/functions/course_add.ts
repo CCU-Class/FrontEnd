@@ -1,6 +1,8 @@
 import store  from '../store';
 import { Course, courseToTime, courseToStartIndex, courseToEndIndex, WeekDayToInt } from "./general";
 
+const env = import.meta.env;
+
 // a function that put the course in the database of manual input
 // and return the status of the operation
 
@@ -23,7 +25,13 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
                 start_time: data[i][j].courseData.start_time,
                 classroom: data[i][j].courseData.classroom,
                 is_title: data[i][j].courseData.is_title,
-                is_course: data[i][j].courseData.is_course
+                is_course: data[i][j].courseData.is_course,
+                color: data[i][j].courseData.color,
+                ID: data[i][j].courseData.ID,
+                Credit: data[i][j].courseData.Credit,
+                is_custom: data[i][j].courseData.is_custom,
+                Teacher: data[i][j].courseData.Teacher,
+                Memo: data[i][j].courseData.Memo
             }))
         }
         table.push(row)
@@ -33,7 +41,13 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
         course_name: courseName,
         classroom: classRoom,
         is_title: false,
-        is_course: true
+        is_course: true,
+        color: env.VITE_DEFAULT_COLOR,
+        ID: null,
+        Credit: null,
+        is_custom: true,
+        Teacher: null,
+        Memo: null
     })
     let weekDayIndex = WeekDayToInt[weekDay]; // 2 is the offset of the first two columns
     let startHour = courseToStartIndex[start];
@@ -77,7 +91,13 @@ export function searchAdd(course_list : Course[])
                 start_time: data[i][j].courseData.start_time,
                 classroom: data[i][j].courseData.classroom,
                 is_title: data[i][j].courseData.is_title,
-                is_course: data[i][j].courseData.is_course
+                is_course: data[i][j].courseData.is_course,
+                color: data[i][j].courseData.color,
+                ID: data[i][j].courseData.ID,
+                Credit: data[i][j].courseData.Credit,
+                is_custom: data[i][j].courseData.is_custom,
+                Teacher: data[i][j].courseData.Teacher,
+                Memo: null
             }))
         }
         table.push(row)

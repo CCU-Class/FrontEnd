@@ -348,21 +348,27 @@ var push_to_table = async function(type, item) {
     else if(type == 2)
     {
         // 從搜尋結果新增課程
+        console.log(item);
         recordcourse(item)
         let time = splittime(item.class_time);
         console.log(time)
         let data = [];
         for(let i = 0; i < time.length; i++){
-            let obj = {
+            data.push(new Course({
                 start_time: time[i][1],
                 end_time: time[i][2],
                 week_day: time[i][0],
                 course_name: item.class_name,
                 classroom: item.class_room,
                 is_title: false,
-                is_course: true
-            }
-            data.push(new Course(obj));
+                is_course: true,
+                color: env.VITE_CARD_DEFAAULT_COLOR,
+                Credit: item.credit,
+                ID: item.id,
+                is_custom: false,
+                Teacher: item.Teacher,
+                Memo: null
+            }));
         }
         let check = searchAdd(data);
         if(!check)
