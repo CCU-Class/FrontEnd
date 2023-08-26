@@ -226,8 +226,6 @@ function _2data_to_1d()
                 let check = true;
                 for(let k = 0; k < single_row_data.value.length; k++)
                 {   
-                    console.log(course_data.value[i][j]);
-                    console.log(single_row_data.value[k].getClassroom() == course_data.value[i][j].getClassroom() && single_row_data.value[k].getCourseName() == course_data.value[i][j].getCourseName() && single_row_data.value[k].getTeacher() == course_data.value[i][j].getTeacher());
                     if(single_row_data.value[k].getClassroom() == course_data.value[i][j].getClassroom() && single_row_data.value[k].getCourseName() == course_data.value[i][j].getCourseName() && single_row_data.value[k].getTeacher() == course_data.value[i][j].getTeacher())
                     {
                         check = false;
@@ -241,7 +239,6 @@ function _2data_to_1d()
             }
         }
     }
-    console.log(single_row_data.value);
 }
 
 watch(searchInput, async (inputValue) => {
