@@ -61,8 +61,19 @@ const search_button = () => {
     }
 };
 
-const handle_drag = () => {
+
+const handle_drag = (event) => {
     can_open = false;    
+    // element width = 28rem
+    // element height = 20rem
+    // prevent element from going out of screen
+    if(event.x < 0) event.x = 0;
+    if(event.y < 0) event.y = 0;
+    if(event.x > window.innerWidth - 28 * 16)
+        event.x = window.innerWidth - 28 * 16;
+    if(event.y > window.innerHeight - 20 * 16)
+        event.y = window.innerHeight - 20 * 16;
+    // fail, we have a bug here
 };
 const drag_end = () => {
     setTimeout(() => {
