@@ -16,7 +16,7 @@
                                 </div>
                                 <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程" v-model = "searchInput">
                                 
-                                <ul class = "mx-auto w-11/12 result overflow-y-auto overflow-x-hidden" id = "result">
+                                <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" id = "result" v-show="show_search_box">
                                     <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
                                     <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
                                         [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
@@ -207,6 +207,7 @@ let checked = ref(false);
 let credit = ref(0);
 let show = ref(1);
 let data = ref([]);
+let show_search_box = ref(true);
 
 
 let inputValue = searchInput.value.trim();
@@ -243,22 +244,20 @@ function _2data_to_1d()
 }
 
 watch(searchInput, async (inputValue) => {
-    let list = document.getElementById("result");
+    show_search_box.value = true;
     if(inputValue != "")
     {   
         
         isLoading.value = true;
-        
-        list.classList.remove("result");
-        list.classList.add("result-show");
+        show_search_box.value = true;
+        console.log(show_search_box.value)
         data.value = await searchCourse(inputValue);
         isLoading.value = false;
     }
     else
     {
         isLoading.value = false;
-        list.classList.remove("result-show");
-        list.classList.add("result");
+        show_search_box.value = false;
     }
 });
 
@@ -348,6 +347,7 @@ var push_to_table = async function(type, item) {
     else if(type == 2)
     {
         // 從搜尋結果新增課程
+        show_search_box.value = !show_search_box.value;
         console.log(item);
         recordcourse(item)
         let time = splittime(item.class_time);
@@ -380,6 +380,7 @@ var push_to_table = async function(type, item) {
         course_data.value = check;
     }
     await Sleep(30);
+    _2data_to_1d();
     remerge_table();
     await Sleep(10);
     // 刷新網頁
@@ -393,6 +394,7 @@ var clearTable = function() {
         // 清空課表
         store.dispatch('clearCourse');
         course_data.value = store.state.classStorage;
+        window.location.reload();
     }
     
 }
