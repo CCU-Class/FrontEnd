@@ -21,7 +21,8 @@
                     <!-- 反面 -->
                     <div v-else id="back">
                         <div>
-                            
+                            <div> 更改顏色 </div>
+                            <div> 刪除 </div>
                         </div>
                     </div>
                 </div>
