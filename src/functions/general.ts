@@ -125,6 +125,10 @@ export class Course
     {
         return this.courseData.start_time;
     }
+    public setStartTime(time :string): void
+    {
+        this.courseData.start_time = time;
+    }
     public getEndTime(): string
     {
         return this.courseData.end_time!;
@@ -153,7 +157,7 @@ export class Course
     {
         return this.courseData.color;
     }
-    public getCId(): string | null
+    public getId(): string | null
     {
         return this.courseData.ID;
     }

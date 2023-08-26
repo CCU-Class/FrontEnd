@@ -5,6 +5,7 @@ import { Course, InitTable } from '../functions/general'
 interface State {
     show: boolean;
     classStorage: Array<Array<Course>>;
+    classListStorage: Array<Course>;
 }
 
 function Transfer(data : any)
@@ -20,10 +21,20 @@ function Transfer(data : any)
     return temp;
 }
 
+function Transfer_class_list(data : any)
+{
+    let temp: Course[] = [];
+    for(let i = 0; i < data.length; i++){
+        temp.push(new Course(data[i]['courseData']));
+    }
+    return temp;
+}
+
 const store = createStore<State>({
     state: {
         show: false,
-        classStorage : []
+        classStorage : [],
+        classListStorage : []
     },
     mutations: {
         display(state: State) {
@@ -35,6 +46,11 @@ const store = createStore<State>({
         },
         initCourseFromLocalstorage(state: State){
             let courseTable: string | null = localStorage.getItem("courseTable");
+            if(courseTable == null){
+                state.classStorage = InitTable();
+                localStorage.setItem("courseTable", JSON.stringify(state.classStorage));
+                return;
+            }
             let data = JSON.parse(courseTable!);
             state.classStorage = Transfer(data);
         },
@@ -44,8 +60,23 @@ const store = createStore<State>({
         },
         clearCourse(state: State){
             state.classStorage = InitTable();
-            let courseTable: string | null = localStorage.getItem("courseTable");
+            state.classListStorage = [];
             localStorage.setItem("courseTable", JSON.stringify(state.classStorage));
+            localStorage.setItem("courseList", JSON.stringify(state.classListStorage));
+        },
+        initCourseListFromLocalstorage(state: State){
+            let courseList: string | null = localStorage.getItem("courseList");
+            if(courseList == null){
+                state.classListStorage = [];
+                localStorage.setItem("courseList", JSON.stringify(state.classListStorage));
+                return;
+            }
+            let data = JSON.parse(courseList!);
+            state.classListStorage = Transfer_class_list(data);
+        },
+        addCourseList(state: State, Class: Array<Course>){
+            state.classListStorage = Class;
+            localStorage.setItem("courseList", JSON.stringify(state.classListStorage));
         }
     },
     actions: {
@@ -63,6 +94,12 @@ const store = createStore<State>({
         },
         clearCourse(context: any){
             context.commit("clearCourse");
+        },
+        initCourseListFromLocalstorage(context: any){
+            context.commit("initCourseListFromLocalstorage");
+        },
+        addCourseList(context: any,  Class: Array<Course>){
+            context.commit("addCourseList", Class);
         }
     }
 });

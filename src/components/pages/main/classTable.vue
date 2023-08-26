@@ -178,8 +178,10 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 store.dispatch('initCourseFromLocalstorage');
+store.dispatch('initCourseListFromLocalstorage');
 const status = computed(() => store.state.show);
-let course_data = ref(store.state.classStorage);
+let course_data = ref(store.state.classStorage)
+let courseList = ref(store.state.classListStorage)
 const hidden = () =>
 {
     store.dispatch("hidden")
@@ -236,6 +238,19 @@ function _2data_to_1d()
                 {   
                     single_row_data.value.push(course_data.value[i][j]);
                 }
+            }
+        }
+    }
+    for(let i = 0; i < single_row_data.value.length; i++){
+        console.log(single_row_data.value[i])
+    }
+    for(let i = 0; i < courseList.value.length; i++){
+        console.log(courseList.value[i])
+    }
+    for(let i = 0; i < single_row_data.value.length; i++){
+        for(let j = 0; j < courseList.value.length; j++){
+            if(single_row_data.value[i].getClassroom() == courseList.value[j].getClassroom() && single_row_data.value[i].getCourseName() == courseList.value[j].getCourseName() && single_row_data.value[i].getId() == courseList.value[j].getId()){
+                single_row_data.value[i].setStartTime(courseList.value[j].getStartTime());
             }
         }
     }
@@ -340,6 +355,7 @@ var push_to_table = async function(type, item) {
             alert("新增課程失敗，請檢查輸入資料是否正確");
             return;
         }
+        courseList.value = store.state.classListStorage;
         await refresh_table();
         course_data.value = check;
     }
@@ -349,6 +365,22 @@ var push_to_table = async function(type, item) {
         show_search_box.value = !show_search_box.value;
         console.log(item);
         recordcourse(item)
+        courseList.value.push(new Course({
+            start_time: item.class_time,
+            end_time: item.class_time,
+            week_day: item.class_time,
+            course_name: item.class_name,
+            classroom: item.class_room,
+            is_title: false,
+            is_course: true,
+            color: env.VITE_CARD_DEFAAULT_COLOR,
+            Credit: item.credit,
+            ID: item.id,
+            is_custom: false,
+            Teacher: item.teacher,
+            Memo: null
+        }))
+        store.dispatch('addCourseList', courseList.value);
         let time = splittime(item.class_time);
         console.log(time)
         let data = [];
@@ -405,4 +437,5 @@ var download = function() {
 const state = reactive({
     checked: false
 })
+
 </script>

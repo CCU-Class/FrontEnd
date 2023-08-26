@@ -65,6 +65,9 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
             table[i][weekDayIndex] = course;
         }
     }
+    let temp = store.state.classListStorage;
+    temp.push(course);
+    store.dispatch('addCourseList', temp);
     // 不要在這邊儲存localstorage，使用store
     store.dispatch('addCourse', table);
     return table;
