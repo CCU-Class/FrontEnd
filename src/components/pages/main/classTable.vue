@@ -150,14 +150,7 @@
             </div>
         </pane>
         <pane v-if = "status" min-size = "30">
-            <div class = "comment_inside">
-                <ul class = "mx-auto w-full overflow-y-auto overflow-x-hidden max-h-[40rem]">
-                    <li class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white text-3xl" v-for="index in 20" :key="'index'">
-                        中正競程
-                    </li>
-                </ul>
-                <button v-on:click = "hidden" class = 'btn-normal min-w-[8rem] mx-3 my-3'>關閉評價</button>
-            </div>
+            <comment />
         </pane>
     </splitpanes>
 </template>
@@ -175,21 +168,16 @@ import { splittime } from '@functions/tool.ts';
 import { courseDelete } from '@functions/course_delete.ts';
 
 
-
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 import { useStore } from 'vuex';
 
 const store = useStore();
 const status = computed(() => store.state.show);
-const hidden = () =>
-{
-    store.dispatch("hidden")
-};
-
 //component
 import loadingSpinner from '@components/common/loadingSpinner.vue';
 import courseCard from "@components/pages/main/courseCard.vue";
+import comment from "@components/pages/main/comment.vue";
 
 const env = import.meta.env;
 
