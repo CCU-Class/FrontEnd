@@ -1,3 +1,5 @@
+import store from '../store';
+
 // using a key-value pair to map courseID to time
 export const courseToTime: { [key: string]: string } = {
     "1" : "07:10",
@@ -105,6 +107,10 @@ export class Course
 {
     private courseData: CourseData;
     constructor(courseData: CourseData)
+    {
+        this.courseData = courseData;
+    }
+    public inputValue(courseData: CourseData): void
     {
         this.courseData = courseData;
     }
@@ -220,6 +226,7 @@ export function GetCourseTable()
         // change the loaded data to the Course object 2D array
         let table: Course[][] = []
         let data = JSON.parse(courseTable)
+        console.log(store.state.classStorage[0])
         for(let i = 0; i < data.length; i++)
         {
             let row: Course[] = []
