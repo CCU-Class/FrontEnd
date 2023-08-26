@@ -132,7 +132,7 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody v-if = "show">
                             <!-- <tr v-for = "row in course_data">
                                 <td v-for = "item in row" class = "text-center p-0 h-full overflow-auto" v-on:click = "show_popover()" :class = "{ title: item.getIsTitle(), course: item.getIsCourse() }" style = "height: 50px;">
                                     <div> {{ item.getStartTime() }} </div>
@@ -175,8 +175,11 @@ import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 import { useStore } from 'vuex';
 
+
 const store = useStore();
+store.dispatch('initCourseFromLocalstorage');
 const status = computed(() => store.state.show);
+let course_data = computed(() => store.state.classStorage);
 const hidden = () =>
 {
     store.dispatch("hidden")
@@ -202,12 +205,13 @@ let class_list_title = ["課程名稱", "課程教室", "課程時間", "操作"
 let class_list_visible = ref(false);
 let checked = ref(false);
 let credit = ref(0);
+let show = ref(1);
 let data = ref([]);
 
-let course_data = ref(GetCourseTable())
 
 let inputValue = searchInput.value.trim();
 let single_row_data = ref([])
+
 
 function _2data_to_1d()
 {
@@ -258,7 +262,7 @@ watch(searchInput, async (inputValue) => {
 
 
 onMounted(() =>
-{
+{   
     const temp = new Rowspanizer({
         target: "#class_table",
         colspan_index: 0
@@ -294,9 +298,22 @@ var show_list = function() {
     class_list_visible.value = !class_list_visible.value
 }
 
-var push_to_table = function(type, item) {
+function Sleep(time) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        }, time);
+    });
+}
+
+var push_to_table = async function(type, item) {
     // 手動新增課程
     // courseAdd(className.value: string, classRoom.value: string, weekDay.value: string, start.value: string, end.value: string)
+    // console.log(48763);
+    show.value = !show.value;
+    await Sleep(10);
+    show.value = !show.value;
+    // console.log(48763);
     if(type == 1)
     {
         // check if the input is valid
@@ -312,12 +329,14 @@ var push_to_table = function(type, item) {
             alert("新增課程失敗，請檢查輸入資料是否正確");
             return;
         }
+        course_data = check;
     }
     else if(type == 2)
     {
         // 從搜尋結果新增課程
         recordcourse(item)
         let time = splittime(item.class_time);
+        console.log(time)
         let data = [];
         for(let i = 0; i < time.length; i++){
             let obj = {
@@ -337,10 +356,19 @@ var push_to_table = function(type, item) {
             alert("新增課程失敗，請檢查是否衝堂");
             return;
         }
+        let temp = course_data;
+        course_data = check;
+        console.log(course_data == temp);
     }
-    course_data.value = GetCourseTable();
+    await Sleep(30);
+    const temp = new Rowspanizer({
+        target: "#class_table",
+        colspan_index: 0
+    })
+    temp.rowspanize()
+    await Sleep(10);
     // 刷新網頁
-    window.location.reload();
+    // window.location.reload();
 }
 
 var clearTable = function() {
@@ -352,6 +380,7 @@ var clearTable = function() {
         InitTable();
         course_data.value = GetCourseTable();
     }
+    store.commit('clearCourse');
 }
 
 var download = function() {

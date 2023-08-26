@@ -1,7 +1,9 @@
+import store  from '../store';
 import { Course, courseToTime, courseToStartIndex, courseToEndIndex, WeekDayToInt } from "./general";
 
 // a function that put the course in the database of manual input
 // and return the status of the operation
+
 export function courseAdd(courseName: string, classRoom: string, weekDay: string, start: string, end:string)
 {
     // construct a course object here
@@ -49,8 +51,9 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
             table[i][weekDayIndex] = course;
         }
     }
-    localStorage.setItem("courseTable", JSON.stringify(table));
-    return true;
+    // 不要在這邊儲存localstorage，使用store
+    store.dispatch('addCourse', table);
+    return table;
 }
 
 
@@ -87,6 +90,7 @@ export function searchAdd(course_list : Course[])
         let weekDayIndex = WeekDayToInt[course.getWeekDay()]; // 2 is the offset of the first two columns
         let startHour = courseToStartIndex[course.getStartTime()];
         let endHour = courseToEndIndex[course.getEndTime()];
+        console.log(startHour, endHour);
         for(let j = startHour; j < endHour; j++)
         {
             if(table[j][weekDayIndex].getIsCourse())
@@ -101,6 +105,7 @@ export function searchAdd(course_list : Course[])
             }
         }
     }
-    localStorage.setItem("courseTable", JSON.stringify(table));
-    return true;
+    // 不要在這邊儲存localstorage，使用store
+    store.dispatch('addCourse', table);
+    return table;
 }
