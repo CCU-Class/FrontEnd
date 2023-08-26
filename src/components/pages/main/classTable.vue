@@ -217,7 +217,6 @@ let single_row_data = ref([])
 function _2data_to_1d()
 {
     single_row_data.value = [];
-    console.log(course_data.value);
     for(let i = 0; i < course_data.value.length; i++)
     {
         for(let j = 0; j < course_data.value[i].length; j++)
@@ -226,15 +225,17 @@ function _2data_to_1d()
             {
                 let check = true;
                 for(let k = 0; k < single_row_data.value.length; k++)
-                {
-                    if(single_row_data.value[k].getClassroom() == course_data.value[i][j].getClassroom() && single_row_data.value[k].getCourseName() == course_data.value[i][j].getCourseName() && single_row_data.value[k].getStartTime() == course_data.value[i][j].getStartTime() && single_row_data.value[k].getWeekDay() == course_data.value[i][j].getWeekDay())
+                {   
+                    console.log(course_data.value[i][j]);
+                    console.log(single_row_data.value[k].getClassroom() == course_data.value[i][j].getClassroom() && single_row_data.value[k].getCourseName() == course_data.value[i][j].getCourseName() && single_row_data.value[k].getTeacher() == course_data.value[i][j].getTeacher());
+                    if(single_row_data.value[k].getClassroom() == course_data.value[i][j].getClassroom() && single_row_data.value[k].getCourseName() == course_data.value[i][j].getCourseName() && single_row_data.value[k].getTeacher() == course_data.value[i][j].getTeacher())
                     {
                         check = false;
                         break;
                     }
                 }
                 if(check)
-                {
+                {   
                     single_row_data.value.push(course_data.value[i][j]);
                 }
             }
@@ -278,6 +279,7 @@ var delete_course = function(item)
 {
     // 刪除課程
     console.log(item);
+    // 再刪除函式裡面去更改store狀態
     courseDelete(item);
     course_data.value = GetCourseTable();
     _2data_to_1d();
@@ -366,10 +368,12 @@ var push_to_table = async function(type, item) {
                 Credit: item.credit,
                 ID: item.id,
                 is_custom: false,
-                Teacher: item.Teacher,
+                Teacher: item.teacher,
                 Memo: null
             }));
         }
+        // 成功插入會回傳課程陣列，反之回傳false
+        // 在做儲存
         let check = searchAdd(data);
         if(!check)
         {   
