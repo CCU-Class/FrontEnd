@@ -104,7 +104,7 @@ interface CourseData
     is_course: boolean;
     color: string;
     ID: string | null;
-    Credit: Number | null;
+    Credit: number | null;
     is_custom: boolean | null;
     Teacher: string | null;
     Memo: string | null;
@@ -161,7 +161,7 @@ export class Course
     {
         return this.courseData.ID;
     }
-    public getCredit(): Number | null
+    public getCredit(): number | null
     {
         return this.courseData.Credit;
     }

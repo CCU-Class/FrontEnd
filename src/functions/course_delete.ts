@@ -47,3 +47,7 @@ export function courseDelete(item: Course)
     store.dispatch('addCourse', table);
     return true;
 }
+
+export function decreaseCredit(credit : number){
+    store.dispatch('addCredit', -credit);
+}

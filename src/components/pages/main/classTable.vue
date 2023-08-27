@@ -167,7 +167,7 @@ import renderImage from "@functions/image_render.ts"
 import { courseAdd, searchAdd } from "@functions/course_add.ts"
 import { searchCourse, recordcourse } from '@functions/course_search.ts';
 import { splittime } from '@functions/tool.ts';
-import { courseDelete } from '@functions/course_delete.ts';
+import { courseDelete, decreaseCredit } from '@functions/course_delete.ts';
 
 
 
@@ -177,11 +177,11 @@ import { useStore } from 'vuex';
 
 
 const store = useStore();
-store.dispatch('initCourseFromLocalstorage');
-store.dispatch('initCourseListFromLocalstorage');
+store.dispatch('initAll');
 const status = computed(() => store.state.show);
-let course_data = ref(store.state.classStorage)
-let courseList = ref(store.state.classListStorage)
+let course_data = ref(store.state.classStorage);
+let courseList = ref(store.state.classListStorage);
+let credit = ref(store.state.credit);
 const hidden = () =>
 {
     store.dispatch("hidden")
@@ -206,7 +206,6 @@ const isInputEmpty = ref(false);
 let class_list_title = ["課程名稱", "課程教室", "課程時間", "操作"];
 let class_list_visible = ref(false);
 let checked = ref(false);
-let credit = ref(0);
 let show = ref(1);
 let data = ref([]);
 let show_search_box = ref(true);
@@ -240,12 +239,6 @@ function _2data_to_1d()
                 }
             }
         }
-    }
-    for(let i = 0; i < single_row_data.value.length; i++){
-        console.log(single_row_data.value[i])
-    }
-    for(let i = 0; i < courseList.value.length; i++){
-        console.log(courseList.value[i])
     }
     for(let i = 0; i < single_row_data.value.length; i++){
         for(let j = 0; j < courseList.value.length; j++){
@@ -291,6 +284,11 @@ var delete_course = function(item)
 {
     // 刪除課程
     console.log(item);
+    if(item.getCredit() != null){
+        decreaseCredit(item.getCredit())
+        credit.value -= item.getCredit();
+        console.log(credit);
+    }
     // 再刪除函式裡面去更改store狀態
     courseDelete(item);
     course_data.value = GetCourseTable();
@@ -363,26 +361,9 @@ var push_to_table = async function(type, item) {
     {
         // 從搜尋結果新增課程
         show_search_box.value = !show_search_box.value;
-        console.log(item);
         recordcourse(item)
-        courseList.value.push(new Course({
-            start_time: item.class_time,
-            end_time: item.class_time,
-            week_day: item.class_time,
-            course_name: item.class_name,
-            classroom: item.class_room,
-            is_title: false,
-            is_course: true,
-            color: env.VITE_CARD_DEFAAULT_COLOR,
-            Credit: item.credit,
-            ID: item.id,
-            is_custom: false,
-            Teacher: item.teacher,
-            Memo: null
-        }))
-        store.dispatch('addCourseList', courseList.value);
         let time = splittime(item.class_time);
-        console.log(time)
+        // console.log(typeof(item.credit))
         let data = [];
         for(let i = 0; i < time.length; i++){
             data.push(new Course({
@@ -409,7 +390,26 @@ var push_to_table = async function(type, item) {
             alert("新增課程失敗，請檢查是否衝堂");
             return;
         }
+        courseList.value.push(new Course({
+            start_time: item.class_time,
+            end_time: item.class_time,
+            week_day: item.class_time,
+            course_name: item.class_name,
+            classroom: item.class_room,
+            is_title: false,
+            is_course: true,
+            color: env.VITE_CARD_DEFAAULT_COLOR,
+            Credit: item.credit,
+            ID: item.id,
+            is_custom: false,
+            Teacher: item.teacher,
+            Memo: null
+        }))
+        store.dispatch('addCourseList', courseList.value);
         await refresh_table();
+        store.dispatch('addCredit', Number(item.credit));
+        credit.value += Number(item.credit);
+        // console.log(credit.value);
         course_data.value = check;
     }
     await Sleep(30);

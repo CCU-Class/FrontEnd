@@ -6,6 +6,7 @@ interface State {
     show: boolean;
     classStorage: Array<Array<Course>>;
     classListStorage: Array<Course>;
+    credit : number;
 }
 
 function Transfer(data : any)
@@ -34,7 +35,8 @@ const store = createStore<State>({
     state: {
         show: false,
         classStorage : [],
-        classListStorage : []
+        classListStorage : [],
+        credit : 0
     },
     mutations: {
         display(state: State) {
@@ -61,8 +63,10 @@ const store = createStore<State>({
         clearCourse(state: State){
             state.classStorage = InitTable();
             state.classListStorage = [];
+            state.credit = 0 ;
             localStorage.setItem("courseTable", JSON.stringify(state.classStorage));
             localStorage.setItem("courseList", JSON.stringify(state.classListStorage));
+            localStorage.setItem("credit", state.credit.toString());
         },
         initCourseListFromLocalstorage(state: State){
             let courseList: string | null = localStorage.getItem("courseList");
@@ -77,6 +81,20 @@ const store = createStore<State>({
         addCourseList(state: State, Class: Array<Course>){
             state.classListStorage = Class;
             localStorage.setItem("courseList", JSON.stringify(state.classListStorage));
+        },
+        initCredit(state: State){
+            let creditL: string | null = localStorage.getItem("credit");
+            if(creditL == null){
+                state.credit = 0;
+                localStorage.setItem("credit", state.credit.toString());
+                return;
+            }
+            state.credit = Number(creditL);
+            console.log(state.credit);
+        },
+        addCredit(state: State, delta : number){
+            state.credit += delta;
+            localStorage.setItem("credit", state.credit.toString());
         }
     },
     actions: {
@@ -86,8 +104,8 @@ const store = createStore<State>({
         hidden(context: any) {
             context.commit('hidden');
         },
-        initCourseFromLocalstorage(context: any, data: any){
-            context.commit('initCourseFromLocalstorage', data);
+        initCourseFromLocalstorage(context: any){
+            context.commit('initCourseFromLocalstorage');
         },
         addCourse(context: any, data : any){
             context.commit("addCourse", data);
@@ -100,6 +118,17 @@ const store = createStore<State>({
         },
         addCourseList(context: any,  Class: Array<Course>){
             context.commit("addCourseList", Class);
+        },
+        initCredit(context: any){
+            context.commit("initCredit");
+        },
+        initAll(context: any){
+            context.commit("initCredit");
+            context.commit("initCourseListFromLocalstorage");
+            context.commit('initCourseFromLocalstorage');
+        },
+        addCredit(context: any,  delta: number){
+            context.commit("addCredit", delta);
         }
     }
 });
