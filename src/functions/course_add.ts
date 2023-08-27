@@ -65,6 +65,9 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
             table[i][weekDayIndex] = course;
         }
     }
+    let temp = store.state.classListStorage;
+    temp.push(course);
+    store.dispatch('addCourseList', temp);
     // 不要在這邊儲存localstorage，使用store
     store.dispatch('addCourse', table);
     return table;
@@ -106,13 +109,14 @@ export function searchAdd(course_list : Course[])
     for(let i = 0; i < course_list.length; i++)
     {
         let course = course_list[i];
-        console.log(course);
+        // console.log(course);
         let weekDayIndex = WeekDayToInt[course.getWeekDay()]; // 2 is the offset of the first two columns
         let startHour = courseToStartIndex[course.getStartTime()];
         let endHour = courseToEndIndex[course.getEndTime()];
-        console.log(startHour, endHour);
+        // console.log(startHour, endHour);
         for(let j = startHour; j < endHour; j++)
-        {
+        {   
+            // console.log(typeof(table[j][weekDayIndex]));
             if(table[j][weekDayIndex].getIsCourse())
             {
                 // there is a course in the same time slot
@@ -125,7 +129,8 @@ export function searchAdd(course_list : Course[])
             }
         }
     }
-    // 不要在這邊儲存localstorage，使用store
+    
+    // 不要在這邊儲存localstorage，使用storec
     store.dispatch('addCourse', table);
     return table;
 }

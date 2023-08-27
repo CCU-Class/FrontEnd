@@ -10,7 +10,7 @@ export function courseDelete(item: Course)
         let row: Course[] = []
         for(let j = 0; j < data[i].length; j++)
         {
-            if(data[i][j].courseData.course_name == item.getCourseName() && data[i][j].courseData.start_time == item.getStartTime() && data[i][j].courseData.classroom == item.getClassroom())
+            if(data[i][j].courseData.course_name == item.getCourseName() && data[i][j].courseData.ID == item.getId() && data[i][j].courseData.classroom == item.getClassroom())
                 continue;
             else
             {
@@ -31,7 +31,23 @@ export function courseDelete(item: Course)
         }
         table.push(row)
     }
+    let temp = [];
+    let List = store.state.classListStorage;
+    for(let i = 0; i < List.length; i++){
+        if(List[i].getCourseName() == item.getCourseName() && List[i].getId() == item.getId() && List[i].getClassroom() == item.getClassroom()){
+            continue;
+        }
+        else{
+            temp.push(List[i]);
+        }
+    }
     // 不要在這邊儲存localstorage，使用store
+    console.log(temp);
+    store.dispatch('addCourseList', temp);
     store.dispatch('addCourse', table);
     return true;
+}
+
+export function decreaseCredit(credit : number){
+    store.dispatch('addCredit', -credit);
 }
