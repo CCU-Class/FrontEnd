@@ -108,3 +108,34 @@ table
     min-width: 6px;
     background: linear-gradient(90deg, #ccc, #111);
 }
+.main_page_left
+{
+    flex: 1;
+    height: 100%;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+/* scroll bar */
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #ffe2c8 #fff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 15px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #fff;
+    border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #ffe2c8;
+    border-radius: 14px;
+    border: 3px solid #fff;
+}

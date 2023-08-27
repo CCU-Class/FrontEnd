@@ -1,8 +1,8 @@
 
 
 <template>
-    <div class = "overflow-x-auto">
-        <div class = "w-full mx-auto my-6 px-4 py-4 bg-gray-100 rounded-lg shadow-lg md:w-9/12">
+    <div class = "overflow-auto">
+        <div class = "w-full mx-auto my-6 px-4 py-4 bg-gray-100 rounded-lg shadow-lg md:w-9/12 min-w-max overflow-x-auto">
             <div class = 'text-xl font-semibold'>
                 開始建置你的課表    
             </div>
@@ -20,10 +20,6 @@
                                 [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
                             </li>
                         </ul>
-                        
-                        
-                        
-                        
                     </div>
                 </div>
                 <div class = 'flex py-1 mx-auto'>

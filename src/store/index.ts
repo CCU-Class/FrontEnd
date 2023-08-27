@@ -10,7 +10,6 @@ const store = createStore<State>({
     },
     mutations: {
         display(state: State) {
-            console.log('display');
             state.show = true;
         },
         hidden(state: State) {
