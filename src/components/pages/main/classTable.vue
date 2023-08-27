@@ -146,6 +146,8 @@
                             </tr> 
                         </tbody>
                     </table>
+                    <colorTemplate>
+                    </colorTemplate>
                 </div>
             </div>
         </pane>
@@ -182,7 +184,7 @@ const status = computed(() => store.state.show);
 let course_data = ref(store.state.classStorage);
 const hidden = () =>
 {
-    store.dispatch("hidden")
+    store.dispatch("hidden");
 };
 
 //component

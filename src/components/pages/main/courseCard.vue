@@ -7,7 +7,10 @@
         v-if="item.getIsCourse()">
         <kebabButton v-if="showButton">
             <commonOption>刪除</commonOption>
-            <commonOption>修改顏色</commonOption>
+            <commonOption @click="openColorTemplate">修改顏色</commonOption>
+            <colorTemplates v-show="isSelectingColor">
+                
+            </colorTemplates>
         </kebabButton>
         <div class="card-content" @click="flip">
             <transition name="fliping" >
@@ -101,9 +104,11 @@
     import {ref, watch} from "vue";
     import kebabButton from '@components/common/optionButton/kebabButton.vue';
     import commonOption from '@components/common/option/commonOption.vue';
+    import colorTemplates from '@components/pages/main/colorTemplate.vue';
     import {Course} from '@functions/general.ts';
     let isHovering = ref(false);
     let isFliped = ref(false);
+    let isSelectingColor = ref(false);
     export default {
         props: {
             item: Course // 传入单元格数据的 prop
@@ -120,11 +125,16 @@
             flip(){
                 this.isFliped = !this.isFliped;
                 console.log(`isFliped: ${this.isFliped}`);
+            },
+            openColorTemplate(){
+                this.isSelectingColor = true;
+                console.log(`isSelectingColor: ${this.isSelectingColor}`);
             }
         },data(){
             return {
                 showButton:false,
                 isFliped: false,
+                isSelectingColor: false
             }
         }
     };
