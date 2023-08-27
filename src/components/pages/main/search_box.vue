@@ -1,5 +1,5 @@
 <template>
-    <Vue3DraggableResizable :draggable="true" :resizable="false" @dragging="handle_drag" @drag-end="drag_end">
+    <Vue3DraggableResizable :draggable="true" :resizable="false" @dragging="handle_drag" @drag-end="drag_end" :x="elementLeft" :y="elementTop">
         <div class="w-full top-8 h-8 flex sticky z-50">
             <div class="mr-1 ml-auto w-8 text-3xl relative small transition-all ease-in-out duration-500" 
             :class="{ 'large mr-2 border': !show}" @transitionend="transitionComplete" >
@@ -61,19 +61,19 @@ const search_button = () => {
     }
 };
 
+const mouse_x = ref(0);
+const mouse_y = ref(0);
+
+window.addEventListener("mousemove", (event) => {
+    // y = 0 ~ screen.height - 28 rem
+    // x = 0 ~ screen.width - 20 rem
+    mouse_x.value = Math.max(0, Math.min(event.clientX, window.innerWidth - 320));
+    mouse_y.value = Math.max(0, Math.min(event.clientY, window.innerHeight - 448));
+    console.log(mouse_x.value, mouse_y.value);
+});
 
 const handle_drag = (event) => {
     can_open = false;    
-    // element width = 28rem
-    // element height = 20rem
-    // prevent element from going out of screen
-    if(event.x < 0) event.x = 0;
-    if(event.y < 0) event.y = 0;
-    if(event.x > window.innerWidth - 28 * 16)
-        event.x = window.innerWidth - 28 * 16;
-    if(event.y > window.innerHeight - 20 * 16)
-        event.y = window.innerHeight - 20 * 16;
-    // fail, we have a bug here
 };
 const drag_end = () => {
     setTimeout(() => {

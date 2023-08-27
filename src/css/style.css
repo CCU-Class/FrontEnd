@@ -105,15 +105,13 @@ table
 }
 .splitpanes--vertical > .splitpanes__splitter
 {
-    min-width: 6px;
-    background: linear-gradient(90deg, #ccc, #111);
+    width: 5px;
+    background: linear-gradient(90deg, #ccc, #fff2bb);
 }
 .main_page_left
 {
-    flex: 1;
-    height: 100%;
-    overflow: auto;
-    box-sizing: border-box;
+    max-height: 41rem;
+    overflow-y: auto;
 }
 
 /* scroll bar */

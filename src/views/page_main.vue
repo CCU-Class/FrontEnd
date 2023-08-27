@@ -28,11 +28,13 @@ watch(status, async (val) => {
             <Navbar/>
             <Box/>
             <splitpanes class = "bg-white">
-                <pane class = "w-full max-h-screen overflow-y-auto" min-size = "40">
+                <pane class = "w-full" min-size = "50" size = "70">
                     <classTable/>
+                    <div class = "h-5"></div>
                 </pane>
-                <pane v-if = "status" min-size = "30">
+                <pane v-if = "status" min-size = "30" max-size = "50" size = "30">
                     <comment />
+                    <div class = "h-5"></div>
                 </pane>
             </splitpanes>
             <Foot/> 
