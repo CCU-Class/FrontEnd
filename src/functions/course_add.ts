@@ -81,30 +81,7 @@ export function searchAdd(course_list : Course[])
     // store information in the database
     // return the status of the operation
     console.log(course_list);
-    let courseTable: string | null = localStorage.getItem("courseTable")
-    let table: Course[][] = []
-    let data = JSON.parse(courseTable!)
-    for(let i = 0; i < data.length; i++)
-    {
-        let row: Course[] = []
-        for(let j = 0; j < data[i].length; j++)
-        {
-            row.push(new Course({
-                course_name: data[i][j].courseData.course_name,
-                start_time: data[i][j].courseData.start_time,
-                classroom: data[i][j].courseData.classroom,
-                is_title: data[i][j].courseData.is_title,
-                is_course: data[i][j].courseData.is_course,
-                color: data[i][j].courseData.color,
-                ID: data[i][j].courseData.ID,
-                Credit: data[i][j].courseData.Credit,
-                is_custom: data[i][j].courseData.is_custom,
-                Teacher: data[i][j].courseData.Teacher,
-                Memo: null
-            }))
-        }
-        table.push(row)
-    }
+    let table: Course[][] = store.state.classStorage;
     // put the list of courses into the table
     for(let i = 0; i < course_list.length; i++)
     {
@@ -116,7 +93,7 @@ export function searchAdd(course_list : Course[])
         // console.log(startHour, endHour);
         for(let j = startHour; j < endHour; j++)
         {   
-            // console.log(typeof(table[j][weekDayIndex]));
+            console.log(table[j][weekDayIndex]);
             if(table[j][weekDayIndex].getIsCourse())
             {
                 // there is a course in the same time slot
@@ -129,7 +106,7 @@ export function searchAdd(course_list : Course[])
             }
         }
     }
-    
+    console.log(table);
     // 不要在這邊儲存localstorage，使用storec
     store.dispatch('addCourse', table);
     return table;

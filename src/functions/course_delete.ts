@@ -2,7 +2,8 @@ import { Course} from "./general";
 import store from "../store";
 
 export function courseDelete(item: Course)
-{
+{   
+    // 比對名子 課程編號 教室 其他不管
     let data = JSON.parse(localStorage.getItem("courseTable")!)
     let table: Course[][] = []
     for(let i = 0; i < data.length; i++)
@@ -31,20 +32,10 @@ export function courseDelete(item: Course)
         }
         table.push(row)
     }
-    let temp = [];
-    let List = store.state.classListStorage;
-    for(let i = 0; i < List.length; i++){
-        if(List[i].getCourseName() == item.getCourseName() && List[i].getId() == item.getId() && List[i].getClassroom() == item.getClassroom()){
-            continue;
-        }
-        else{
-            temp.push(List[i]);
-        }
-    }
     // 不要在這邊儲存localstorage，使用store
-    console.log(temp);
-    store.dispatch('addCourseList', temp);
+    store.dispatch('deleteCourseList', item);
     store.dispatch('addCourse', table);
+    console.log(48763)
     return true;
 }
 

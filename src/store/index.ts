@@ -1,12 +1,15 @@
 import { stat } from 'fs';
 import { createStore } from 'vuex';
 import { Course, InitTable } from '../functions/general'
+const env = import.meta.env;
 
 interface State {
     show: boolean;
     classStorage: Array<Array<Course>>;
     classListStorage: Array<Course>;
     credit : number;
+    show_ColorPick : boolean;
+    chooseCard : Course | null;
 }
 
 function Transfer(data : any)
@@ -36,7 +39,9 @@ const store = createStore<State>({
         show: false,
         classStorage : [],
         classListStorage : [],
-        credit : 0
+        credit : 0,
+        show_ColorPick : false,
+        chooseCard: null
     },
     mutations: {
         display(state: State) {
@@ -57,13 +62,14 @@ const store = createStore<State>({
             state.classStorage = Transfer(data);
         },
         addCourse(state: State, data : any){
-            state.classStorage = Transfer(data);
-            localStorage.setItem("courseTable", JSON.stringify(data));
+            state.classStorage = data;
+            localStorage.setItem("courseTable", JSON.stringify(state.classStorage));
         },
         clearCourse(state: State){
             state.classStorage = InitTable();
             state.classListStorage = [];
             state.credit = 0 ;
+            state.chooseCard = null;
             localStorage.setItem("courseTable", JSON.stringify(state.classStorage));
             localStorage.setItem("courseList", JSON.stringify(state.classListStorage));
             localStorage.setItem("credit", state.credit.toString());
@@ -78,8 +84,22 @@ const store = createStore<State>({
             let data = JSON.parse(courseList!);
             state.classListStorage = Transfer_class_list(data);
         },
-        addCourseList(state: State, Class: Array<Course>){
-            state.classListStorage = Class;
+        addCourseList(state: State, Class: Course){
+            state.classListStorage.push(Class);
+            localStorage.setItem("courseList", JSON.stringify(state.classListStorage));
+        },
+        deleteCourseList(state: State, Class: Course){
+            let List = state.classListStorage;
+            let temp :Array<Course> = [];
+            for(let i = 0; i < List.length; i++){
+                if(List[i].getCourseName() == Class.getCourseName() && List[i].getId() == Class.getId() && List[i].getClassroom() == Class.getClassroom()){
+                    continue;
+                }
+                else{
+                    temp.push(List[i]);
+                }
+            }
+            state.classListStorage = temp;
             localStorage.setItem("courseList", JSON.stringify(state.classListStorage));
         },
         initCredit(state: State){
@@ -94,7 +114,14 @@ const store = createStore<State>({
         },
         addCredit(state: State, delta : number){
             state.credit += delta;
+            console.log(state.credit, delta)
             localStorage.setItem("credit", state.credit.toString());
+        },
+        changeShowColorPick(state: State, Bool: boolean){
+            state.show_ColorPick = Bool;
+        },
+        setChooseCard(state: State, Card: Course){
+            state.chooseCard = Card;
         }
     },
     actions: {
@@ -129,6 +156,15 @@ const store = createStore<State>({
         },
         addCredit(context: any,  delta: number){
             context.commit("addCredit", delta);
+        },
+        deleteCourseList(context: any, Class: Course){
+            context.commit("deleteCourseList", Class);
+        },
+        changeShowColorPick(context: any, Bool: boolean){
+            context.commit("changeShowColorPick", Bool);
+        },
+        setChooseCard(context: any, Card: Course){
+            context.commit("setChooseCard", Card);
         }
     }
 });

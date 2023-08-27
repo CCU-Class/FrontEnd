@@ -1,21 +1,19 @@
 <template>
-    <div class="color-picker">
-        
-        <!-- <ColorPicker :color="color" 
-                    default-format="rgb"
-                    :alpha-channel='hide'
-                    
-                    @color-change="updateColor" /> -->
-        <p>#</p>
-        <input type="text" placeholder="輸入色碼">
-        
-    </div>
-    <div>
-        <button>取消</button>
-        <button>確認</button>
+    <div class="z-10 top-0 left-0 w-screen h-screen fixed flex items-center backdrop-blur-sm">
+        <div class="h-6/12 mx-auto bg-white px-3 py-2 rounded-lg drop-shadow-xl"> 
+            <ColorPicker :color="color" 
+                        default-format="rgb"
+                        class="w-full mx-auto"
+                        @color-change="updateColor" />
+            <div class="mx-auto w-full h-full flex py-5">
+                <button class="w-5/12 mx-auto hover:bg-gray-500 hover:text-white mx-2 py-1 duration-200 rounded-2xl" @click="cancel">取消</button>
+                <button class="w-5/12 mx-auto hover:bg-gray-500 hover:text-white mx-2 py-1 duration-200 rounded-2xl" @click="confirm">確認</button>
+            </div>
+        </div>
     </div>
     
 </template>
+
 
 <style>
     .color-picker {
@@ -27,19 +25,30 @@
 </style>
 
 
-<script>
+<script setup>
     import {ColorPicker} from 'vue-accessible-color-picker';
-    import {ref} from 'vue';
-    let color = ref("rgb(0,0,0)");
-    export default{
-        components:{
-            ColorPicker
-        },
-        methods:{
-            updateColor (eventData) {
-                color.value = eventData.cssColor;
-                console.log(`selected color: ${color.value}`);
-            }
-        }
+    import {ref, computed} from 'vue';
+    import store from '../../../store';
+    import {courseChangeColor} from '../../../functions/course_color.ts'
+
+    const env = import.meta.env;
+    const color = ref(env.VITE_CARD_DEFAULT_COLOR);
+    const course = computed(() => store.state.chooseCard);
+
+    function updateColor (eventData) {
+        color.value = eventData.cssColor
     }
+    let cancel = function () {
+        store.dispatch('changeShowColorPick', false);
+    }
+    let confirm = function () {
+        // store.dispatch('setCardColor', color.value);
+        if(color.value != env.VITE_CARD_DEFAULT_COLOR){
+            courseChangeColor(course.value, color.value);
+        }
+        color.value = env.VITE_CARD_DEFAULT_COLOR;
+        store.dispatch('changeShowColorPick', false);
+        
+    }
+
 </script>

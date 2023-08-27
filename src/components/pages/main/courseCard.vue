@@ -1,17 +1,11 @@
 <template>
     <td class="text-center p-0 h-full  relative overflow-hidden card"
         :class="{ title: item.getIsTitle(), course: item.getIsCourse() }"
-        style="height: 50px; "
+        style="height: 50px;"
+        :style="{backgroundColor: item.getColor()}"
         @mouseenter="showButton = true" 
         @mouseleave="showButton =false" 
         v-if="item.getIsCourse()">
-        <kebabButton v-if="showButton">
-            <commonOption>刪除</commonOption>
-            <commonOption @click="openColorTemplate">修改顏色</commonOption>
-            <colorTemplates v-show="isSelectingColor">
-                
-            </colorTemplates>
-        </kebabButton>
         <div class="card-content" @click="flip">
             <transition name="fliping" >
                 <!-- 正面 -->
@@ -24,7 +18,11 @@
                     <!-- 反面 -->
                     <div v-else id="back">
                         <div>
-                            back
+                            <commonOption @click.stop="delete_course_card(item)">刪除</commonOption>
+                            <commonOption @click="openColorTemplate(item)">修改顏色</commonOption>
+                            <!-- <colorTemplate v-show="isSelectingColor">
+                                
+                            </colorTemplate> -->
                         </div>
                     </div>
                 </div>
@@ -39,6 +37,7 @@
     <td class="text-center p-0 h-full overflow-auto "
         :class="{ title: item.getIsTitle(), course: item.getIsCourse() }"
         style="height: 50px;"
+        :style="{backgroundColor: item.getColor()}"
         @mouseenter="showButton = true" 
         @mouseleave="showButton =false" v-if="!item.getIsCourse()">
         <div> {{ item.getStartTime() }} </div>
@@ -57,7 +56,7 @@
         justify-content: center;
         align-items: center;
         user-select: none;
-        border:2px solid #9ed6a1;
+        /* border:2px solid #9ed6a1; */
         z-index:1;
     }
     .card-content{
@@ -100,42 +99,51 @@
     
 </style>
 
-<script>
-    import {ref, watch} from "vue";
+<script setup>
+    import {ref, watch, computed} from "vue";
     import kebabButton from '@components/common/optionButton/kebabButton.vue';
     import commonOption from '@components/common/option/commonOption.vue';
-    import colorTemplates from '@components/pages/main/colorTemplate.vue';
+    import colorTemplate from '@components/pages/main/colorTemplate.vue';
     import {Course} from '@functions/general.ts';
+    import { courseDelete, decreaseCredit } from '@functions/course_delete.ts';
+    import store from '../../../store';
+    const env = import.meta.env;
     let isHovering = ref(false);
     let isFliped = ref(false);
     let isSelectingColor = ref(false);
-    export default {
-        props: {
-            item: Course // 传入单元格数据的 prop
-        },
-        methods: {
-            show_popover() {
-            },
-            mouseEnter(){
-                isHovering.value = true;
-            },
-            mouseLeave(){
-                isHovering.value = false;
-            },
-            flip(){
-                this.isFliped = !this.isFliped;
-                console.log(`isFliped: ${this.isFliped}`);
-            },
-            openColorTemplate(){
-                this.isSelectingColor = true;
-                console.log(`isSelectingColor: ${this.isSelectingColor}`);
-            }
-        },data(){
-            return {
-                showButton:false,
-                isFliped: false,
-                isSelectingColor: false
-            }
+    let showButton = ref(false);
+
+
+    const props = defineProps({
+        item: Course
+    });
+    const emit = defineEmits(['reload'])
+    function show_popover() {
+    }
+    function mouseEnter(){
+        isHovering.value = true;
+    }
+    function mouseLeave(){
+        isHovering.value = false;
+    }
+    function flip(){
+        isFliped.value = !isFliped.value;
+        // console.log(`isFliped: ${this.isFliped}`);
+    }
+    function openColorTemplate(item){
+        store.dispatch('changeShowColorPick', true);
+        store.dispatch('setChooseCard', item);
+        // await waitClick();
+        // if(color != )
+    }
+
+    let delete_course_card = function(item){
+        console.log(item);
+        if(item.getCredit() != null){
+            decreaseCredit(item.getCredit())
         }
-    };
+        // 再刪除函式裡面去更改store狀態
+        courseDelete(item);
+        // course_data.value = GetCourseTable();
+    }
 </script>

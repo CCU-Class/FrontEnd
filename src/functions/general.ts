@@ -157,6 +157,10 @@ export class Course
     {
         return this.courseData.color;
     }
+    public setColor(color : string): void
+    {
+        this.courseData.color = color;
+    }
     public getId(): string | null
     {
         return this.courseData.ID;
@@ -182,7 +186,7 @@ export class Course
 
 
 export function InitTable()
-{
+{   
     let data_table: Course[][] = []
     var data = [
         ["⠀", "1", "A", "", "", "", "", "", ""],
@@ -221,22 +225,29 @@ export function InitTable()
         let row: Course[] = []
         for(let j = 0; j < data[i].length; j++)
         {
-            if(j == 1 || j == 2)
+            if(j == 1 || j == 2 || j == 0)
             {
                 let time = courseToTime[data[i][j]]
-                row.push(new Course({
+                let course = new Course({
                     course_name: time,
                     start_time: data[i][j],
                     classroom: "",
                     is_title: true,
                     is_course: false,
-                    color: env.VITE_TITLE_DEFAULT_COLOR,
+                    color: '',
                     ID: null,
                     Credit: null,
                     is_custom: null,
                     Teacher: null,
                     Memo: null
-                }))
+                });
+                if(j == 0){
+                    row.push(course);
+                }
+                else{
+                    course.setColor(env.VITE_TITLE_DEFAULT_COLOR);
+                    row.push(course);
+                }
             }
             else
             {
@@ -246,7 +257,7 @@ export function InitTable()
                     classroom: "",
                     is_title: false,
                     is_course: false,
-                    color: env.VITE_CARD_DEFAULT_COLOR,
+                    color: "",
                     ID: null,
                     Credit: null,
                     is_custom: null,
