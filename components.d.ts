@@ -13,7 +13,6 @@ declare module 'vue' {
     ColorTemplate: typeof import('./src/components/pages/main/colorTemplate.vue')['default']
     Comment: typeof import('./src/components/pages/main/comment.vue')['default']
     CommonOption: typeof import('./src/components/common/option/commonOption.vue')['default']
-    CommonOptionButton: typeof import('./src/components/common/optionButton/commonOptionButton.vue')['default']
     CourseCard: typeof import('./src/components/pages/main/courseCard.vue')['default']
     Footer: typeof import('./src/components/layout/footer.vue')['default']
     Intro: typeof import('./src/components/pages/home/intro.vue')['default']
