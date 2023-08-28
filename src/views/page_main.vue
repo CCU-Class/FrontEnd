@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import Navbar from '@components/layout/navbar.vue';
 import Foot from '@components/layout/footer.vue';
 import ClassTable from '@components/pages/main/classTable.vue';
@@ -11,10 +11,7 @@ import store from '../store';
 const show_colorpick = computed(() => store.state.show_ColorPick);
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
-import { useStore } from 'vuex';
-import { computed, watch } from 'vue';
 
-const store = useStore();
 const status = computed(() => store.state.show);
 
 watch(status, async (val) => {
@@ -30,13 +27,14 @@ watch(status, async (val) => {
     <div id = "main" class="flex relative">
         <div>
             <Navbar/>
-            <!-- <Box/> -->
+            <!-- <Box/>
             <Colorpick v-show="show_colorpick"/>
             <ClassTable/>
-            <Foot/>
+            <Foot/> -->
             <Box/>
             <splitpanes class = "bg-white">
                 <pane class = "w-full" min-size = "50" size = "70">
+                    <Colorpick v-show="show_colorpick"/>
                     <classTable/>
                     <div class = "h-5"></div>
                 </pane>
@@ -45,7 +43,7 @@ watch(status, async (val) => {
                     <div class = "h-5"></div>
                 </pane>
             </splitpanes>
-            <Foot/> 
+            <Foot/>
         </div>
     </div>
 </template>
