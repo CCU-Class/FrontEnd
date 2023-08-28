@@ -272,7 +272,7 @@ export function InitTable()
             else
             {
                 row.push(new Course({
-                    course_name: data[i][j],
+                    course_name: "",
                     start_time: "",
                     classroom: "",
                     is_title: false,
