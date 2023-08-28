@@ -15,7 +15,7 @@
                             </div>
                             <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程" v-model = "searchInput">
                             
-                            <ul class = "mx-auto w-11/12 result overflow-y-auto overflow-x-hidden" id = "result">
+                            <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" id = "result" v-show="show_search_box">
                                 <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
                                 <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
                                     [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
@@ -23,92 +23,11 @@
                             </ul>
                         </div>
                     </div>
-                    <div class = "my-2">
-                        <div class = 'flex flex-col py-1 mx-auto'>
-                            <div class = "flex flex-col w-full">
-                                <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1'>
-                                    課程搜尋
-                                </div>
-                                <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程" v-model = "searchInput">
-                                
-                                <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" id = "result" v-show="show_search_box">
-                                    <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
-                                    <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
-                                        [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
-                                    </li>
-                                </ul>
-                                
-                                
-                                
-                                
-                            </div>
-                        </div>
-                        <div class = 'flex py-1 mx-auto'>
-                        </div>
-                        <div class = 'flex py-1 mx-auto items-center'>
-                            <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
-                                課程資訊
-                            </div>
-                            <input class = 'mx-2 w-full md:w-4/12 py-1 rounded-md text-center' type = "text" placeholder = "課程名稱" v-model = "className"/>
-                            <input class = 'mx-2 w-full md:w-3/12 py-1 rounded-md text-center' type = "text" placeholder = "課程教室" v-model = "classRoom"/>
-                            <select class = 'mx-1 py-1 rounded-md text-center' v-model = "weekDay">
-                                <option selected>星期</option>
-                                <option v-for = "day in week" :value = "day">{{day}}</option>
-                            </select>
-                            <select class = 'mx-1 py-1 rounded-md text-center' v-model = "start">
-                                <option selected>始堂</option>
-                                <option v-for = "cla in classes" :value = "cla">{{cla}}</option>
-                            </select>
-                            <select class = 'mx-1 py-1 rounded-md text-center' v-model = "end">
-                                <option selected>終堂</option>
-                                <option v-for = "cla in classes" :value = "cla">{{cla}}</option>
-                            </select>
-                            <button class = 'btn-normal' v-on:click = "push_to_table(1)">
-                                +
-                            </button>
-                        </div>
-                        <hr class = 'mx-3 my-3 text-slate-300'>
-                        <div class = 'flex place-content-end items-center'>
-                            <a-switch v-model:checked = "state.checked">顯示學分</a-switch>
-                            <span class = 'mx-3 py-1 min-w-[4rem]'>
-                                顯示學分
-                            </span>
-                            <button class = 'btn-normal min-w-[8rem]' v-on:click = "show_list">
-                                展開課程列表
-                            </button>
-                            <button class = 'btn-normal min-w-[4rem]' v-on:click = "clearTable">
-                                清空課表
-                            </button>
-                            <button class = 'btn-normal min-w-[8rem]' v-on:click = "download">
-                                下載課表
-                            </button>
-                        </div>
-                        <div id = "class_list" v-if = "class_list_visible === true">
-                            <p class = "text-right py-2 mx-3" v-show = "state.checked">
-                                目前學分: {{credit}}
-                            </p>
-                            <table class = "w-full my-1 mb-1">
-                                <thead>
-                                    <tr>
-                                        <th v-for = "title in class_list_title" class = "text-center py-2 px-2 border-collapse bg-gray-200">
-                                            {{ title }}
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for = "item in courseList" class = "text-center py-2 px-2 border-collapse">
-                                        <td> {{ item.getCourseName() }} </td>
-                                        <td> {{ item.getClassroom() }} </td>
-                                        <td> {{ item.getStartTime() }} </td>
-                                        <td>
-                                            <button class = "bg-gray-700 py-2 my-1 px-6 rounded-lg text-white hover:bg-gray-500"
-                                                v-on:click="delete_course(item)">
-                                                刪除
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class = 'flex py-1 mx-auto'>
+                    </div>
+                    <div class = 'flex py-1 mx-auto items-center'>
+                        <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
+                            課程資訊
                         </div>
                         <input class = 'mx-2 w-full md:w-4/12 py-1 rounded-md text-center' type = "text" placeholder = "課程名稱" v-model = "className"/>
                         <input class = 'mx-2 w-full md:w-3/12 py-1 rounded-md text-center' type = "text" placeholder = "課程教室" v-model = "classRoom"/>
@@ -157,7 +76,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for = "item in single_row_data" class = "text-center py-2 px-2 border-collapse">
+                                <tr v-for = "item in courseList" class = "text-center py-2 px-2 border-collapse">
                                     <td> {{ item.getCourseName() }} </td>
                                     <td> {{ item.getClassroom() }} </td>
                                     <td> {{ item.getStartTime() }} </td>
