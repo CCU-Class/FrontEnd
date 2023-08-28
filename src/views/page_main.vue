@@ -4,6 +4,7 @@ import Foot from '@components/layout/footer.vue';
 import classTable from '@components/pages/main/classTable.vue';
 import Box from '@components/pages/main/search_box.vue';
 import comment from '@components/pages/main/comment.vue';
+import inputArea from '@components/pages/main/inputArea.vue';
 
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
@@ -29,7 +30,10 @@ watch(status, async (val) => {
             <Box/>
             <splitpanes class = "bg-white">
                 <pane class = "w-full" min-size = "50" size = "70">
-                    <classTable/>
+                    <div :class="{ main_page_left: status }">
+                        <inputArea/>
+                        <classTable/>
+                    </div>
                     <div class = "h-5"></div>
                 </pane>
                 <pane v-if = "status" min-size = "30" max-size = "50" size = "30">

@@ -1,150 +1,56 @@
 
 
 <template>
-    <div :class="{ main_page_left: status }">
-        <div>
-            <div class = "w-full mx-auto my-6 px-4 py-4 bg-gray-100 rounded-lg shadow-lg md:w-9/12 overflow-x-auto">
-                <div class = 'text-xl font-semibold'>
-                    開始建置你的課表    
-                </div>
-                <div class = "my-2">
-                    <div class = 'flex flex-col py-1 mx-auto'>
-                        <div class = "flex flex-col w-full">
-                            <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1'>
-                                課程搜尋
-                            </div>
-                            <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程" v-model = "searchInput">
+    <div class = "overflow-x-auto">
+        <div class = 'bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto shadow-lg md:w-6/12 min-w-[60rem]'>
+            <p class = "text-right py-2 mx-3" v-show = "checked">
+                目前學分: {{credit}}
+            </p>
+            <table class = 'bg-orange-100 border-separate w-full' id = "class_table">
+                <thead>
+                    <tr>
+                        <th class = "w-[10px]">
+                            ⠀
+                        </th>
+                        <th class = 'table-head w-36' colspan = "2">
+                            節次
+                        </th>   
+                        <th class = 'table-head'>
+                            星期一
+                        </th>
+                        <th class = 'table-head'>
+                            星期二
+                        </th>
+                        <th class = 'table-head'>
+                            星期三
+                        </th>
+                        <th class = 'table-head'>
+                            星期四
+                        </th>
+                        <th class = 'table-head'>
+                            星期五
+                        </th>
+                        <th class = 'table-head'>
+                            星期六
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr v-for = "row in course_data">
+                        <td v-for = "item in row" class = "text-center p-0 h-full overflow-auto" v-on:click = "show_popover()" :class = "{ title: item.getIsTitle(), course: item.getIsCourse() }" style = "height: 50px;">
+                            <div> {{ item.getStartTime() }} </div>
+                            <div> {{ item.getCourseName() }} </div>
+                            <div> {{ item.getClassroom() }} </div>
                             
-                            <ul class = "mx-auto w-11/12 result overflow-y-auto overflow-x-hidden" id = "result">
-                                <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
-                                <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
-                                    [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class = 'flex py-1 mx-auto'>
-                    </div>
-                    <div class = 'flex py-1 mx-auto items-center'>
-                        <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
-                            課程資訊
-                        </div>
-                        <input class = 'mx-2 w-full md:w-4/12 py-1 rounded-md text-center' type = "text" placeholder = "課程名稱" v-model = "className"/>
-                        <input class = 'mx-2 w-full md:w-3/12 py-1 rounded-md text-center' type = "text" placeholder = "課程教室" v-model = "classRoom"/>
-                        <select class = 'mx-1 py-1 rounded-md text-center' v-model = "weekDay">
-                            <option selected>星期</option>
-                            <option v-for = "day in week" :value = "day">{{day}}</option>
-                        </select>
-                        <select class = 'mx-1 py-1 rounded-md text-center' v-model = "start">
-                            <option selected>始堂</option>
-                            <option v-for = "cla in classes" :value = "cla">{{cla}}</option>
-                        </select>
-                        <select class = 'mx-1 py-1 rounded-md text-center' v-model = "end">
-                            <option selected>終堂</option>
-                            <option v-for = "cla in classes" :value = "cla">{{cla}}</option>
-                        </select>
-                        <button class = 'btn-normal' v-on:click = "push_to_table(1)">
-                            +
-                        </button>
-                    </div>
-                    <hr class = 'mx-3 my-3 text-slate-300'>
-                    <div class = 'flex place-content-end items-center'>
-                        <a-switch v-model:checked = "state.checked">顯示學分</a-switch>
-                        <span class = 'mx-3 py-1 min-w-[4rem]'>
-                            顯示學分
-                        </span>
-                        <button class = 'btn-normal min-w-[8rem]' v-on:click = "show_list">
-                            展開課程列表
-                        </button>
-                        <button class = 'btn-normal min-w-[4rem]' v-on:click = "clearTable">
-                            清空課表
-                        </button>
-                        <button class = 'btn-normal min-w-[8rem]' v-on:click = "download">
-                            下載課表
-                        </button>
-                    </div>
-                    <div id = "class_list" v-if = "class_list_visible === true">
-                        <p class = "text-right py-2 mx-3" v-show = "state.checked">
-                            目前學分: {{credit}}
-                        </p>
-                        <table class = "w-full my-1 mb-1">
-                            <thead>
-                                <tr>
-                                    <th v-for = "title in class_list_title" class = "text-center py-2 px-2 border-collapse bg-gray-200">
-                                        {{ title }}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for = "item in single_row_data" class = "text-center py-2 px-2 border-collapse">
-                                    <td> {{ item.getCourseName() }} </td>
-                                    <td> {{ item.getClassroom() }} </td>
-                                    <td> {{ item.getStartTime() }} </td>
-                                    <td>
-                                        <button class = "bg-gray-700 py-2 my-1 px-6 rounded-lg text-white hover:bg-gray-500"
-                                            v-on:click="delete_course(item)">
-                                            刪除
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class = "overflow-x-auto">
-            <div class = 'bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto shadow-lg md:w-6/12 min-w-[60rem]'>
-                <p class = "text-right py-2 mx-3" v-show = "state.checked">
-                    目前學分: {{credit}}
-                </p>
-                <table class = 'bg-orange-100 border-separate w-full' id = "class_table">
-                    <thead>
-                        <tr>
-                            <th class = "w-[10px]">
-                                ⠀
-                            </th>
-                            <th class = 'table-head w-36' colspan = "2">
-                                節次
-                            </th>   
-                            <th class = 'table-head'>
-                                星期一
-                            </th>
-                            <th class = 'table-head'>
-                                星期二
-                            </th>
-                            <th class = 'table-head'>
-                                星期三
-                            </th>
-                            <th class = 'table-head'>
-                                星期四
-                            </th>
-                            <th class = 'table-head'>
-                                星期五
-                            </th>
-                            <th class = 'table-head'>
-                                星期六
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- <tr v-for = "row in course_data">
-                            <td v-for = "item in row" class = "text-center p-0 h-full overflow-auto" v-on:click = "show_popover()" :class = "{ title: item.getIsTitle(), course: item.getIsCourse() }" style = "height: 50px;">
-                                <div> {{ item.getStartTime() }} </div>
-                                <div> {{ item.getCourseName() }} </div>
-                                <div> {{ item.getClassroom() }} </div>
-                                
-                            </td>
-                        </tr>  -->
-                        <tr v-for = "row in course_data" :key="row.id">
-                            <courseCard v-for="item in row" :key="item.id" :item="item" />
-                        </tr> 
-                    </tbody>
-                </table>
-            </div>
+                        </td>
+                    </tr>  -->
+                    <tr v-for = "row in course_data" :key="row.id">
+                        <courseCard v-for="item in row" :key="item.id" :item="item" />
+                    </tr> 
+                </tbody>
+            </table>
         </div>
     </div>
-    
 </template>
 
 <script setup>
@@ -153,8 +59,6 @@ import { Switch } from 'ant-design-vue'
 
 import { Rowspanizer } from '@functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '@functions/general';
-import renderImage from "@functions/image_render.ts"
-import { courseAdd, searchAdd } from "@functions/course_add.ts"
 import { searchCourse, recordcourse } from '@functions/course_search.ts';
 import { splittime } from '@functions/tool.ts';
 import { courseDelete } from '@functions/course_delete.ts';
@@ -165,80 +69,12 @@ const store = useStore();
 const status = computed(() => store.state.show);
 
 //component
-import loadingSpinner from '@components/common/loadingSpinner.vue';
 import courseCard from "@components/pages/main/courseCard.vue";
 import comment from "@components/pages/main/comment.vue";
 
 const env = import.meta.env;
 
-const week = ["一", "二", "三", "四", "五", "六"]
-const classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
-const className = ref()
-const classRoom = ref()
-const weekDay = ref("星期")
-const start = ref("始堂")
-const end = ref("終堂")
-const searchInput = ref('');
-const isLoading = ref(false);
-const isInputEmpty = ref(false);
-let class_list_title = ["課程名稱", "課程教室", "課程時間", "操作"];
-let class_list_visible = ref(false);
-let checked = ref(false);
-let credit = ref(0);
-let data = ref([]);
-
 let course_data = ref(GetCourseTable())
-
-let inputValue = searchInput.value.trim();
-let single_row_data = ref([])
-
-function _2data_to_1d()
-{
-    single_row_data.value = [];
-    for(let i = 0; i < course_data.value.length; i++)
-    {
-        for(let j = 0; j < course_data.value[i].length; j++)
-        {
-            if(course_data.value[i][j].getIsCourse())
-            {
-                let check = true;
-                for(let k = 0; k < single_row_data.value.length; k++)
-                {
-                    if(single_row_data.value[k].getClassroom() == course_data.value[i][j].getClassroom() && single_row_data.value[k].getCourseName() == course_data.value[i][j].getCourseName() && single_row_data.value[k].getStartTime() == course_data.value[i][j].getStartTime() && single_row_data.value[k].getWeekDay() == course_data.value[i][j].getWeekDay())
-                    {
-                        check = false;
-                        break;
-                    }
-                }
-                if(check)
-                {
-                    single_row_data.value.push(course_data.value[i][j]);
-                }
-            }
-        }
-    }   
-}
-
-watch(searchInput, async (inputValue) => {
-    let list = document.getElementById("result");
-    if(inputValue != "")
-    {   
-        
-        isLoading.value = true;
-        
-        list.classList.remove("result");
-        list.classList.add("result-show");
-        data.value = await searchCourse(inputValue);
-        isLoading.value = false;
-    }
-    else
-    {
-        isLoading.value = false;
-        list.classList.remove("result-show");
-        list.classList.add("result");
-    }
-});
-
 
 onMounted(() =>
 {
@@ -264,85 +100,5 @@ var delete_course = function(item)
     _2data_to_1d();
 }
 
-var show_popover = function() {
-    // 顯示 popover
-    let popover = document.getElementById("popover");
-    popover.classList.remove("hidden");
-    popover.classList.add("block");
-}
-
-var show_list = function() {
-    // 顯示課程列表
-    _2data_to_1d();
-    class_list_visible.value = !class_list_visible.value
-}
-
-var push_to_table = function(type, item) {
-    // 手動新增課程
-    // courseAdd(className.value: string, classRoom.value: string, weekDay.value: string, start.value: string, end.value: string)
-    if(type == 1)
-    {
-        // check if the input is valid
-        if(className.value == "" || classRoom.value == "" || weekDay.value == "星期" || start.value == "始堂" || end.value == "終堂")
-        {
-            alert("請檢查輸入資料是否填寫完整");
-            return;
-        }
-
-        let check = courseAdd(className.value, classRoom.value, weekDay.value, start.value, end.value);
-        if(!check)
-        {
-            alert("新增課程失敗，請檢查輸入資料是否正確");
-            return;
-        }
-    }
-    else if(type == 2)
-    {
-        // 從搜尋結果新增課程
-        recordcourse(item)
-        let time = splittime(item.class_time);
-        let data = [];
-        for(let i = 0; i < time.length; i++){
-            let obj = {
-                start_time: time[i][1],
-                end_time: time[i][2],
-                week_day: time[i][0],
-                course_name: item.class_name,
-                classroom: item.class_room,
-                is_title: false,
-                is_course: true
-            }
-            data.push(new Course(obj));
-        }
-        let check = searchAdd(data);
-        if(!check)
-        {
-            alert("新增課程失敗，請檢查是否衝堂");
-            return;
-        }
-    }
-    course_data.value = GetCourseTable();
-    // 刷新網頁
-    window.location.reload();
-}
-
-var clearTable = function() {
-    // 顯示確認視窗
-    if(confirm("確定要清空課表嗎？"))
-    {
-        // 清空課表
-        localStorage.clear();
-        InitTable();
-        course_data.value = GetCourseTable();
-    }
-}
-
-var download = function() {
-    renderImage("class_table") // finish 
-}
-
-const state = reactive({
-    checked: false
-})
 
 </script>
