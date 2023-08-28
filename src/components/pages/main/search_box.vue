@@ -16,29 +16,30 @@
                             <CloseCircleOutlined class="ml-auto -6" @click="search_button"/>
                         </div>
                         <input class = 'w-full mx-auto py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程"  v-model = "searchInput">
-                        <ul class = "mx-auto w-full result overflow-y-auto overflow-x-hidden" style="max-height: 10rem;" id = "result">
+                        <ul class = "mx-auto w-full result-show overflow-y-auto overflow-x-hidden" style="max-height: 10rem;" id = "result" v-show = "show_search">
                              <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner> 
                              <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white cursor-pointer border-2" style="font-size: smaller;" @click="selectCourse(item)">
                                 {{item.class_name}} <br>
                                 {{item.teacher}} 
                             </li> 
                         </ul>
-                        <div class="bg-orange-200 w-full h-40 border-orange-300 border-2">
-                            <!-- 使用到selectedCourse -->
-                            <div v-if="!selectedNull" class="text-sm">
-                                <p>課程ID:{{selectedCourse.id}}</p>
-                                <p>課程名稱:{{selectedCourse.class_name}}</p>
-                                <p>教師:{{selectedCourse.teacher}}</p>
-                                <p>學分:{{selectedCourse.credit}}</p>
-                                <p>教室:{{selectedCourse.class_room}}</p>
-                                <p>時間:{{selectedCourse.class_time}}</p>
-
+                        <div v-show="show_content">
+                            <div class="bg-orange-200 w-full h-40 border-orange-300 border-2">
+                                <!-- 使用到selectedCourse -->
+                                <div v-if="!selectedNull" class="text-sm">
+                                    <p>課程ID:{{selectedCourse.id}}</p>
+                                    <p>課程名稱:{{selectedCourse.class_name}}</p>
+                                    <p>教師:{{selectedCourse.teacher}}</p>
+                                    <p>學分:{{selectedCourse.credit}}</p>
+                                    <p>教室:{{selectedCourse.class_room}}</p>
+                                    <p>時間:{{selectedCourse.class_time}}</p>
+                                </div>
+                                
                             </div>
-                            
-                        </div>
-                        <div class="flex w-full h-8 p-2">
-                            <div class="m-auto text-base rounded-2xl bg-orange-300 px-3 py-1 hover:bg-orange-200" v-on:click="show_comment">查看評價</div>
-                            <div class="m-auto text-base rounded-2xl bg-orange-300 px-3 py-1 hover:bg-orange-200">加入課表</div>
+                            <div class="flex w-full h-8 p-2">
+                                <div class="m-auto text-base rounded-2xl bg-orange-300 px-3 py-1 hover:bg-orange-200" v-on:click="show_comment">查看評價</div>
+                                <div class="m-auto text-base rounded-2xl bg-orange-300 px-3 py-1 hover:bg-orange-200">加入課表</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -75,6 +76,8 @@ const noData = computed(() => data.value.length==0);
 let selectedCourse = ref(null);
 const selectedNull =  ref(true);
 
+let show_search = ref(false)
+let show_content = ref(false)
 
 const search_button = () => {
     if(!can_open) return;
@@ -99,16 +102,14 @@ watch(searchInput, async (inputValue) => {
     {   
         isInputEmpty.value = false;
         isLoading.value = true;
-        list.classList.remove("result");
-        list.classList.add("result-show");
+        show_search.value = true;
         data.value = await searchCourse(inputValue);
         isLoading.value = false;
     }
     else
     {
         isInputEmpty.value = true;
-        list.classList.remove("result-show");
-        list.classList.add("result");
+        show_search.value = false;
         isLoading.value = false;
     }
 });
@@ -117,7 +118,9 @@ watch(searchInput, async (inputValue) => {
 const selectCourse = (course)=>{
     
     selectedCourse.value = course;
-    console.log(selectedCourse.value);
+    show_content.value = true;
+    show_search.value = false;
+    // console.log(selectedCourse.value);
 }
 
 watch(selectedCourse, async ()=>{
