@@ -381,7 +381,9 @@ var push_to_table = async function(type, item) {
                 ID: item.id,
                 is_custom: false,
                 Teacher: item.teacher,
-                Memo: null
+                Memo: null,
+                textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
+                textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE
             }));
         }
         console.log(data);
@@ -406,7 +408,9 @@ var push_to_table = async function(type, item) {
             ID: item.id,
             is_custom: false,
             Teacher: item.teacher,
-            Memo: null
+            Memo: null,
+            textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
+            textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE
         }));
         await refresh_table();
         store.dispatch('addCredit', Number(item.credit));

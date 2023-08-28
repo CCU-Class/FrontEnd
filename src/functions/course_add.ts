@@ -31,7 +31,9 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
                 Credit: data[i][j].courseData.Credit,
                 is_custom: data[i][j].courseData.is_custom,
                 Teacher: data[i][j].courseData.Teacher,
-                Memo: data[i][j].courseData.Memo
+                Memo: data[i][j].courseData.Memo,
+                textColor: data[i][j].courseData.textColor,
+                textStyle: data[i][j].courseData.textStyle
             }))
         }
         table.push(row)
@@ -47,7 +49,9 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
         Credit: null,
         is_custom: true,
         Teacher: null,
-        Memo: null
+        Memo: null,
+        textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
+        textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE
     })
     let weekDayIndex = WeekDayToInt[weekDay]; // 2 is the offset of the first two columns
     let startHour = courseToStartIndex[start];

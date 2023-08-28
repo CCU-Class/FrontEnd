@@ -26,7 +26,9 @@ export function courseDelete(item: Course)
                     Credit: data[i][j].courseData.Credit,
                     is_custom: data[i][j].courseData.is_custom,
                     Teacher: data[i][j].courseData.Teacher,
-                    Memo: data[i][j].courseData.Memo
+                    Memo: data[i][j].courseData.Memo,
+                    textColor: data[i][j].courseData.textColor,
+                    textStyle: data[i][j].courseData.textStyle
                 }))
             }
         }

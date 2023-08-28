@@ -108,6 +108,8 @@ interface CourseData
     is_custom: boolean | null;
     Teacher: string | null;
     Memo: string | null;
+    textColor: string;
+    textStyle: string;
 }
 
 export class Course
@@ -181,6 +183,22 @@ export class Course
     {
         return this.courseData.Memo;
     }
+    public getTextColor() : string
+    {
+        return this.courseData.textColor
+    }
+    public setTextColor(color :string) : void
+    {
+        this.courseData.textColor = color;
+    }
+    public getTextStyle() : string
+    {
+        return this.courseData.textStyle;
+    }
+    public setTextStyle(style: string) : void
+    {
+        this.courseData.textStyle = style;
+    }
     
 }
 
@@ -239,7 +257,9 @@ export function InitTable()
                     Credit: null,
                     is_custom: null,
                     Teacher: null,
-                    Memo: null
+                    Memo: null,
+                    textColor: "",
+                    textStyle: ""
                 });
                 if(j == 0){
                     row.push(course);
@@ -262,7 +282,9 @@ export function InitTable()
                     Credit: null,
                     is_custom: null,
                     Teacher: null,
-                    Memo: null
+                    Memo: null,
+                    textColor: "",
+                    textStyle: ""
                 }))
             }
         }
