@@ -9,7 +9,20 @@ import Colorpick from '@components/pages/main/colorTemplate.vue';
 import store from '../store';
 
 const show_colorpick = computed(() => store.state.show_ColorPick);
+import { Splitpanes, Pane } from 'splitpanes'
+import 'splitpanes/dist/splitpanes.css'
+import { useStore } from 'vuex';
+import { computed, watch } from 'vue';
 
+const store = useStore();
+const status = computed(() => store.state.show);
+
+watch(status, async (val) => {
+    if(val)
+        document.body.style.overflow = "hidden";
+    else
+        document.body.style.overflow = "auto";
+});
 
 </script>
 
@@ -21,8 +34,18 @@ const show_colorpick = computed(() => store.state.show_ColorPick);
             <Colorpick v-show="show_colorpick"/>
             <ClassTable/>
             <Foot/>
+            <Box/>
+            <splitpanes class = "bg-white">
+                <pane class = "w-full" min-size = "50" size = "70">
+                    <classTable/>
+                    <div class = "h-5"></div>
+                </pane>
+                <pane v-if = "status" min-size = "30" max-size = "50" size = "30">
+                    <comment />
+                    <div class = "h-5"></div>
+                </pane>
+            </splitpanes>
+            <Foot/> 
         </div>
-        <!-- <div id="box"></div> -->
-        <!-- <comment/> -->
     </div>
 </template>
