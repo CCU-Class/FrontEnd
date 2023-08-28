@@ -69,7 +69,7 @@
         max-width: 100%;
     }
     .card:hover{
-        transition: 0.05s linear;
+        transition: 0.100s linear;
         transform: scale(1.25) ;
         z-index:2;
     }

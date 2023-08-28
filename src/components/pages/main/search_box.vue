@@ -1,6 +1,5 @@
 <template>
-    <Vue3DraggableResizable :draggable="true" :resizable="false" @dragging="handle_drag" @drag-end="drag_end" 
-    :x="elementLeft" :y="elementTop">
+    <Vue3DraggableResizable :draggable="true" :resizable="false" @dragging="handle_drag" @drag-end="drag_end" >
         <div class="w-full top-8 h-8 flex sticky z-50">
             <div class="mr-1 ml-auto w-8 text-3xl relative small transition-all ease-in-out duration-500" 
             :class="{ 'large mr-2 border': !show}" @transitionend="transitionComplete" >

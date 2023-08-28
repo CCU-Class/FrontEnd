@@ -4,15 +4,35 @@ import store from "../store";
 export function courseDelete(item: Course)
 {   
     // 比對名子 課程編號 教室 其他不管
+    console.log(item)
     let data = JSON.parse(localStorage.getItem("courseTable")!)
+    console.log(data);
     let table: Course[][] = []
     for(let i = 0; i < data.length; i++)
     {
         let row: Course[] = []
         for(let j = 0; j < data[i].length; j++)
         {
-            if(data[i][j].courseData.course_name == item.getCourseName() && data[i][j].courseData.ID == item.getId() && data[i][j].courseData.classroom == item.getClassroom())
-                continue;
+            if(data[i][j].courseData.course_name == item.getCourseName() && data[i][j].courseData.ID == item.getId() && data[i][j].courseData.classroom == item.getClassroom()){
+                
+                row.push(new Course(
+                    {
+                        course_name: "",
+                        start_time: "",
+                        classroom: "",
+                        is_title: false,
+                        is_course: false,
+                        color: "",
+                        ID: null,
+                        Credit: null,
+                        is_custom: null,
+                        Teacher: null,
+                        Memo: null,
+                        textColor: "",
+                        textStyle: ""
+                    }
+                ))
+            }
             else
             {
                 row.push(new Course({

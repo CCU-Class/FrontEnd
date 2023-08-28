@@ -343,7 +343,6 @@ var push_to_table = async function(type, item) {
             alert("新增課程失敗，請檢查輸入資料是否正確");
             return;
         }
-        courseList.value = store.state.classListStorage;
         await refresh_table();
     }
     else if(type == 2)
