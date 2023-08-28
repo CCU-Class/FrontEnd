@@ -44,7 +44,7 @@
                 <div class = 'text-center text-3xl font-bold border-b-2 mb-3 bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text'>
                     成員介紹
                 </div>
-                <div class = 'grid grid-cols-1 md:grid-cols-4 mx-auto border pb-3'>
+                <div class = 'grid grid-cols-1 md:grid-cols-4 mx-auto border'>
                     
                     <div class = 'col-span-1 mx-auto my-7 md:my-0'>
                         <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member01.jpg'>
@@ -80,9 +80,20 @@
                         主要研究軟體工程，網頁前後端，演算法競賽<br>
                         目前主要學習ML相關知識。<br>
                         於此專案負責將靜態網頁改建為動態網頁。<br/>
-                        
                     </div>
-
+                    
+                    
+                    <div class = 'col-span-1 mx-auto my-7 md:my-0'>
+                        <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member04.png'>
+                    </div>
+                    <div class = 'col-span-1 text-xl flex items-center mx-auto'>
+                       <a href="https://milaroot.github.io/">凃昀辰</a>
+                    </div>
+                    <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto'>
+                        現在就讀於長榮大學資訊工程學系三年級，<br>
+                        主要研究跨域資訊安全與CTF，<br>
+                        目前主要為學習ML相關知識。
+                    </div>
                 </div>
             </div>
             <div class = "w-full text-center px-3 md:w-8/12 mx-auto py-9">
