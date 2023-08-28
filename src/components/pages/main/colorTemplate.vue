@@ -27,14 +27,21 @@
 
 <script setup>
     import {ColorPicker} from 'vue-accessible-color-picker';
-    import {ref, computed} from 'vue';
+    import {ref, computed, watch, onMounted} from 'vue';
     import store from '../../../store';
-    import {courseChangeColor} from '../../../functions/course_color.ts'
+    import {courseChangeColor, courseTextChangeColor} from '../../../functions/course_color.ts'
 
     const env = import.meta.env;
-    const color = ref(env.VITE_CARD_DEFAULT_COLOR);
+    const color = ref(store.state.defaultColor);
+    const defaultColor = computed(() => store.state.defaultColor);
+    const show_colorpick = computed(() => store.state.show_ColorPick);
+    watch(show_colorpick, () => {
+        console.log('change')
+        color.value = store.state.defaultColor;
+    });
     const course = computed(() => store.state.chooseCard);
-
+    const mode = computed(() => store.state.cardMode);
+    // const defaultColor = computed(() => store.state.defaultColor);
     function updateColor (eventData) {
         color.value = eventData.cssColor
     }
@@ -43,10 +50,14 @@
     }
     let confirm = function () {
         // store.dispatch('setCardColor', color.value);
-        if(color.value != env.VITE_CARD_DEFAULT_COLOR){
+        if(mode.value == 1){
             courseChangeColor(course.value, color.value);
+        }else if(mode.value == 2){
+            
+            courseTextChangeColor(course.value, color.value);
+            
         }
-        color.value = env.VITE_CARD_DEFAULT_COLOR;
+        // color.value = env.VITE_CARD_DEFAULT_COLOR;
         store.dispatch('changeShowColorPick', false);
         
     }

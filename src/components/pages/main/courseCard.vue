@@ -2,7 +2,7 @@
     <td class="text-center p-0 h-full  relative overflow-hidden card"
         :class="{ title: item.getIsTitle(), course: item.getIsCourse() }"
         style="height: 50px;"
-        :style="{backgroundColor: item.getColor()}"
+        :style="{backgroundColor: item.getColor(), color: item.getTextColor()}"
         @mouseenter="showButton = true" 
         @mouseleave="showButton =false" 
         v-if="item.getIsCourse()">
@@ -19,7 +19,8 @@
                     <div v-else id="back">
                         <div>
                             <commonOption @click.stop="delete_course_card(item)">刪除</commonOption>
-                            <commonOption @click="openColorTemplate(item)">修改顏色</commonOption>
+                            <commonOption @click="openColorTemplate(item, 1)">修改顏色</commonOption>
+                            <commonOption @click="openColorTemplate(item, 2)">文字樣式</commonOption>
                             <!-- <colorTemplate v-show="isSelectingColor">
                                 
                             </colorTemplate> -->
@@ -37,7 +38,7 @@
     <td class="text-center p-0 h-full overflow-auto "
         :class="{ title: item.getIsTitle(), course: item.getIsCourse() }"
         style="height: 50px;"
-        :style="{backgroundColor: item.getColor()}"
+        :style="{backgroundColor: item.getColor(), color: item.getTextColor()}"
         @mouseenter="showButton = true" 
         @mouseleave="showButton =false" v-if="!item.getIsCourse()">
         <div> {{ item.getStartTime() }} </div>
@@ -130,7 +131,15 @@
         isFliped.value = !isFliped.value;
         // console.log(`isFliped: ${this.isFliped}`);
     }
-    function openColorTemplate(item){
+    function openColorTemplate(item, mode){
+        // 1是卡片顏色，2是文字顏色
+        if(mode == 1){
+            store.dispatch('setDefaultColor', env.VITE_CARD_DEFAULT_COLOR);
+        }
+        else if(mode == 2){
+            store.dispatch('setDefaultColor', env.VITE_CARDTEXT_DEFAULT_COLOR);
+        }
+        store.dispatch('setCardMode', mode);
         store.dispatch('changeShowColorPick', true);
         store.dispatch('setChooseCard', item);
         // await waitClick();

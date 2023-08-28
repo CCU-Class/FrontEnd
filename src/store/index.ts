@@ -10,6 +10,8 @@ interface State {
     credit : number;
     show_ColorPick : boolean;
     chooseCard : Course | null;
+    cardMode : number;
+    defaultColor : string;
 }
 
 function Transfer(data : any)
@@ -41,7 +43,9 @@ const store = createStore<State>({
         classListStorage : [],
         credit : 0,
         show_ColorPick : false,
-        chooseCard: null
+        chooseCard: null,
+        cardMode: 0,
+        defaultColor: env.VITE_CARD_DEFAULT_COLOR
     },
     mutations: {
         display(state: State) {
@@ -121,6 +125,12 @@ const store = createStore<State>({
         },
         setChooseCard(state: State, Card: Course){
             state.chooseCard = Card;
+        },
+        setCardMode(state: State, mode: number){
+            state.cardMode = mode;
+        },
+        setDefaultColor(state: State, color: string){
+            state.defaultColor = color;
         }
     },
     actions: {
@@ -164,6 +174,13 @@ const store = createStore<State>({
         },
         setChooseCard(context: any, Card: Course){
             context.commit("setChooseCard", Card);
+        },
+        setCardMode(context: any, mode: number){
+            context.commit("setCardMode", mode);
+        },
+        setDefaultColor(context: any, color: string){
+            console.log(color)
+            context.commit("setDefaultColor", color);
         }
     }
 });
