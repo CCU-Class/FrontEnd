@@ -1,5 +1,6 @@
 <template>
-    <Vue3DraggableResizable :draggable="true" :resizable="false" @dragging="handle_drag" @drag-end="drag_end" :x="elementLeft" :y="elementTop">
+    <Vue3DraggableResizable :draggable="true" :resizable="false" @dragging="handle_drag" @drag-end="drag_end" 
+    :x="elementLeft" :y="elementTop">
         <div class="w-full top-8 h-8 flex sticky z-50">
             <div class="mr-1 ml-auto w-8 text-3xl relative small transition-all ease-in-out duration-500" 
             :class="{ 'large mr-2 border': !show}" @transitionend="transitionComplete" >
@@ -15,13 +16,26 @@
                             <CloseCircleOutlined class="ml-auto -6" @click="search_button"/>
                         </div>
                         <input class = 'w-full mx-auto py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程"  v-model = "searchInput">
-                        <ul class = "mx-auto w-11/12 result overflow-y-auto overflow-x-hidden" style="max-height: 10rem;" id = "result">
+                        <ul class = "mx-auto w-full result overflow-y-auto overflow-x-hidden" style="max-height: 10rem;" id = "result">
                              <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner> 
-                             <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white cursor-pointer" style="font-size: smaller;" @click="push_to_table(2, item)">
-                                {{item.class_name}} {{item.teacher}} 
+                             <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white cursor-pointer border-2" style="font-size: smaller;" @click="selectCourse(item)">
+                                {{item.class_name}} <br>
+                                {{item.teacher}} 
                             </li> 
                         </ul>
-                        <div v-if="isInputEmpty||noData " class="bg-orange-200 w-full h-40"></div>
+                        <div class="bg-orange-200 w-full h-40 border-orange-300 border-2">
+                            <!-- 使用到selectedCourse -->
+                            <div v-if="!selectedNull" class="text-sm">
+                                <p>課程ID:{{selectedCourse.id}}</p>
+                                <p>課程名稱:{{selectedCourse.class_name}}</p>
+                                <p>教師:{{selectedCourse.teacher}}</p>
+                                <p>學分:{{selectedCourse.credit}}</p>
+                                <p>教室:{{selectedCourse.class_room}}</p>
+                                <p>時間:{{selectedCourse.class_time}}</p>
+
+                            </div>
+                            
+                        </div>
                         <div class="flex w-full h-8 p-2">
                             <div class="m-auto text-base rounded-2xl bg-orange-300 px-3 py-1 hover:bg-orange-200" v-on:click="show_comment">查看評價</div>
                             <div class="m-auto text-base rounded-2xl bg-orange-300 px-3 py-1 hover:bg-orange-200">加入課表</div>
@@ -37,6 +51,7 @@
 import { onMounted, onUpdated, ref, watch, reactive, computed } from 'vue';
 import { useStore } from "vuex";
 import {searchCourse} from "@functions/course_search.ts";
+import {Course} from "@functions/general.ts";
 
 const store = useStore();
 
@@ -57,12 +72,20 @@ let inputValue = searchInput.value.trim();
 let data = ref([]);
 const noData = computed(() => data.value.length==0);
 
+let selectedCourse = ref(null);
+const selectedNull =  ref(true);
+
+
 const search_button = () => {
     if(!can_open) return;
     show.value = !show.value;
     if(show.value == true){
         setTimeout(() => {
             show_icon.value = !show_icon.value;
+            console.log("fuck you");
+            selectedNull.value = true;
+            selectedCourse.value = null;
+            searchInput.value = '';
         }, 200);
     }else{
         show_icon.value = !show_icon.value;
@@ -91,6 +114,16 @@ watch(searchInput, async (inputValue) => {
 });
 
 
+const selectCourse = (course)=>{
+    
+    selectedCourse.value = course;
+    console.log(selectedCourse.value);
+}
+
+watch(selectedCourse, async ()=>{
+    selectedNull.value = (selectedCourse.value == null);
+});
+
 const mouse_x = ref(0);
 const mouse_y = ref(0);
 
@@ -110,6 +143,7 @@ const drag_end = () => {
         can_open = true;
     }, 100);
 };
+
 
 </script>
 
