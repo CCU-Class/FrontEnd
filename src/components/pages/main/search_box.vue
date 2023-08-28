@@ -14,14 +14,14 @@
                             </div>
                             <CloseCircleOutlined class="ml-auto -6" @click="search_button"/>
                         </div>
-                        <input class = 'w-full mx-auto py-1 text-center course_search text-xl' type = "search" placeholder = "在此搜尋課程">
-                        <ul class = "mx-auto w-11/12 result overflow-y-auto overflow-x-hidden" id = "result">
-                            <!-- <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner> -->
-                            <!-- <li v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
-                                [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
-                            </li> -->
+                        <input class = 'w-full mx-auto py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程"  v-model = "searchInput">
+                        <ul class = "mx-auto w-11/12 result overflow-y-auto overflow-x-hidden" style="max-height: 10rem;" id = "result">
+                             <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner> 
+                             <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white cursor-pointer" style="font-size: smaller;" @click="push_to_table(2, item)">
+                                {{item.class_name}} {{item.teacher}} 
+                            </li> 
                         </ul>
-                        <div class="bg-orange-200 w-full h-20"></div>
+                        <div v-if="isInputEmpty||noData " class="bg-orange-200 w-full h-40"></div>
                         <div class="flex w-full h-8 p-2">
                             <div class="m-auto text-base rounded-2xl bg-orange-300 px-3 py-1 hover:bg-orange-200" v-on:click="show_comment">查看評價</div>
                             <div class="m-auto text-base rounded-2xl bg-orange-300 px-3 py-1 hover:bg-orange-200">加入課表</div>
@@ -34,8 +34,9 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onMounted, onUpdated, ref, watch, reactive, computed } from 'vue';
 import { useStore } from "vuex";
+import {searchCourse} from "@functions/course_search.ts";
 
 const store = useStore();
 
@@ -49,6 +50,13 @@ const show_icon = ref(true);
 const transitionCount = ref(0);
 let can_open = false;
 
+const searchInput = ref('');
+const isLoading = ref(false);
+const isInputEmpty = ref(true);
+let inputValue = searchInput.value.trim();
+let data = ref([]);
+const noData = computed(() => data.value.length==0);
+
 const search_button = () => {
     if(!can_open) return;
     show.value = !show.value;
@@ -61,6 +69,28 @@ const search_button = () => {
     }
 };
 
+
+watch(searchInput, async (inputValue) => {
+    let list = document.getElementById("result");
+    if(inputValue != "")
+    {   
+        isInputEmpty.value = false;
+        isLoading.value = true;
+        list.classList.remove("result");
+        list.classList.add("result-show");
+        data.value = await searchCourse(inputValue);
+        isLoading.value = false;
+    }
+    else
+    {
+        isInputEmpty.value = true;
+        list.classList.remove("result-show");
+        list.classList.add("result");
+        isLoading.value = false;
+    }
+});
+
+
 const mouse_x = ref(0);
 const mouse_y = ref(0);
 
@@ -69,7 +99,7 @@ window.addEventListener("mousemove", (event) => {
     // x = 0 ~ screen.width - 20 rem
     mouse_x.value = Math.max(0, Math.min(event.clientX, window.innerWidth - 320));
     mouse_y.value = Math.max(0, Math.min(event.clientY, window.innerHeight - 448));
-    console.log(mouse_x.value, mouse_y.value);
+    //console.log(mouse_x.value, mouse_y.value);
 });
 
 const handle_drag = (event) => {
