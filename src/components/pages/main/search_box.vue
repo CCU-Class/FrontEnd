@@ -224,13 +224,6 @@ watch(selectedCourse, async ()=>{
 const mouse_x = ref(0);
 const mouse_y = ref(0);
 
-window.addEventListener("mousemove", (event) => {
-    // y = 0 ~ screen.height - 28 rem
-    // x = 0 ~ screen.width - 20 rem
-    mouse_x.value = Math.max(0, Math.min(event.clientX, window.innerWidth - 320));
-    mouse_y.value = Math.max(0, Math.min(event.clientY, window.innerHeight - 448));
-    //console.log(mouse_x.value, mouse_y.value);
-});
 
 const handle_drag = (event) => {
     can_open = false;    
@@ -251,6 +244,7 @@ function checkVisibility()
     else
         hiddenElement.style.display = 'none';
 }
+
 onMounted(() => {
     checkVisibility();
 });

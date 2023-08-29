@@ -13,6 +13,7 @@ interface State {
     cardMode : number;
     defaultColor : string;
     showTable: boolean;
+    show_credit: boolean;
 }
 
 function Transfer(data : any)
@@ -47,7 +48,8 @@ const store = createStore<State>({
         chooseCard: null,
         cardMode: 0,
         defaultColor: env.VITE_CARD_DEFAULT_COLOR,
-        showTable: true
+        showTable: true,
+        show_credit: false
     },
     mutations: {
         display(state: State) {
@@ -55,6 +57,12 @@ const store = createStore<State>({
         },
         hidden(state: State) {
             state.show = false;
+        },
+        show_credit(state: State) {
+            state.show_credit = true;
+        },
+        hidden_credit(state: State) {
+            state.show_credit = false;
         },
         initCourseFromLocalstorage(state: State){
             let courseTable: string | null = localStorage.getItem("courseTable");
@@ -145,6 +153,12 @@ const store = createStore<State>({
         },
         hidden(context: any) {
             context.commit('hidden');
+        },
+        show_credit(context: any) {
+            context.commit('show_credit');
+        },
+        hidden_credit(context: any) {
+            context.commit('hidden_credit');
         },
         initCourseFromLocalstorage(context: any){
             context.commit('initCourseFromLocalstorage');
