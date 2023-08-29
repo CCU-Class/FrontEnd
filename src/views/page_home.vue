@@ -1,10 +1,4 @@
-<script setup>
-import Navbar from '@components/layout/navbar.vue';
-import Foot from '@components/layout/footer.vue';
-import Intro from '@components/pages/home/intro.vue';
-import Announce from '@components/pages/home/announcement.vue';
-import Notify from '@components/pages/home/notify.vue';
-</script>
+
 
 <template>
     <div id = "home">
@@ -29,3 +23,22 @@ import Notify from '@components/pages/home/notify.vue';
         <Foot/>
     </div>
 </template>
+
+<script setup>
+import Navbar from '@components/layout/navbar.vue';
+import Foot from '@components/layout/footer.vue';
+import Intro from '@components/pages/home/intro.vue';
+import Announce from '@components/pages/home/announcement.vue';
+import Notify from '@components/pages/home/notify.vue';
+
+const visitCount = ref(0);
+
+import { ref , onMounted, watch} from 'vue';
+import {getVisitCount, visitWeb} from "@functions/web_statistic.ts";
+onMounted(async () => {
+    let succ = await visitWeb(); 
+    visitCount.value = await getVisitCount();
+    console.log(`visitCount: ${visitCount.value}`);
+});
+
+</script>
