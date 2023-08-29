@@ -77,10 +77,10 @@
                        <a href="https://ben99933.github.io/">楊其龍</a>
                     </div>
                     <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto'>
-                        中正大學資訊工程學系三年級，<br>
-                        主要研究軟體工程，網頁前後端，演算法競賽<br>
-                        目前主要學習ML相關知識。<br>
-                        於此專案負責將靜態網頁改建為動態網頁。<br/>
+                        中正大學資訊工程學系三年級<br>
+                        主要研究軟體工程，網頁前後端，競程<br>
+                        目前主要學習ML<br>
+                        此專案主要負責後端伺服器 資料庫 API
                     </div>
                     
                     
