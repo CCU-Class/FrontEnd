@@ -8,6 +8,7 @@ import comment from '@components/pages/main/comment.vue';
 import inputArea from '@components/pages/main/inputArea.vue';
 import Colorpick from '@components/pages/main/colorTemplate.vue';
 import store from '../store';
+import inputArea from '@components/pages/main/inputArea.vue';
 
 const show_colorpick = computed(() => store.state.show_ColorPick);
 import { Splitpanes, Pane } from 'splitpanes'

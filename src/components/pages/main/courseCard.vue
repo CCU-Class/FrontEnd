@@ -4,7 +4,7 @@
         style="height: 50px;"
         :style="{backgroundColor: item.getColor(), color: item.getTextColor()}"
         @mouseenter="showButton = true" 
-        @mouseleave="showButton =false" 
+        @mouseleave="showButton = false" 
         v-if="item.getIsCourse()">
         <div class="card-content" @click="flip">
             <transition name="fliping" >

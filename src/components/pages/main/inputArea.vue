@@ -1,5 +1,3 @@
-
-
 <template>
     <div class = "input">
         <div class = "w-full mx-auto my-6 px-4 py-4 bg-gray-100 rounded-lg shadow-lg md:w-9/12 overflow-x-auto">
@@ -48,7 +46,7 @@
                 </div>
                 <hr class = 'mx-3 my-3 text-slate-300'>
                 <div class = 'flex place-content-end items-center'>
-                    <a-switch v-model:checked = "state.checked">顯示學分</a-switch>
+                    <a-switch v-model:checked = "checked" v-on:change = "checked ? open_credit() : close_credit()" class = 'mx-3 py-1 min-w-[4rem]'></a-switch>
                     <span class = 'mx-3 py-1 min-w-[4rem]'>
                         顯示學分
                     </span>
@@ -63,7 +61,7 @@
                     </button>
                 </div>
                 <div id = "class_list" v-if = "class_list_visible === true">
-                    <p class = "text-right py-2 mx-3" v-show = "state.checked">
+                    <p class = "text-right py-2 mx-3" v-show = "show_credit">
                         目前學分: {{credit}}
                     </p>
                     <table class = "w-full my-1 mb-1">
@@ -112,6 +110,9 @@ import {v4 as uuidv4} from 'uuid';
 const store = useStore();
 store.dispatch('initAll');
 const status = computed(() => store.state.show);
+const show_credit = computed(() => store.state.show_credit)
+const open_credit = () => store.dispatch("show_credit");
+const close_credit = () => store.dispatch("hidden_credit");
 let course_data = computed(() => store.state.classStorage);
 let courseList = computed(() => store.state.classListStorage);
 let credit = computed(() => store.state.credit);

@@ -21,6 +21,7 @@ declare module 'vue' {
     LoadingSpinner: typeof import('./src/components/common/loadingSpinner.vue')['default']
     Loginarea: typeof import('./src/components/pages/login/loginarea.vue')['default']
     Navbar: typeof import('./src/components/layout/navbar.vue')['default']
+    Notify: typeof import('./src/components/pages/home/notify.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Search_box: typeof import('./src/components/pages/main/search_box.vue')['default']
