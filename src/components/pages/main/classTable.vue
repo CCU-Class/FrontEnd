@@ -162,6 +162,7 @@ import { splittime } from '@functions/tool.ts';
 import { courseDelete, decreaseCredit } from '@functions/course_delete.ts';
 
 import { useStore } from 'vuex';
+import {v4 as uuidv4} from 'uuid';
 
 
 const store = useStore();
@@ -196,7 +197,7 @@ const isInputEmpty = ref(false);
 let class_list_title = ["課程名稱", "課程教室", "課程時間", "操作"];
 let class_list_visible = ref(false);
 let checked = ref(false);
-let show = ref(1);
+let show = computed(() => store.state.showTable);
 let data = ref([]);
 let show_search_box = ref(true);
 
@@ -316,9 +317,9 @@ function remerge_table(){
 
 async function refresh_table(){
     return new Promise(async (resolve, reject) => {
-        show.value = !show.value;
+        store.dispatch('setShowTable', false);
         await Sleep(20);
-        show.value = !show.value;
+        store.dispatch('setShowTable', true);
         resolve();
     });
 }
@@ -353,6 +354,7 @@ var push_to_table = async function(type, item) {
         let time = splittime(item.class_time);
         // console.log(typeof(item.credit))
         let data = [];
+        let Uuid = uuidv4();
         for(let i = 0; i < time.length; i++){
             data.push(new Course({
                 start_time: time[i][1],
@@ -369,7 +371,8 @@ var push_to_table = async function(type, item) {
                 Teacher: item.teacher,
                 Memo: null,
                 textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
-                textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE
+                textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
+                uuid: Uuid
             }));
         }
         console.log(data);
@@ -396,7 +399,8 @@ var push_to_table = async function(type, item) {
             Teacher: item.teacher,
             Memo: null,
             textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
-            textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE
+            textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
+            uuid: Uuid
         }));
         await refresh_table();
         store.dispatch('addCredit', Number(item.credit));

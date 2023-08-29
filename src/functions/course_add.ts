@@ -1,5 +1,6 @@
 import store  from '../store';
 import { Course, courseToTime, courseToStartIndex, courseToEndIndex, WeekDayToInt } from "./general";
+import {v4 as uuidv4} from 'uuid';
 
 const env = import.meta.env;
 
@@ -33,11 +34,13 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
                 Teacher: data[i][j].courseData.Teacher,
                 Memo: data[i][j].courseData.Memo,
                 textColor: data[i][j].courseData.textColor,
-                textStyle: data[i][j].courseData.textStyle
+                textStyle: data[i][j].courseData.textStyle,
+                uuid: data[i][j].courseData.uuid
             }))
         }
         table.push(row)
     }
+    let Uuid = uuidv4();
     let course = new Course({
         start_time: courseToTime[start],
         course_name: courseName,
@@ -51,11 +54,13 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
         Teacher: null,
         Memo: null,
         textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
-        textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE
+        textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
+        uuid: Uuid
     })
     let weekDayIndex = WeekDayToInt[weekDay]; // 2 is the offset of the first two columns
     let startHour = courseToStartIndex[start];
     let endHour = courseToEndIndex[end];
+    let startT = `${weekDay}${start}~${end}`;
     for(let i = startHour; i < endHour; i++)
     {
         if(table[i][weekDayIndex].getIsCourse())
@@ -69,10 +74,14 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
             table[i][weekDayIndex] = course;
         }
     }
-    store.dispatch('addCourseList', course);
+    store.dispatch('addCourse', table);
+    let temp = JSON.parse(JSON.stringify(course));;
+    temp.start_time = startT;
+    store.dispatch('addCourseList', temp);
     console.log("this")
     // 不要在這邊儲存localstorage，使用store
-    store.dispatch('addCourse', table);
+    console.log(table)
+    window.location.reload();
     return table;
 }
 
@@ -94,6 +103,7 @@ export function searchAdd(course_list : Course[])
         let startHour = courseToStartIndex[course.getStartTime()];
         let endHour = courseToEndIndex[course.getEndTime()];
         // console.log(startHour, endHour);
+        let startT = courseToTime[course.getStartTime()];
         for(let j = startHour; j < endHour; j++)
         {   
             console.log(table[j][weekDayIndex]);
@@ -105,11 +115,20 @@ export function searchAdd(course_list : Course[])
             else
             {   
                 // there is no course in the same time slot
+                // console.log(course.getStartTime());
+                // course.setStartTime(courseToTime[course.getStartTime().toString()]);
+                // console.log(j, weekDayIndex);
                 table[j][weekDayIndex] = course;
+                // console.log(course.getStartTime())
+                // console.log(course.getStartTime());
+                // console.log(courseToTime[course.getStartTime()])
+                // console.log(courseToTime['1'])
+                table[j][weekDayIndex].setStartTime(startT);
+                // console.log(table[j][weekDayIndex].getStartTime())
             }
         }
     }
-    console.log(table);
+    // console.log(table);
     // 不要在這邊儲存localstorage，使用storec
     store.dispatch('addCourse', table);
     return table;

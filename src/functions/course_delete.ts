@@ -13,7 +13,7 @@ export function courseDelete(item: Course)
         let row: Course[] = []
         for(let j = 0; j < data[i].length; j++)
         {
-            if(data[i][j].courseData.course_name == item.getCourseName() && data[i][j].courseData.ID == item.getId() && data[i][j].courseData.classroom == item.getClassroom()){
+            if(data[i][j].courseData.uuid == item.getUuid()){
                 
                 row.push(new Course(
                     {
@@ -29,7 +29,8 @@ export function courseDelete(item: Course)
                         Teacher: null,
                         Memo: null,
                         textColor: "",
-                        textStyle: ""
+                        textStyle: "",
+                        uuid: ""
                     }
                 ))
             }
@@ -48,7 +49,8 @@ export function courseDelete(item: Course)
                     Teacher: data[i][j].courseData.Teacher,
                     Memo: data[i][j].courseData.Memo,
                     textColor: data[i][j].courseData.textColor,
-                    textStyle: data[i][j].courseData.textStyle
+                    textStyle: data[i][j].courseData.textStyle,
+                    uuid: data[i][j].courseData.uuid
                 }))
             }
         }
@@ -57,7 +59,6 @@ export function courseDelete(item: Course)
     // 不要在這邊儲存localstorage，使用store
     store.dispatch('deleteCourseList', item);
     store.dispatch('addCourse', table);
-    console.log(48763)
     return true;
 }
 

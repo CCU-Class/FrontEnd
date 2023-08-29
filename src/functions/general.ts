@@ -110,6 +110,7 @@ interface CourseData
     Memo: string | null;
     textColor: string;
     textStyle: string;
+    uuid: string;
 }
 
 export class Course
@@ -128,7 +129,8 @@ export class Course
         return this.courseData.start_time;
     }
     public setStartTime(time :string): void
-    {
+    {   
+        console.log(time)
         this.courseData.start_time = time;
     }
     public getEndTime(): string
@@ -199,6 +201,14 @@ export class Course
     {
         this.courseData.textStyle = style;
     }
+    public getUuid() : string
+    {
+        return this.courseData.uuid;
+    }
+    public setUuid(uuid : string) : void
+    {
+        this.courseData.uuid = uuid;
+    }
     
 }
 
@@ -259,7 +269,8 @@ export function InitTable()
                     Teacher: null,
                     Memo: null,
                     textColor: "",
-                    textStyle: ""
+                    textStyle: "",
+                    uuid: ""
                 });
                 if(j == 0){
                     row.push(course);
@@ -284,7 +295,8 @@ export function InitTable()
                     Teacher: null,
                     Memo: null,
                     textColor: "",
-                    textStyle: ""
+                    textStyle: "",
+                    uuid: ""
                 }))
             }
         }

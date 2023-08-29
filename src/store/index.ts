@@ -12,6 +12,7 @@ interface State {
     chooseCard : Course | null;
     cardMode : number;
     defaultColor : string;
+    showTable: boolean;
 }
 
 function Transfer(data : any)
@@ -45,7 +46,8 @@ const store = createStore<State>({
         show_ColorPick : false,
         chooseCard: null,
         cardMode: 0,
-        defaultColor: env.VITE_CARD_DEFAULT_COLOR
+        defaultColor: env.VITE_CARD_DEFAULT_COLOR,
+        showTable: true
     },
     mutations: {
         display(state: State) {
@@ -65,6 +67,7 @@ const store = createStore<State>({
             state.classStorage = Transfer(data);
         },
         addCourse(state: State, data : any){
+            console.log(data);
             state.classStorage = data;
             localStorage.setItem("courseTable", JSON.stringify(state.classStorage));
         },
@@ -131,6 +134,9 @@ const store = createStore<State>({
         },
         setDefaultColor(state: State, color: string){
             state.defaultColor = color;
+        },
+        setShowTable(state: State, Bool: boolean){
+            state.showTable = Bool;
         }
     },
     actions: {
@@ -179,8 +185,12 @@ const store = createStore<State>({
             context.commit("setCardMode", mode);
         },
         setDefaultColor(context: any, color: string){
-            console.log(color)
+            // console.log(color)
             context.commit("setDefaultColor", color);
+        },
+        setShowTable(context: any, Bool: boolean){
+            console.log("change")
+            context.commit("setShowTable", Bool);
         }
     }
 });
