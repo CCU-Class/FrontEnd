@@ -3,7 +3,7 @@
 <template>
     <div class = "overflow-x-auto">
         <div class = 'bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto shadow-lg md:w-6/12 min-w-[60rem]'>
-            <p class = "text-right py-2 mx-3" v-show = "state.checked">
+            <p class = "text-right py-2 mx-3" v-show = "show_credit">
                 目前學分: {{credit}}
             </p>
             <table class = 'bg-orange-100 border-separate w-full' id = "class_table">
@@ -81,6 +81,9 @@ import { useStore } from 'vuex';
 const store = useStore();
 store.dispatch('initAll');
 const status = computed(() => store.state.show);
+const show_credit = computed(() => store.state.show_credit)
+const open_credit = () => store.dispatch("show_credit");
+const close_credit = () => store.dispatch("hidden_credit");
 let course_data = computed(() => store.state.classStorage);
 let courseList = computed(() => store.state.classListStorage);
 let credit = computed(() => store.state.credit);
