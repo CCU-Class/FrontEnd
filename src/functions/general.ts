@@ -1,3 +1,6 @@
+import store from '../store';
+import { computed } from 'vue';
+const env = import.meta.env;
 // using a key-value pair to map courseID to time
 export const courseToTime: { [key: string]: string } = {
     "1" : "07:10",
@@ -99,6 +102,15 @@ interface CourseData
     classroom: string;
     is_title: boolean;
     is_course: boolean;
+    color: string;
+    ID: string | null;
+    Credit: number | null;
+    is_custom: boolean | null;
+    Teacher: string | null;
+    Memo: string | null;
+    textColor: string;
+    textStyle: string;
+    uuid: string;
 }
 
 export class Course
@@ -108,9 +120,18 @@ export class Course
     {
         this.courseData = courseData;
     }
+    public inputValue(courseData: CourseData): void
+    {
+        this.courseData = courseData;
+    }
     public getStartTime(): string
     {
         return this.courseData.start_time;
+    }
+    public setStartTime(time :string): void
+    {   
+        console.log(time)
+        this.courseData.start_time = time;
     }
     public getEndTime(): string
     {
@@ -136,11 +157,64 @@ export class Course
     {
         return this.courseData.is_course;
     }
+    public getColor(): string
+    {
+        return this.courseData.color;
+    }
+    public setColor(color : string): void
+    {
+        this.courseData.color = color;
+    }
+    public getId(): string | null
+    {
+        return this.courseData.ID;
+    }
+    public getCredit(): number | null
+    {
+        return this.courseData.Credit;
+    }
+    public getIsCustom(): boolean | null
+    {
+        return this.courseData.is_custom;
+    }
+    public getTeacher(): string | null
+    {
+        return this.courseData.Teacher;
+    }
+    public getMemo(): string | null
+    {
+        return this.courseData.Memo;
+    }
+    public getTextColor() : string
+    {
+        return this.courseData.textColor
+    }
+    public setTextColor(color :string) : void
+    {
+        this.courseData.textColor = color;
+    }
+    public getTextStyle() : string
+    {
+        return this.courseData.textStyle;
+    }
+    public setTextStyle(style: string) : void
+    {
+        this.courseData.textStyle = style;
+    }
+    public getUuid() : string
+    {
+        return this.courseData.uuid;
+    }
+    public setUuid(uuid : string) : void
+    {
+        this.courseData.uuid = uuid;
+    }
+    
 }
 
 
 export function InitTable()
-{
+{   
     let data_table: Course[][] = []
     var data = [
         ["⠀", "1", "A", "", "", "", "", "", ""],
@@ -179,25 +253,50 @@ export function InitTable()
         let row: Course[] = []
         for(let j = 0; j < data[i].length; j++)
         {
-            if(j == 1 || j == 2)
+            if(j == 1 || j == 2 || j == 0)
             {
                 let time = courseToTime[data[i][j]]
-                row.push(new Course({
+                let course = new Course({
                     course_name: time,
                     start_time: data[i][j],
                     classroom: "",
                     is_title: true,
-                    is_course: false
-                }))
+                    is_course: false,
+                    color: '',
+                    ID: null,
+                    Credit: null,
+                    is_custom: null,
+                    Teacher: null,
+                    Memo: null,
+                    textColor: "",
+                    textStyle: "",
+                    uuid: ""
+                });
+                if(j == 0){
+                    row.push(course);
+                }
+                else{
+                    course.setColor(env.VITE_TITLE_DEFAULT_COLOR);
+                    row.push(course);
+                }
             }
             else
             {
                 row.push(new Course({
-                    course_name: data[i][j],
+                    course_name: "",
                     start_time: "",
                     classroom: "",
                     is_title: false,
-                    is_course: false
+                    is_course: false,
+                    color: "",
+                    ID: null,
+                    Credit: null,
+                    is_custom: null,
+                    Teacher: null,
+                    Memo: null,
+                    textColor: "",
+                    textStyle: "",
+                    uuid: ""
                 }))
             }
         }
@@ -208,33 +307,35 @@ export function InitTable()
 }
 
 export function GetCourseTable()
-{
+{   
+    return store.state.classStorage;
     // retrieve the course table from the local storage
-    let courseTable = localStorage.getItem("courseTable")
-    if(courseTable == null)
-    {
-        return InitTable()
-    }
-    else
-    {
-        // change the loaded data to the Course object 2D array
-        let table: Course[][] = []
-        let data = JSON.parse(courseTable)
-        for(let i = 0; i < data.length; i++)
-        {
-            let row: Course[] = []
-            for(let j = 0; j < data[i].length; j++)
-            {
-                row.push(new Course({
-                    course_name: data[i][j].courseData.course_name,
-                    start_time: data[i][j].courseData.start_time,
-                    classroom: data[i][j].courseData.classroom,
-                    is_title: data[i][j].courseData.is_title,
-                    is_course: data[i][j].courseData.is_course
-                }))
-            }
-            table.push(row)
-        }
-        return table
-    }
+    // let courseTable = localStorage.getItem("courseTable")
+    // if(courseTable == null)
+    // {
+    //     return InitTable()
+    // }
+    // else
+    // {
+    //     // change the loaded data to the Course object 2D array
+    //     let table: Course[][] = []
+    //     let data = JSON.parse(courseTable)
+    //     console.log(store.state.classStorage[0])
+    //     for(let i = 0; i < data.length; i++)
+    //     {
+    //         let row: Course[] = []
+    //         for(let j = 0; j < data[i].length; j++)
+    //         {
+    //             row.push(new Course({
+    //                 course_name: data[i][j].courseData.course_name,
+    //                 start_time: data[i][j].courseData.start_time,
+    //                 classroom: data[i][j].courseData.classroom,
+    //                 is_title: data[i][j].courseData.is_title,
+    //                 is_course: data[i][j].courseData.is_course
+    //             }))
+    //         }
+    //         table.push(row)
+    //     }
+    //     return table
+    // }
 }

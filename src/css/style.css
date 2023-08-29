@@ -32,11 +32,11 @@ table
 }
 .title
 {
-    @apply bg-orange-200/50 w-16 text-xl text-gray-700 font-serif;
+    @apply w-16 text-xl text-gray-700 font-serif;
 }
 .course
 {
-    @apply bg-[#c0d7c1] rounded-md font-bold text-base ;
+    @apply rounded-md font-bold text-base ;
 }
 [type=search]::-webkit-search-cancel-button
 {

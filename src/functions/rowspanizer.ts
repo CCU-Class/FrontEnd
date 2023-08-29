@@ -22,13 +22,13 @@ export class Rowspanizer
             return;
         }
         const rows = targetElement.getElementsByTagName('tr');
-        const rowCount = rows.length;
         const colCount = this.getColCount(rows);
         for(let col = 0; col < colCount; col++)
         {
             let currentCellValue: string | null = null;
             let rowspan = 1;
             let the_target_cell: HTMLTableCellElement | null = null;
+            const rowCount = rows.length;
             for(let row = 0; row < rowCount; row++)
             {   
                 // Get the cell value
@@ -38,12 +38,14 @@ export class Rowspanizer
                 const cell = cells[col];
                 if(cell)
                 {
-                    cellValue = cell.innerText;
+                    cellValue = cell.innerHTML;
+                    // console.log(cellValue);
                 }
                 else
                 {   
                     continue;
                 }
+                // console.log(cellValue, rowspan);
                 if(!the_target_cell)
                 {
                     the_target_cell = cell;
@@ -62,6 +64,7 @@ export class Rowspanizer
                     {
                         // Set the rowspan of the target cell to the rowspan value
                         the_target_cell.setAttribute('rowspan', rowspan.toString());
+                        // console.log(the_target_cell, rowspan);
                         the_target_cell = cell;
                     }
                     currentCellValue = cellValue;
@@ -86,7 +89,7 @@ export class Rowspanizer
             const cells = row.getElementsByTagName('td');
             const colCount = cells.length;
             if(colCount > maxColCount)
-              maxColCount = colCount;
+            maxColCount = colCount;
         }
         return maxColCount;
     }

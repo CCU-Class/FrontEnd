@@ -1,17 +1,18 @@
 <script setup>
+import { computed, watch } from 'vue'
 import Navbar from '@components/layout/navbar.vue';
 import Foot from '@components/layout/footer.vue';
-import classTable from '@components/pages/main/classTable.vue';
+import ClassTable from '@components/pages/main/classTable.vue';
 import Box from '@components/pages/main/search_box.vue';
 import comment from '@components/pages/main/comment.vue';
+import Colorpick from '@components/pages/main/colorTemplate.vue';
+import store from '../store';
 import inputArea from '@components/pages/main/inputArea.vue';
 
+const show_colorpick = computed(() => store.state.show_ColorPick);
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
-import { useStore } from 'vuex';
-import { computed, watch } from 'vue';
 
-const store = useStore();
 const status = computed(() => store.state.show);
 
 watch(status, async (val) => {
@@ -27,6 +28,10 @@ watch(status, async (val) => {
     <div id = "main" class="flex relative">
         <div>
             <Navbar/>
+            <!-- <Box/>
+            <Colorpick v-show="show_colorpick"/>
+            <ClassTable/>
+            <Foot/> -->
             <Box/>
             <splitpanes class = "bg-white">
                 <pane class = "w-full" min-size = "50" size = "70">
@@ -41,7 +46,7 @@ watch(status, async (val) => {
                     <div class = "h-5"></div>
                 </pane>
             </splitpanes>
-            <Foot/> 
+            <Foot/>
         </div>
     </div>
 </template>

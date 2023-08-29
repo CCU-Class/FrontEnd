@@ -38,7 +38,7 @@
                             </div>
                             <div class="flex w-full h-8 p-2">
                                 <!-- <div class="m-auto text-base rounded-2xl bg-orange-300 px-3 py-1 hover:bg-orange-200" v-on:click="show_comment">查看評價</div> -->
-                                <div class="m-auto text-base rounded-2xl bg-orange-300 px-3 py-1 hover:bg-orange-200">加入課表</div>
+                                <div class="m-auto text-base rounded-2xl bg-orange-300 px-3 py-1 hover:bg-orange-200" @click="push_to_table(selectedCourse)">加入課表</div>
                             </div>
                         </div>
                     </div>
@@ -53,6 +53,10 @@ import { onMounted, onUpdated, ref, watch, reactive, computed } from 'vue';
 import { useStore } from "vuex";
 import {searchCourse} from "@functions/course_search.ts";
 import {Course} from "@functions/general.ts";
+import {v4 as uuidv4} from 'uuid';
+import {splittime} from "@functions/tool.ts";
+import {searchAdd} from "@functions/course_add";
+const env = import.meta.env;
 
 const store = useStore();
 
@@ -85,15 +89,105 @@ const search_button = () => {
     if(show.value == true){
         setTimeout(() => {
             show_icon.value = !show_icon.value;
-            console.log("fuck you");
+            // console.log("fuck you");
             selectedNull.value = true;
             selectedCourse.value = null;
             searchInput.value = '';
+            show_content.value = !show_content.value;
         }, 200);
     }else{
         show_icon.value = !show_icon.value;
     }
 };
+
+function Sleep(time) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        }, time);
+    });
+}
+
+function remerge_table(){
+    const temp = new Rowspanizer({
+        target: "#class_table",
+        colspan_index: 0
+    })
+    temp.rowspanize()
+}
+
+async function refresh_table(){
+    return new Promise(async (resolve, reject) => {
+        store.dispatch('setShowTable', false);
+        await Sleep(100);
+        store.dispatch('setShowTable', true);
+        resolve();
+    });
+}
+
+let push_to_table = async function (item){
+    await refresh_table();
+    let time = splittime(item.class_time);
+        // console.log(typeof(item.credit))
+        let data = [];
+        let Uuid = uuidv4();
+        for(let i = 0; i < time.length; i++){
+            data.push(new Course({
+                start_time: time[i][1],
+                end_time: time[i][2],
+                week_day: time[i][0],
+                course_name: item.class_name,
+                classroom: item.class_room,
+                is_title: false,
+                is_course: true,
+                color: env.VITE_CARD_DEFAULT_COLOR,
+                Credit: item.credit,
+                ID: item.id,
+                is_custom: false,
+                Teacher: item.teacher,
+                Memo: null,
+                textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
+                textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
+                uuid: Uuid
+            }));
+        }
+        console.log(data);
+        // 成功插入會回傳課程陣列，反之回傳false
+        // 在做儲存
+        let check = searchAdd(data);
+        if(!check)
+        {   
+            alert("新增課程失敗，請檢查是否衝堂");
+            window.location.reload();
+            return;
+        }
+        store.dispatch('addCourseList', new Course({
+        start_time: item.class_time,
+        end_time: item.class_time,
+        week_day: item.class_time,
+        course_name: item.class_name,
+        classroom: item.class_room,
+        is_title: false,
+        is_course: true,
+        color: env.VITE_CARD_DEFAAULT_COLOR,
+        Credit: item.credit,
+        ID: item.id,
+        is_custom: false,
+        Teacher: item.teacher,
+        Memo: null,
+        textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
+        textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
+        uuid: Uuid
+    }));
+    await refresh_table();
+    store.dispatch('addCredit', Number(item.credit));
+    // await Sleep(30);
+    // // _2data_to_1d();
+    // remerge_table();
+    // await Sleep(10);
+    // 先檔一下
+    window.location.reload();
+}
 
 
 watch(searchInput, async (inputValue) => {

@@ -1,6 +1,6 @@
 <template>
     <li class="w-full bg-white/70 px-1 py-1 option">
-        <button @click="onClick"><slot></slot></button>
+        <slot></slot>
         
     </li>
 </template>
@@ -16,11 +16,19 @@
     }
 </style>
 <script>
+    import { Course } from "@functions/general.ts";
     export default {
         name: "commonOption",
         props: {
-            onClick: Function,
+            
         },
+        methods: {
+            
+        },data(){
+            return{
+
+            }
+        }
     }
 
 </script>

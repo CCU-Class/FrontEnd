@@ -10,6 +10,7 @@ declare module 'vue' {
     Announcement: typeof import('./src/components/pages/home/announcement.vue')['default']
     ASwitch: typeof import('ant-design-vue/es')['Switch']
     ClassTable: typeof import('./src/components/pages/main/classTable.vue')['default']
+    ColorTemplate: typeof import('./src/components/pages/main/colorTemplate.vue')['default']
     Comment: typeof import('./src/components/pages/main/comment.vue')['default']
     CommonOption: typeof import('./src/components/common/option/commonOption.vue')['default']
     CourseCard: typeof import('./src/components/pages/main/courseCard.vue')['default']
