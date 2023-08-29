@@ -1,7 +1,6 @@
 <template>
     <div class = "w-full mx-auto">
         <div>
-            
             <div class = "w-full px-3 md:w-8/12 mx-auto py-9">
                 <div class = 'text-orange-300 font-semibold text-3xl'>
                     初次見面?
@@ -21,7 +20,10 @@
                             產生對應之課表
                         </li>
                         <li>
-                            下載課表圖檔(行動用戶則無此服務)
+                            課程格子背景顏色與文字顏色自定義
+                        </li>
+                        <li>
+                            下載課表圖檔
                         </li>
                     </ol>
                 </div>
@@ -31,20 +33,20 @@
                     版本紀錄
                 </div>
                 <div class = 'text-xl text-gray-500 my-1'>
-                    v a1.0.0 第一次公開測試版本開放 <br>
-                    v a1.5.0 UI大規模重構與優化，準備加入搜尋功能 <br>
-                    v a2.0.0 UI全面使用Tailwind改寫 <br>
-                    v 3.0.0 加入搜尋功能，並使用MySQL當作資料庫 <br>
-                    v 3.0.1 資料庫更改為postgreSQL <br>
-                    v 3.1.0 增加計算學分之功能 <br>
-                    v 4.0.0 使用 Vue 來完全重構本網站
+                    v 0.0.1 第一次公開測試版本開放 <br>
+                    v 0.0.2 UI大規模重構與優化，準備加入搜尋功能 <br>
+                    v 0.0.5 UI全面使用Tailwind改寫 <br>
+                    v 0.0.6 加入搜尋功能，並使用MySQL當作資料庫 <br>
+                    v 0.0.7 資料庫更改為postgreSQL <br>
+                    v 0.0.8 增加計算學分之功能 <br>
+                    v 1.0.0 使用 Vue + Typescript 來完全重構本網站，並新增數個新功能
                 </div>
             </div>
             <div class = 'w-11/12 md:w-7/12 mx-auto my-3'>
                 <div class = 'text-center text-3xl font-bold border-b-2 mb-3 bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text'>
                     成員介紹
                 </div>
-                <div class = 'grid grid-cols-1 md:grid-cols-4 mx-auto border pb-3'>
+                <div class = 'grid grid-cols-1 md:grid-cols-4 mx-auto border'>
                     
                     <div class = 'col-span-1 mx-auto my-7 md:my-0'>
                         <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member01.jpg'>
@@ -80,9 +82,20 @@
                         主要研究軟體工程，網頁前後端，演算法競賽<br>
                         目前主要學習ML相關知識。<br>
                         於此專案負責將靜態網頁改建為動態網頁。<br/>
-                        
                     </div>
-
+                    
+                    
+                    <div class = 'col-span-1 mx-auto my-7 md:my-0'>
+                        <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member04.png'>
+                    </div>
+                    <div class = 'col-span-1 text-xl flex items-center mx-auto'>
+                       <a href="https://milaroot.github.io/">凃昀辰</a>
+                    </div>
+                    <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto'>
+                        現在就讀於長榮大學資訊工程學系三年級，<br>
+                        主要研究跨域資訊安全與CTF，<br>
+                        目前主要為學習ML相關知識。
+                    </div>
                 </div>
             </div>
             <div class = "w-full text-center px-3 md:w-8/12 mx-auto py-9">

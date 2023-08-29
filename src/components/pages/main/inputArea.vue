@@ -14,7 +14,7 @@
                         </div>
                         <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程" v-model = "searchInput">
                         
-                        <ul class = "mx-auto w-11/12 result overflow-y-auto overflow-x-hidden" id = "result">
+                        <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" id = "result" v-show="show_search_box">
                             <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
                             <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
                                 [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
@@ -48,7 +48,7 @@
                 </div>
                 <hr class = 'mx-3 my-3 text-slate-300'>
                 <div class = 'flex place-content-end items-center'>
-                    <a-switch v-model:checked = "checked">顯示學分</a-switch>
+                    <a-switch v-model:checked = "state.checked">顯示學分</a-switch>
                     <span class = 'mx-3 py-1 min-w-[4rem]'>
                         顯示學分
                     </span>
@@ -75,7 +75,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for = "item in single_row_data" class = "text-center py-2 px-2 border-collapse">
+                            <tr v-for = "item in courseList" class = "text-center py-2 px-2 border-collapse">
                                 <td> {{ item.getCourseName() }} </td>
                                 <td> {{ item.getClassroom() }} </td>
                                 <td> {{ item.getStartTime() }} </td>
@@ -100,22 +100,32 @@ import { Switch } from 'ant-design-vue'
 
 import { Rowspanizer } from '@functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '@functions/general';
-import renderImage from "@functions/image_render.ts"
-import { courseAdd, searchAdd } from "@functions/course_add.ts"
 import { searchCourse, recordcourse } from '@functions/course_search.ts';
 import { splittime } from '@functions/tool.ts';
-import { courseDelete } from '@functions/course_delete.ts';
+import { courseDelete, decreaseCredit } from '@functions/course_delete.ts';
+import { courseAdd, searchAdd } from '@functions/course_add.ts';
+import renderImage from '@functions/image_render.ts';
 
 import { useStore } from 'vuex';
+import {v4 as uuidv4} from 'uuid';
 
 const store = useStore();
+store.dispatch('initAll');
 const status = computed(() => store.state.show);
+let course_data = computed(() => store.state.classStorage);
+let courseList = computed(() => store.state.classListStorage);
+let credit = computed(() => store.state.credit);
+const hidden = () =>
+{
+    store.dispatch("hidden");
+};
 
 //component
-import loadingSpinner from '@components/common/loadingSpinner.vue';
+import courseCard from "@components/pages/main/courseCard.vue";
 import comment from "@components/pages/main/comment.vue";
 
 const env = import.meta.env;
+console.log(env.VITE_CARD_DEFAULT_COLOR)
 
 const week = ["一", "二", "三", "四", "五", "六"]
 const classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
@@ -130,123 +140,178 @@ const isInputEmpty = ref(false);
 let class_list_title = ["課程名稱", "課程教室", "課程時間", "操作"];
 let class_list_visible = ref(false);
 let checked = ref(false);
-let credit = ref(0);
+let show = computed(() => store.state.showTable);
 let data = ref([]);
-
-let course_data = ref(GetCourseTable())
+let show_search_box = ref(true);
 
 let inputValue = searchInput.value.trim();
 let single_row_data = ref([])
 
-function _2data_to_1d()
-{
-    single_row_data.value = [];
-    for(let i = 0; i < course_data.value.length; i++)
-    {
-        for(let j = 0; j < course_data.value[i].length; j++)
-        {
-            if(course_data.value[i][j].getIsCourse())
-            {
-                let check = true;
-                for(let k = 0; k < single_row_data.value.length; k++)
-                {
-                    if(single_row_data.value[k].getClassroom() == course_data.value[i][j].getClassroom() && single_row_data.value[k].getCourseName() == course_data.value[i][j].getCourseName() && single_row_data.value[k].getStartTime() == course_data.value[i][j].getStartTime() && single_row_data.value[k].getWeekDay() == course_data.value[i][j].getWeekDay())
-                    {
-                        check = false;
-                        break;
-                    }
-                }
-                if(check)
-                {
-                    single_row_data.value.push(course_data.value[i][j]);
-                }
-            }
-        }
-    }   
-}
-
 watch(searchInput, async (inputValue) => {
-    let list = document.getElementById("result");
+    show_search_box.value = true;
     if(inputValue != "")
     {   
         
         isLoading.value = true;
-        
-        list.classList.remove("result");
-        list.classList.add("result-show");
+        show_search_box.value = true;
+        console.log(show_search_box.value)
         data.value = await searchCourse(inputValue);
         isLoading.value = false;
     }
     else
     {
         isLoading.value = false;
-        list.classList.remove("result-show");
-        list.classList.add("result");
+        show_search_box.value = false;
     }
 });
 
 
+onMounted(() =>
+{   
+    remerge_table();
+    // using env to control <ul> display
+    let ul = document.getElementById("result");
+    if(ul != null)
+    {
+        // ul's max-height is 2rem x env.VITE_UL_ROW
+        ul.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
+    }
+})
+
 var delete_course = function(item)
 {
     // 刪除課程
-    courseDelete(item)
-    course_data.value = GetCourseTable()
-    _2data_to_1d();
+    console.log(item);
+    if(item.getCredit() != null){
+        console.log(credit.value);
+        decreaseCredit(item.getCredit())
+        // credit.value -= item.getCredit();
+        console.log(credit.value);
+    }
+    // 再刪除函式裡面去更改store狀態
+    courseDelete(item);
+    // _2data_to_1d();
 }
 
 var show_list = function() {
     // 顯示課程列表
-    _2data_to_1d();
     class_list_visible.value = !class_list_visible.value
 }
 
-var push_to_table = function(type, item) {
+function Sleep(time) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        }, time);
+    });
+}
+
+function remerge_table(){
+    const temp = new Rowspanizer({
+        target: "#class_table",
+        colspan_index: 0
+    })
+    temp.rowspanize()
+}
+
+async function refresh_table(){
+    return new Promise(async (resolve, reject) => {
+        store.dispatch('setShowTable', false);
+        await Sleep(20);
+        store.dispatch('setShowTable', true);
+        resolve();
+    });
+}
+
+var push_to_table = async function(type, item) {
     // 手動新增課程
     // courseAdd(className.value: string, classRoom.value: string, weekDay.value: string, start.value: string, end.value: string)
+    // console.log(48763);
+    // console.log(48763);
     if(type == 1)
     {
         // check if the input is valid
         if(className.value == "" || classRoom.value == "" || weekDay.value == "星期" || start.value == "始堂" || end.value == "終堂")
-        {
-            alert("請檢查輸入資料是否填寫完整");
+        {   
+            refresh_table();
             return;
         }
 
         let check = courseAdd(className.value, classRoom.value, weekDay.value, start.value, end.value);
         if(!check)
-        {
+        {   
             alert("新增課程失敗，請檢查輸入資料是否正確");
             return;
         }
+        await refresh_table();
     }
     else if(type == 2)
     {
         // 從搜尋結果新增課程
+        show_search_box.value = !show_search_box.value;
         recordcourse(item)
         let time = splittime(item.class_time);
+        // console.log(typeof(item.credit))
         let data = [];
+        let Uuid = uuidv4();
         for(let i = 0; i < time.length; i++){
-            let obj = {
+            data.push(new Course({
                 start_time: time[i][1],
                 end_time: time[i][2],
                 week_day: time[i][0],
                 course_name: item.class_name,
                 classroom: item.class_room,
                 is_title: false,
-                is_course: true
-            }
-            data.push(new Course(obj));
+                is_course: true,
+                color: env.VITE_CARD_DEFAULT_COLOR,
+                Credit: item.credit,
+                ID: item.id,
+                is_custom: false,
+                Teacher: item.teacher,
+                Memo: null,
+                textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
+                textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
+                uuid: Uuid
+            }));
         }
+        console.log(data);
+        // 成功插入會回傳課程陣列，反之回傳false
+        // 在做儲存
         let check = searchAdd(data);
         if(!check)
-        {
+        {   
             alert("新增課程失敗，請檢查是否衝堂");
             return;
         }
+        store.dispatch('addCourseList', new Course({
+            start_time: item.class_time,
+            end_time: item.class_time,
+            week_day: item.class_time,
+            course_name: item.class_name,
+            classroom: item.class_room,
+            is_title: false,
+            is_course: true,
+            color: env.VITE_CARD_DEFAAULT_COLOR,
+            Credit: item.credit,
+            ID: item.id,
+            is_custom: false,
+            Teacher: item.teacher,
+            Memo: null,
+            textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
+            textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
+            uuid: Uuid
+        }));
+        await refresh_table();
+        store.dispatch('addCredit', Number(item.credit));
+        // credit += Number(item.credit);
+        // console.log(credit.value);
     }
-    course_data.value = GetCourseTable();
+    await Sleep(30);
+    // _2data_to_1d();
+    remerge_table();
+    await Sleep(10);
     // 刷新網頁
-    window.location.reload();
+    // window.location.reload();
 }
 
 var clearTable = function() {
@@ -254,14 +319,17 @@ var clearTable = function() {
     if(confirm("確定要清空課表嗎？"))
     {
         // 清空課表
-        localStorage.clear();
-        InitTable();
-        course_data.value = GetCourseTable();
+        store.dispatch('clearCourse');
+        window.location.reload();
     }
+    
 }
-
 var download = function() {
     renderImage("class_table") // finish 
 }
+const state = reactive({
+    checked: false
+})
+
 
 </script>
