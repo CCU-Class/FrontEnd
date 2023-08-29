@@ -3,10 +3,14 @@ import {ref, watch } from 'vue';
 //require dotenv
 const env = import.meta.env;
 const apiSite = `https://${env.VITE_BACKEND_DEVICE}/`;
-export async function visitWeb(){
+export async function visitWeb(web_name:string|null){
     const apiUrl = apiSite + "record/visistWebsite";
     return new Promise((resolve, reject) => {
-        axios.get(apiUrl).then((response) => {
+        axios.get(apiUrl, {
+            params: {
+                web_name: web_name
+            }
+        }).then((response) => {
             resolve(response.data);
         }).catch((error) => {
             console.error(error);
@@ -14,10 +18,14 @@ export async function visitWeb(){
         });
     });
 }
-export async function getVisitCount() {
+export async function getVisitCount(web_name:string|null) {
     const apiUrl = apiSite + "statistic/getVisitCount";
     return new Promise((resolve, reject) => {
-        axios.get(apiUrl).then((response) => {
+        axios.get(apiUrl, {
+            params: {
+                web_name: web_name
+            }
+        }).then((response) => {
             
             resolve(Number(response.data.value));
         }).catch((error) => {

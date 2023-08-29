@@ -36,8 +36,8 @@ const visitCount = ref(0);
 import { ref , onMounted, watch} from 'vue';
 import {getVisitCount, visitWeb} from "@functions/web_statistic.ts";
 onMounted(async () => {
-    let succ = await visitWeb(); 
-    visitCount.value = await getVisitCount();
+    let succ = await visitWeb("home"); 
+    visitCount.value = await getVisitCount("home");
     console.log(`visitCount: ${visitCount.value}`);
 });
 
