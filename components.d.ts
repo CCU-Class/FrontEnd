@@ -15,6 +15,7 @@ declare module 'vue' {
     CommonOption: typeof import('./src/components/common/option/commonOption.vue')['default']
     CourseCard: typeof import('./src/components/pages/main/courseCard.vue')['default']
     Footer: typeof import('./src/components/layout/footer.vue')['default']
+    InputArea: typeof import('./src/components/pages/main/inputArea.vue')['default']
     Intro: typeof import('./src/components/pages/home/intro.vue')['default']
     KebabButton: typeof import('./src/components/common/optionButton/kebabButton.vue')['default']
     LoadingSpinner: typeof import('./src/components/common/loadingSpinner.vue')['default']

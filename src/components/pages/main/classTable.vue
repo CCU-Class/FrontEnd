@@ -155,8 +155,6 @@ import { Switch } from 'ant-design-vue'
 
 import { Rowspanizer } from '@functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '@functions/general';
-import renderImage from "@functions/image_render.ts"
-import { courseAdd, searchAdd } from "@functions/course_add.ts"
 import { searchCourse, recordcourse } from '@functions/course_search.ts';
 import { splittime } from '@functions/tool.ts';
 import { courseDelete, decreaseCredit } from '@functions/course_delete.ts';
@@ -177,7 +175,6 @@ const hidden = () =>
 };
 
 //component
-import loadingSpinner from '@components/common/loadingSpinner.vue';
 import courseCard from "@components/pages/main/courseCard.vue";
 import comment from "@components/pages/main/comment.vue";
 
