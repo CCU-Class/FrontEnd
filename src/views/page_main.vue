@@ -26,8 +26,9 @@ watch(status, async (val) => {
 import {getVisitCount, visitWeb} from "@functions/web_statistic.ts";
 const visitCount = ref(0);
 onMounted(async () => {
-    // let succ = await visitWeb(); // 訪問網站 目前在後台測試已經成功
-    visitCount.value = await getVisitCount();
+     let succ = await visitWeb("main"); // 訪問網站 目前在後台測試已經成功
+    visitCount.value = await getVisitCount("main");
+    console.log(`visit count: ${visitCount.value}`);
 });
 
 </script>
