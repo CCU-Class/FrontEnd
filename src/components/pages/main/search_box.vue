@@ -1,5 +1,6 @@
 <template>
-    <Vue3DraggableResizable :draggable="true" :resizable="false" @dragging="handle_drag" @drag-end="drag_end" >
+    <Vue3DraggableResizable :draggable="false" :resizable="false" @dragging="handle_drag" @drag-end="drag_end" 
+    :x="elementLeft" :y="elementTop" id = "drag">
         <div class="w-full top-8 h-8 flex sticky z-50">
             <div class="mr-1 ml-auto w-8 text-3xl relative small transition-all ease-in-out duration-500" 
             :class="{ 'large mr-2 border': !show}" @transitionend="transitionComplete" >
@@ -67,7 +68,7 @@ const show_comment = () =>
 const show = ref(true);
 const show_icon = ref(true);
 const transitionCount = ref(0);
-let can_open = false;
+let can_open = true;
 
 const searchInput = ref('');
 const isLoading = ref(false);
@@ -240,6 +241,21 @@ const drag_end = () => {
     }, 100);
 };
 
+function checkVisibility()
+{
+    const triggerElement = document.querySelector('.input');
+    const hiddenElement = document.querySelector('#drag');
+    const triggerRect = triggerElement.getBoundingClientRect();
+    if(triggerRect.bottom <= 0)
+        hiddenElement.style.display = 'block';
+    else
+        hiddenElement.style.display = 'none';
+}
+onMounted(() => {
+    checkVisibility();
+});
+// Listen for scroll events and check visibility
+window.addEventListener('scroll', checkVisibility);
 
 </script>
 
@@ -260,5 +276,14 @@ const drag_end = () => {
     width: 20rem;
     height: 28rem;
     background-color: white;
+}
+#drag
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    display: none;
+    transition: 0.5s;
 }
 </style>

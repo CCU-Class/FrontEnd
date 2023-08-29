@@ -7,6 +7,7 @@ import Box from '@components/pages/main/search_box.vue';
 import comment from '@components/pages/main/comment.vue';
 import Colorpick from '@components/pages/main/colorTemplate.vue';
 import store from '../store';
+import inputArea from '@components/pages/main/inputArea.vue';
 
 const show_colorpick = computed(() => store.state.show_ColorPick);
 import { Splitpanes, Pane } from 'splitpanes'
@@ -34,8 +35,15 @@ watch(status, async (val) => {
             <Box/>
             <splitpanes class = "bg-white">
                 <pane class = "w-full" min-size = "50" size = "70">
+<<<<<<< HEAD
                     <Colorpick v-show="show_colorpick"/>
                     <classTable/>
+=======
+                    <div :class="{ main_page_left: status }">
+                        <inputArea/>
+                        <classTable/>
+                    </div>
+>>>>>>> dev_split
                     <div class = "h-5"></div>
                 </pane>
                 <pane v-if = "status" min-size = "30" max-size = "50" size = "30">

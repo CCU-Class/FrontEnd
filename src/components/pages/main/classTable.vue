@@ -1,19 +1,46 @@
 
 
 <template>
-    <div :class="{ main_page_left: status }">
-        <div>
-            <div class = "w-full mx-auto my-6 px-4 py-4 bg-gray-100 rounded-lg shadow-lg md:w-9/12 overflow-x-auto">
-                <div class = 'text-xl font-semibold'>
-                    開始建置你的課表    
-                </div>
-                <div class = "my-2">
-                    <div class = 'flex flex-col py-1 mx-auto'>
-                        <div class = "flex flex-col w-full">
-                            <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1'>
-                                課程搜尋
-                            </div>
-                            <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程" v-model = "searchInput">
+    <div class = "overflow-x-auto">
+        <div class = 'bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto shadow-lg md:w-6/12 min-w-[60rem]'>
+            <p class = "text-right py-2 mx-3" v-show = "checked">
+                目前學分: {{credit}}
+            </p>
+            <table class = 'bg-orange-100 border-separate w-full' id = "class_table">
+                <thead>
+                    <tr>
+                        <th class = "w-[10px]">
+                            ⠀
+                        </th>
+                        <th class = 'table-head w-36' colspan = "2">
+                            節次
+                        </th>   
+                        <th class = 'table-head'>
+                            星期一
+                        </th>
+                        <th class = 'table-head'>
+                            星期二
+                        </th>
+                        <th class = 'table-head'>
+                            星期三
+                        </th>
+                        <th class = 'table-head'>
+                            星期四
+                        </th>
+                        <th class = 'table-head'>
+                            星期五
+                        </th>
+                        <th class = 'table-head'>
+                            星期六
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- <tr v-for = "row in course_data">
+                        <td v-for = "item in row" class = "text-center p-0 h-full overflow-auto" v-on:click = "show_popover()" :class = "{ title: item.getIsTitle(), course: item.getIsCourse() }" style = "height: 50px;">
+                            <div> {{ item.getStartTime() }} </div>
+                            <div> {{ item.getCourseName() }} </div>
+                            <div> {{ item.getClassroom() }} </div>
                             
                             <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" id = "result" v-show="show_search_box">
                                 <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
@@ -146,7 +173,6 @@
             </div>
         </div>
     </div>
-    
 </template>
 
 <script setup>
@@ -155,8 +181,6 @@ import { Switch } from 'ant-design-vue'
 
 import { Rowspanizer } from '@functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '@functions/general';
-import renderImage from "@functions/image_render.ts"
-import { courseAdd, searchAdd } from "@functions/course_add.ts"
 import { searchCourse, recordcourse } from '@functions/course_search.ts';
 import { splittime } from '@functions/tool.ts';
 import { courseDelete, decreaseCredit } from '@functions/course_delete.ts';
@@ -177,7 +201,6 @@ const hidden = () =>
 };
 
 //component
-import loadingSpinner from '@components/common/loadingSpinner.vue';
 import courseCard from "@components/pages/main/courseCard.vue";
 import comment from "@components/pages/main/comment.vue";
 
