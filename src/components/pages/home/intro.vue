@@ -58,7 +58,6 @@
                         現在就讀於中正大學資訊工程學系三年級，<br>
                         目前正在鑽研程式演算法競賽與網頁前後端工程。
                     </div>
-
                     <div class = 'col-span-1 mx-auto my-7 md:my-0'>
                         <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member02.jpg'>
                     </div>
@@ -66,9 +65,9 @@
                         王子銜
                     </div>
                     <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto'>
-                        現在就讀於中正大學通訊工程學系三年級，<br>
+                        中正大學通訊工程學系三年級，<br>
                         主要研究網頁前後端，與演算法競賽。<br>
-                        最近開始學習ML方面的相關知識
+                        2023 中研院 Summer intern
                     </div>
 
                     <div class = 'col-span-1 mx-auto my-7 md:my-0'>
@@ -92,7 +91,7 @@
                        <a href="https://milaroot.github.io/">凃昀辰</a>
                     </div>
                     <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto'>
-                        現在就讀於長榮大學資訊工程學系三年級，<br>
+                        現在就讀於資訊工程學系三年級，<br>
                         主要研究跨域資訊安全與CTF，<br>
                         目前主要為學習ML相關知識。
                     </div>

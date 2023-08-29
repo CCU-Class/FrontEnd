@@ -35,7 +35,8 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
                 Memo: data[i][j].courseData.Memo,
                 textColor: data[i][j].courseData.textColor,
                 textStyle: data[i][j].courseData.textStyle,
-                uuid: data[i][j].courseData.uuid
+                uuid: data[i][j].courseData.uuid,
+                length: 0
             }))
         }
         table.push(row)
@@ -47,7 +48,7 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
         classroom: classRoom,
         is_title: false,
         is_course: true,
-        color: env.VITE_DEFAULT_COLOR,
+        color: env.VITE_CARD_DEFAULT_COLOR,
         ID: null,
         Credit: null,
         is_custom: true,
@@ -55,7 +56,8 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
         Memo: null,
         textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
         textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
-        uuid: Uuid
+        uuid: Uuid,
+        length: 0
     })
     let weekDayIndex = WeekDayToInt[weekDay]; // 2 is the offset of the first two columns
     let startHour = courseToStartIndex[start];
@@ -81,7 +83,7 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
     console.log("this")
     // 不要在這邊儲存localstorage，使用store
     console.log(table)
-    window.location.reload();
+    // window.location.reload();
     return table;
 }
 

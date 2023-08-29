@@ -30,7 +30,8 @@ export function courseDelete(item: Course)
                         Memo: null,
                         textColor: "",
                         textStyle: "",
-                        uuid: ""
+                        uuid: "",
+                        length: 0
                     }
                 ))
             }
@@ -50,7 +51,8 @@ export function courseDelete(item: Course)
                     Memo: data[i][j].courseData.Memo,
                     textColor: data[i][j].courseData.textColor,
                     textStyle: data[i][j].courseData.textStyle,
-                    uuid: data[i][j].courseData.uuid
+                    uuid: data[i][j].courseData.uuid,
+                    length: 0
                 }))
             }
         }

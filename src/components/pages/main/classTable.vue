@@ -281,7 +281,8 @@ var push_to_table = async function(type, item) {
                 ID: item.id,
                 is_custom: false,
                 Teacher: item.teacher,
-                Memo: null
+                Memo: null,
+                length: 0
             }));
         }
         console.log(data);
@@ -306,7 +307,8 @@ var push_to_table = async function(type, item) {
             ID: item.id,
             is_custom: false,
             Teacher: item.teacher,
-            Memo: null
+            Memo: null,
+            length: 0
         }));
         await refresh_table();
         store.dispatch('addCredit', Number(item.credit));

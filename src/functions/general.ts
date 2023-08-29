@@ -111,6 +111,7 @@ interface CourseData
     textColor: string;
     textStyle: string;
     uuid: string;
+    length: number;
 }
 
 export class Course
@@ -209,7 +210,14 @@ export class Course
     {
         this.courseData.uuid = uuid;
     }
-    
+    public getLength() : number
+    {
+        return this.courseData.length;
+    }
+    public setLength(length : number) : void
+    {
+        this.courseData.length = length;
+    }
 }
 
 
@@ -270,7 +278,8 @@ export function InitTable()
                     Memo: null,
                     textColor: "",
                     textStyle: "",
-                    uuid: ""
+                    uuid: "",
+                    length: 0
                 });
                 if(j == 0){
                     row.push(course);
@@ -296,7 +305,8 @@ export function InitTable()
                     Memo: null,
                     textColor: "",
                     textStyle: "",
-                    uuid: ""
+                    uuid: "",
+                    length: 0
                 }))
             }
         }
