@@ -35,15 +35,10 @@ watch(status, async (val) => {
             <Box/>
             <splitpanes class = "bg-white">
                 <pane class = "w-full" min-size = "50" size = "70">
-<<<<<<< HEAD
-                    <Colorpick v-show="show_colorpick"/>
-                    <classTable/>
-=======
                     <div :class="{ main_page_left: status }">
                         <inputArea/>
                         <classTable/>
                     </div>
->>>>>>> dev_split
                     <div class = "h-5"></div>
                 </pane>
                 <pane v-if = "status" min-size = "30" max-size = "50" size = "30">

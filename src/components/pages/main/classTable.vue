@@ -154,7 +154,7 @@
                             </tr>
                         </thead>
                         <tbody v-if = "show">
-                            <!-- <tr v-for = "row in course_data">
+                            <tr v-for = "row in course_data">
                                 <td v-for = "item in row" class = "text-center p-0 h-full overflow-auto" v-on:click = "show_popover()" :class = "{ title: item.getIsTitle(), course: item.getIsCourse() }" style = "height: 50px;">
                                     <div> {{ item.getStartTime() }} </div>
                                     <div> {{ item.getCourseName() }} </div>
