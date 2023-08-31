@@ -1,0 +1,346 @@
+
+
+<template>
+    <div class = "overflow-x-auto">
+        <div class = 'bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto shadow-lg md:w-6/12 min-w-[60rem]'>
+            <p class = "text-right py-2 mx-3" v-show = "show_credit">
+                目前學分: {{credit}}
+            </p>
+            <table class = 'bg-orange-100 border-separate w-full' id = "class_table">
+                <thead>
+                    <tr>
+                        <th class = "w-[10px]">
+                            ⠀
+                        </th>
+                        <th class = 'table-head w-36' colspan = "2">
+                            節次
+                        </th>   
+                        <th class = 'table-head'>
+                            星期一
+                        </th>
+                        <th class = 'table-head'>
+                            星期二
+                        </th>
+                        <th class = 'table-head'>
+                            星期三
+                        </th>
+                        <th class = 'table-head'>
+                            星期四
+                        </th>
+                        <th class = 'table-head'>
+                            星期五
+                        </th>
+                        <th class = 'table-head'>
+                            星期六
+                        </th>
+                    </tr>
+                </thead>
+                <tbody v-if = "show">
+                    <!-- <tr v-for = "row in course_data">
+                        <td v-for = "item in row" class = "text-center p-0 h-full overflow-auto" v-on:click = "show_popover()" :class = "{ title: item.getIsTitle(), course: item.getIsCourse() }" style = "height: 50px;">
+                            <div> {{ item.getStartTime() }} </div>
+                            <div> {{ item.getCourseName() }} </div>
+                            <div> {{ item.getClassroom() }} </div>
+                            
+                        </td>
+                    </tr>  -->
+                    <tr v-for = "row in course_data" :key="row.id">
+                        <courseCard v-for="item in row" :key="item.id" :item="item" />
+                    </tr> 
+                </tbody>
+            </table>
+            <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" id = "result" v-show="show_search_box">
+                <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
+                <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
+                    [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
+                </li>
+            </ul>
+        </div>
+    </div>
+</template>
+
+<script setup>
+import { onMounted, onUpdated, ref, watch, reactive, computed } from 'vue';
+import { Switch } from 'ant-design-vue'
+
+import { Rowspanizer } from '@functions/rowspanizer';
+import { Course, InitTable, GetCourseTable } from '@functions/general';
+import renderImage from "@functions/image_render.ts"
+import { courseAdd, searchAdd } from "@functions/course_add.ts"
+import { searchCourse, recordcourse } from '@functions/course_search.ts';
+import { splittime } from '@functions/tool.ts';
+import { courseDelete, decreaseCredit } from '@functions/course_delete.ts';
+
+
+
+import { Splitpanes, Pane } from 'splitpanes'
+import 'splitpanes/dist/splitpanes.css'
+import { useStore } from 'vuex';
+
+
+const store = useStore();
+store.dispatch('initAll');
+const status = computed(() => store.state.show);
+const show_credit = computed(() => store.state.show_credit)
+const open_credit = () => store.dispatch("show_credit");
+const close_credit = () => store.dispatch("hidden_credit");
+let course_data = computed(() => store.state.classStorage);
+let courseList = computed(() => store.state.classListStorage);
+let credit = computed(() => store.state.credit);
+const hidden = () =>
+{
+    store.dispatch("hidden");
+};
+
+//component
+import loadingSpinner from '@components/common/loadingSpinner.vue';
+import courseCard from "@components/pages/main/courseCard.vue";
+
+const env = import.meta.env;
+console.log(env.VITE_CARD_DEFAULT_COLOR)
+
+const week = ["一", "二", "三", "四", "五", "六"]
+const classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+const className = ref()
+const classRoom = ref()
+const weekDay = ref("星期")
+const start = ref("始堂")
+const end = ref("終堂")
+const searchInput = ref('');
+const isLoading = ref(false);
+const isInputEmpty = ref(false);
+let class_list_title = ["課程名稱", "課程教室", "課程時間", "操作"];
+let class_list_visible = ref(false);
+let checked = ref(false);
+let show = ref(1);
+let data = ref([]);
+let show_search_box = ref(true);
+
+
+let inputValue = searchInput.value.trim();
+let single_row_data = ref([])
+
+
+// function _2data_to_1d()
+// {
+//     single_row_data.value = [];
+//     for(let i = 0; i < course_data.value.length; i++)
+//     {
+//         for(let j = 0; j < course_data.value[i].length; j++)
+//         {
+//             if(course_data.value[i][j].getIsCourse())
+//             {
+//                 let check = true;
+//                 for(let k = 0; k < single_row_data.value.length; k++)
+//                 {   
+//                     if(single_row_data.value[k].getClassroom() == course_data.value[i][j].getClassroom() && single_row_data.value[k].getCourseName() == course_data.value[i][j].getCourseName() && single_row_data.value[k].getTeacher() == course_data.value[i][j].getTeacher())
+//                     {
+//                         check = false;
+//                         break;
+//                     }
+//                 }
+//                 if(check)
+//                 {   
+//                     single_row_data.value.push(course_data.value[i][j]);
+//                 }
+//             }
+//         }
+//     }
+//     for(let i = 0; i < single_row_data.value.length; i++){
+//         for(let j = 0; j < courseList.value.length; j++){
+//             if(single_row_data.value[i].getClassroom() == courseList.value[j].getClassroom() && single_row_data.value[i].getCourseName() == courseList.value[j].getCourseName() && single_row_data.value[i].getId() == courseList.value[j].getId()){
+//                 single_row_data.value[i].setStartTime(courseList.value[j].getStartTime());
+//             }
+//         }
+//     }
+// }
+
+watch(searchInput, async (inputValue) => {
+    show_search_box.value = true;
+    if(inputValue != "")
+    {   
+        
+        isLoading.value = true;
+        show_search_box.value = true;
+        console.log(show_search_box.value)
+        data.value = await searchCourse(inputValue);
+        isLoading.value = false;
+    }
+    else
+    {
+        isLoading.value = false;
+        show_search_box.value = false;
+    }
+});
+
+
+onMounted(() =>
+{   
+    remerge_table();
+    // using env to control <ul> display
+    let ul = document.getElementById("result");
+    if(ul != null)
+    {
+        // ul's max-height is 2rem x env.VITE_UL_ROW
+        ul.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
+    }
+})
+
+var delete_course = function(item)
+{
+    // 刪除課程
+    console.log(item);
+    if(item.getCredit() != null){
+        console.log(credit.value);
+        decreaseCredit(item.getCredit())
+        // credit.value -= item.getCredit();
+        console.log(credit.value);
+    }
+    // 再刪除函式裡面去更改store狀態
+    courseDelete(item);
+    // _2data_to_1d();
+}
+
+var show_popover = function() {
+    // 顯示 popover
+    let popover = document.getElementById("popover");
+    popover.classList.remove("hidden");
+    popover.classList.add("block");
+}
+
+var show_list = function() {
+    // 顯示課程列表
+    // _2data_to_1d();
+    class_list_visible.value = !class_list_visible.value
+}
+
+function Sleep(time) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        }, time);
+    });
+}
+
+function remerge_table(){
+    const temp = new Rowspanizer({
+        target: "#class_table",
+        colspan_index: 0
+    })
+    temp.rowspanize()
+}
+
+async function refresh_table(){
+    return new Promise(async (resolve, reject) => {
+        show.value = !show.value;
+        await Sleep(20);
+        show.value = !show.value;
+        resolve();
+    });
+}
+
+var push_to_table = async function(type, item) {
+    // 手動新增課程
+    // courseAdd(className.value: string, classRoom.value: string, weekDay.value: string, start.value: string, end.value: string)
+    // console.log(48763);
+    // console.log(48763);
+    if(type == 1)
+    {
+        // check if the input is valid
+        if(className.value == "" || classRoom.value == "" || weekDay.value == "星期" || start.value == "始堂" || end.value == "終堂")
+        {   
+            refresh_table();
+            return;
+        }
+
+        let check = courseAdd(className.value, classRoom.value, weekDay.value, start.value, end.value);
+        if(!check)
+        {   
+            alert("新增課程失敗，請檢查輸入資料是否正確");
+            return;
+        }
+        courseList.value = store.state.classListStorage;
+        await refresh_table();
+    }
+    else if(type == 2)
+    {
+        // 從搜尋結果新增課程
+        show_search_box.value = !show_search_box.value;
+        recordcourse(item)
+        let time = splittime(item.class_time);
+        // console.log(typeof(item.credit))
+        let data = [];
+        for(let i = 0; i < time.length; i++){
+            data.push(new Course({
+                start_time: time[i][1],
+                end_time: time[i][2],
+                week_day: time[i][0],
+                course_name: item.class_name,
+                classroom: item.class_room,
+                is_title: false,
+                is_course: true,
+                color: env.VITE_CARD_DEFAULT_COLOR,
+                Credit: item.credit,
+                ID: item.id,
+                is_custom: false,
+                Teacher: item.teacher,
+                Memo: null,
+                length: 0
+            }));
+        }
+        console.log(data);
+        // 成功插入會回傳課程陣列，反之回傳false
+        // 在做儲存
+        let check = searchAdd(data);
+        if(!check)
+        {   
+            alert("新增課程失敗，請檢查是否衝堂");
+            return;
+        }
+        store.dispatch('addCourseList', new Course({
+            start_time: item.class_time,
+            end_time: item.class_time,
+            week_day: item.class_time,
+            course_name: item.class_name,
+            classroom: item.class_room,
+            is_title: false,
+            is_course: true,
+            color: env.VITE_CARD_DEFAAULT_COLOR,
+            Credit: item.credit,
+            ID: item.id,
+            is_custom: false,
+            Teacher: item.teacher,
+            Memo: null,
+            length: 0
+        }));
+        await refresh_table();
+        store.dispatch('addCredit', Number(item.credit));
+        // credit += Number(item.credit);
+        // console.log(credit.value);
+    }
+    await Sleep(30);
+    // _2data_to_1d();
+    remerge_table();
+    await Sleep(10);
+    // 刷新網頁
+    // window.location.reload();
+}
+
+var clearTable = function() {
+    // 顯示確認視窗
+    if(confirm("確定要清空課表嗎？"))
+    {
+        // 清空課表
+        store.dispatch('clearCourse');
+        window.location.reload();
+    }
+    
+}
+var download = function() {
+    renderImage("class_table") // finish 
+}
+const state = reactive({
+    checked: false
+})
+
+</script>

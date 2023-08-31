@@ -4,8 +4,9 @@
             公告
         </div>
         <div class = 'mx-auto my-2 py-5 px-10 shadow-xl rounded-xl text-center bg-gray-100/10'>
-            若要刪除單一課程，請點擊下方之展開課程列表，<br>
-            即可看到已選課程，點擊刪除按鈕即可刪除。
+            如遇到不預期的錯誤，請嘗試清空課表或是清除瀏覽器快取，<br>
+            若問題仍未解決，請透過下方的聯絡方式告知我們，<br>
+            我們會盡快修復問題，造成不便敬請見諒。
         </div>
     </div>
 </template>

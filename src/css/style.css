@@ -26,3 +26,114 @@ table
 {
     table-layout: fixed;
 }
+.table-head
+{
+    @apply text-center text-gray-900 border-b border-black py-1.5 font-semibold min-w-[9rem];
+}
+.title
+{
+    @apply w-16 text-xl text-gray-700 font-serif;
+}
+.course
+{
+    @apply rounded-md font-bold text-base ;
+}
+[type=search]::-webkit-search-cancel-button
+{
+    width: 36px;
+    height: 36px;
+    border: 0;
+    padding-right: .5rem;
+    background-size: 16px;
+    cursor: pointer;
+    opacity: .4;
+    transition: .2s;
+}
+.result
+{
+    position: absolute;
+    visibility: hidden;
+}
+.result-show
+{
+    visibility: visible;
+    position: relative;
+}
+/* change search border when focus */
+[type=search]
+{
+    outline: none;
+    border-width: 0.1px;
+}
+[type=search]:focus
+{
+    outline: none;
+    border-width: 0.1px;
+    border-color: #ffb676;
+    box-shadow: 0 0 5px #f8efcf;
+}
+[type=text]
+{
+    outline: none;
+    border-width: 0.1px;
+}
+[type=text]:focus
+{
+    outline: none;
+    border-width: 0.1px;
+    border-color: #ffb676;
+    box-shadow: 0 0 5px #f8efcf;
+}
+[type=password]
+{
+    outline: none;
+    border-width: 0.1px;
+}
+[type=password]:focus
+{
+    outline: none;
+    border-width: 0.1px;
+    border-color: #ffb676;
+    box-shadow: 0 0 5px #f8efcf;
+}
+.ant-switch{
+    background-color: #ffb676;
+ }
+.splitpanes
+{
+    @apply bg-white;
+}
+.splitpanes--vertical > .splitpanes__splitter
+{
+    width: 5px;
+    background: linear-gradient(90deg, #ccc, #fff2bb);
+}
+.main_page_left
+{
+    max-height: 41rem;
+    overflow-y: auto;
+}
+
+/* scroll bar */
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #ffe2c8 #fff;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 15px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #fff;
+    border-radius: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #ffe2c8;
+    border-radius: 14px;
+    border: 3px solid #fff;
+}
