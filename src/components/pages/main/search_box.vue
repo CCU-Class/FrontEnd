@@ -57,13 +57,14 @@ import {v4 as uuidv4} from 'uuid';
 import {splittime} from "@functions/tool.ts";
 import {searchAdd} from "@functions/course_add";
 import { searchCourseOnCcuplus } from '@functions/ccuplus';
+import { searchCommentsOnCcuplus } from '../../../functions/ccuplus';
 const env = import.meta.env;
 
 const store = useStore();
 
-const show_comment = (courseid) =>
-{
-    console.log(searchCourseOnCcuplus(courseid));
+async function show_comment(courseid)
+{   
+    console.log(await searchCommentsOnCcuplus(courseid));
     store.dispatch("display");
 }
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {ref, watch } from 'vue';
+
 //require dotenv
 const env = import.meta.env;
 const apiSite = `https://${env.VITE_BACKEND_DEVICE}/`;
