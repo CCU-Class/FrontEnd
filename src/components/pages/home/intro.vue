@@ -39,7 +39,8 @@
                     v 0.0.6 加入搜尋功能，並使用MySQL當作資料庫 <br>
                     v 0.0.7 資料庫更改為postgreSQL <br>
                     v 0.0.8 增加計算學分之功能 <br>
-                    v 1.0.0 使用 Vue + Typescript 來完全重構本網站，並新增數個新功能
+                    v 1.0.0 使用 Vue + Typescript 來完全重構本網站，並新增數個新功能 <br>
+                    v 1.0.1 與 ccu.plus 合作，新增查看 ccu.plus 評價功能
                 </div>
             </div>
             <div class = 'w-11/12 md:w-7/12 mx-auto my-3'>
