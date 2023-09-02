@@ -56,6 +56,7 @@ import {Course} from "@functions/general.ts";
 import {v4 as uuidv4} from 'uuid';
 import {splittime} from "@functions/tool.ts";
 import {searchAdd} from "@functions/course_add";
+
 const env = import.meta.env;
 
 const store = useStore();
