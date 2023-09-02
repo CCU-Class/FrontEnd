@@ -63,7 +63,7 @@ const store = useStore();
 async function show_comment(courseid)
 {
     window.scrollTo(0, 0);
-    store.dispatch("get_comments", courseid);
+    store.dispatch("pass_course_id", courseid);
     setTimeout(() => {
         store.dispatch("display");
     }, 100);
