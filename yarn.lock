@@ -1630,6 +1630,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/uuid@^9.0.3":
+  "integrity" "sha512-taHQQH/3ZyI3zP8M/puluDEIEvtQHVYcC6y3N8ijFtAd28+Ey/G4sg1u2gB01S8MwybLOKAp9/yCMu/uR5l3Ug=="
+  "resolved" "https://registry.npmjs.org/@types/uuid/-/uuid-9.0.3.tgz"
+  "version" "9.0.3"
+
 "@vitejs/plugin-vue@^4.1.0":
   "integrity" "sha512-R6JDUfiZbJA9cMiguQ7jxALsgiprjBeHL5ikpXfJCH62pPHtI+JdJ5xWj6Ev73yXSlYl86+blXn1kZHQ7uElxw=="
   "resolved" "https://registry.npmjs.org/@vitejs/plugin-vue/-/plugin-vue-4.2.3.tgz"

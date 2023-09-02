@@ -1,6 +1,5 @@
 import { Module } from 'vuex';
 
-const env = import.meta.env;
 
 interface State {
     course_id: string;

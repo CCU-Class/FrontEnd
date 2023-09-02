@@ -1,5 +1,4 @@
 import store from '../store';
-import { computed } from 'vue';
 const env = import.meta.env;
 // using a key-value pair to map courseID to time
 export const courseToTime: { [key: string]: string } = {
