@@ -1,5 +1,5 @@
 <template>
-    <div class = "comment_inside overflow-y-auto overflow-x-hidden py-6 max-h-[41rem]">
+    <div class = "comment_inside overflow-y-auto overflow-x-hidden py-6 max-h-[95vh]">
         <button v-on:click = "hidden" class = 'btn-normal mx-3'>關閉評價</button>
         <ul class = "mx-auto w-full">
             <li class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white text-3xl" v-for="index in 15" :key="'index'">

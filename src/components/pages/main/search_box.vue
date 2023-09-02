@@ -37,7 +37,7 @@
                                 
                             </div>
                             <div class="flex w-full h-8 p-2">
-                                <!-- <div class="m-auto text-base rounded-2xl bg-orange-300 px-3 py-1 hover:bg-orange-200" v-on:click="show_comment">查看評價</div> -->
+                                <div class="m-auto text-base rounded-2xl bg-green-200 px-3 py-1 hover:bg-green-300" @click="show_comment(selectedCourse.id)">查看評價</div>
                                 <div class="m-auto text-base rounded-2xl bg-green-200 px-3 py-1 hover:bg-green-300" @click="push_to_table(selectedCourse)">加入課表</div>
                             </div>
                         </div>
@@ -56,12 +56,14 @@ import {Course} from "@functions/general.ts";
 import {v4 as uuidv4} from 'uuid';
 import {splittime} from "@functions/tool.ts";
 import {searchAdd} from "@functions/course_add";
+import { searchCourseOnCcuplus } from '@functions/ccuplus';
 const env = import.meta.env;
 
 const store = useStore();
 
-const show_comment = () =>
+const show_comment = (courseid) =>
 {
+    console.log(searchCourseOnCcuplus(courseid));
     store.dispatch("display");
 }
 
@@ -188,7 +190,6 @@ let push_to_table = async function (item){
     // 先檔一下
     window.location.reload();
 }
-
 
 watch(searchInput, async (inputValue) => {
     let list = document.getElementById("result");

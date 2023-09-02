@@ -110,7 +110,7 @@ table
 }
 .main_page_left
 {
-    max-height: 41rem;
+    max-height: 95vh;
     overflow-y: auto;
 }
 
