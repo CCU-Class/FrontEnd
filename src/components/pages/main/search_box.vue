@@ -69,8 +69,8 @@ async function show_comment(courseid)
     }, 100);
 }
 
-const show = ref(true);
-const show_icon = ref(true);
+const show = ref(false);
+const show_icon = ref(false);
 const transitionCount = ref(0);
 let can_open = true;
 
@@ -101,6 +101,7 @@ const search_button = () => {
         }, 200);
     }else{
         show_icon.value = !show_icon.value;
+        show_content.value = !show_content.value;
     }
 };
 
