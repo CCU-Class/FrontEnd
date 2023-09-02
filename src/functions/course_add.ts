@@ -95,7 +95,7 @@ export function searchAdd(course_list : Course[])
     // store information in the database
     // return the status of the operation
     console.log(course_list);
-    let table: Course[][] = store.state.classStorage;
+    let table: Course[][] = store.state.course.classStorage;
     // put the list of courses into the table
     for(let i = 0; i < course_list.length; i++)
     {

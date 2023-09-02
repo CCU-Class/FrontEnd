@@ -1,6 +1,6 @@
 <template>
     <Vue3DraggableResizable :draggable="false" :resizable="false" @dragging="handle_drag" @drag-end="drag_end" 
-    :x="elementLeft" :y="elementTop" id = "drag">
+    id = "drag">
         <div class="w-full top-8 h-8 flex sticky z-50">
             <div class="mr-1 ml-auto w-8 text-lg relative small transition-all ease-in-out duration-500" 
             :class="{ 'large mr-2 border': !show}" @transitionend="transitionComplete" >
@@ -56,16 +56,17 @@ import {Course} from "@functions/general.ts";
 import {v4 as uuidv4} from 'uuid';
 import {splittime} from "@functions/tool.ts";
 import {searchAdd} from "@functions/course_add";
-import { searchCourseOnCcuplus } from '@functions/ccuplus';
-import { searchCommentsOnCcuplus } from '../../../functions/ccuplus';
 const env = import.meta.env;
 
 const store = useStore();
 
 async function show_comment(courseid)
-{   
-    console.log(await searchCommentsOnCcuplus(courseid));
-    store.dispatch("display");
+{
+    window.scrollTo(0, 0);
+    store.dispatch("get_comments", courseid);
+    setTimeout(() => {
+        store.dispatch("display");
+    }, 100);
 }
 
 const show = ref(true);
@@ -222,10 +223,6 @@ const selectCourse = (course)=>{
 watch(selectedCourse, async ()=>{
     selectedNull.value = (selectedCourse.value == null);
 });
-
-const mouse_x = ref(0);
-const mouse_y = ref(0);
-
 
 const handle_drag = (event) => {
     can_open = false;    

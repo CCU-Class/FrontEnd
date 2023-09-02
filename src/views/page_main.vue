@@ -9,11 +9,11 @@ import inputArea from '@components/pages/main/inputArea.vue';
 import Colorpick from '@components/pages/main/colorTemplate.vue';
 import store from '../store';
 
-const show_colorpick = computed(() => store.state.show_ColorPick);
+const show_colorpick = computed(() => store.state.course.show_ColorPick);
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 
-const status = computed(() => store.state.show);
+const status = computed(() => store.state.course.show);
 
 watch(status, async (val) => {
     if(val)
@@ -26,7 +26,7 @@ watch(status, async (val) => {
 import {getVisitCount, visitWeb} from "@functions/web_statistic.ts";
 const visitCount = ref(0);
 onMounted(async () => {
-     let succ = await visitWeb("main"); // 訪問網站 目前在後台測試已經成功
+    let succ = await visitWeb("main"); // 訪問網站 目前在後台測試已經成功
     visitCount.value = await getVisitCount("main");
     console.log(`visit count: ${visitCount.value}`);
 });

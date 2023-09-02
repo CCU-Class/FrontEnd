@@ -2,7 +2,7 @@ import { Course } from './general.ts'
 import store from '../store'
 
 export function courseChangeColor(course : Course, color : string){
-    let temp = store.state.classStorage;
+    let temp = store.state.course.classStorage;
     for(let i = 0; i < temp.length; i++){
         for(let j = 0; j < temp[i].length; j++){
             if(course.getUuid() == temp[i][j].getUuid()){
@@ -14,7 +14,7 @@ export function courseChangeColor(course : Course, color : string){
 }
 
 export function courseTextChangeColor(course : Course, color : string){
-    let temp = store.state.classStorage;
+    let temp = store.state.course.classStorage;
     for(let i = 0; i < temp.length; i++){
         for(let j = 0; j < temp[i].length; j++){
             if(course.getUuid() == temp[i][j].getUuid()){

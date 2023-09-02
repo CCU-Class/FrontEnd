@@ -32,15 +32,15 @@
     import {courseChangeColor, courseTextChangeColor} from '../../../functions/course_color.ts'
 
     const env = import.meta.env;
-    const color = ref(store.state.defaultColor);
-    const defaultColor = computed(() => store.state.defaultColor);
-    const show_colorpick = computed(() => store.state.show_ColorPick);
+    const color = ref(store.state.course.defaultColor);
+    const defaultColor = computed(() => store.state.course.defaultColor);
+    const show_colorpick = computed(() => store.state.course.show_ColorPick);
     watch(show_colorpick, () => {
         console.log('change')
-        color.value = store.state.defaultColor;
+        color.value = store.state.course.defaultColor;
     });
-    const course = computed(() => store.state.chooseCard);
-    const mode = computed(() => store.state.cardMode);
+    const course = computed(() => store.state.course.chooseCard);
+    const mode = computed(() => store.state.course.cardMode);
     // const defaultColor = computed(() => store.state.defaultColor);
     function updateColor (eventData) {
         color.value = eventData.cssColor

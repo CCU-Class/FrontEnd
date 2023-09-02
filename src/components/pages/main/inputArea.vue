@@ -109,13 +109,13 @@ import {v4 as uuidv4} from 'uuid';
 
 const store = useStore();
 store.dispatch('initAll');
-const status = computed(() => store.state.show);
-const show_credit = computed(() => store.state.show_credit)
+const status = computed(() => store.state.course.show);
+const show_credit = computed(() => store.state.course.show_credit)
 const open_credit = () => store.dispatch("show_credit");
 const close_credit = () => store.dispatch("hidden_credit");
-let course_data = computed(() => store.state.classStorage);
-let courseList = computed(() => store.state.classListStorage);
-let credit = computed(() => store.state.credit);
+let course_data = computed(() => store.state.course.classStorage);
+let courseList = computed(() => store.state.course.classListStorage);
+let credit = computed(() => store.state.course.credit);
 const hidden = () =>
 {
     store.dispatch("hidden");
@@ -123,7 +123,6 @@ const hidden = () =>
 
 //component
 import courseCard from "@components/pages/main/courseCard.vue";
-import comment from "@components/pages/main/comment.vue";
 
 const env = import.meta.env;
 console.log(env.VITE_CARD_DEFAULT_COLOR)
@@ -141,7 +140,7 @@ const isInputEmpty = ref(false);
 let class_list_title = ["課程名稱", "課程教室", "課程時間", "操作"];
 let class_list_visible = ref(false);
 let checked = ref(false);
-let show = computed(() => store.state.showTable);
+let show = computed(() => store.state.course.showTable);
 let data = ref([]);
 let show_search_box = ref(true);
 

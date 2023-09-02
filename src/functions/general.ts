@@ -318,7 +318,7 @@ export function InitTable()
 
 export function GetCourseTable()
 {   
-    return store.state.classStorage;
+    return store.state.course.classStorage;
     // retrieve the course table from the local storage
     // let courseTable = localStorage.getItem("courseTable")
     // if(courseTable == null)

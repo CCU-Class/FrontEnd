@@ -80,13 +80,13 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 store.dispatch('initAll');
-const status = computed(() => store.state.show);
-const show_credit = computed(() => store.state.show_credit)
+const status = computed(() => store.state.course.show);
+const show_credit = computed(() => store.state.course.show_credit)
 const open_credit = () => store.dispatch("show_credit");
 const close_credit = () => store.dispatch("hidden_credit");
-let course_data = computed(() => store.state.classStorage);
-let courseList = computed(() => store.state.classListStorage);
-let credit = computed(() => store.state.credit);
+let course_data = computed(() => store.state.course.classStorage);
+let courseList = computed(() => store.state.course.classListStorage);
+let credit = computed(() => store.state.course.credit);
 const hidden = () =>
 {
     store.dispatch("hidden");
@@ -119,41 +119,6 @@ let show_search_box = ref(true);
 
 let inputValue = searchInput.value.trim();
 let single_row_data = ref([])
-
-
-// function _2data_to_1d()
-// {
-//     single_row_data.value = [];
-//     for(let i = 0; i < course_data.value.length; i++)
-//     {
-//         for(let j = 0; j < course_data.value[i].length; j++)
-//         {
-//             if(course_data.value[i][j].getIsCourse())
-//             {
-//                 let check = true;
-//                 for(let k = 0; k < single_row_data.value.length; k++)
-//                 {   
-//                     if(single_row_data.value[k].getClassroom() == course_data.value[i][j].getClassroom() && single_row_data.value[k].getCourseName() == course_data.value[i][j].getCourseName() && single_row_data.value[k].getTeacher() == course_data.value[i][j].getTeacher())
-//                     {
-//                         check = false;
-//                         break;
-//                     }
-//                 }
-//                 if(check)
-//                 {   
-//                     single_row_data.value.push(course_data.value[i][j]);
-//                 }
-//             }
-//         }
-//     }
-//     for(let i = 0; i < single_row_data.value.length; i++){
-//         for(let j = 0; j < courseList.value.length; j++){
-//             if(single_row_data.value[i].getClassroom() == courseList.value[j].getClassroom() && single_row_data.value[i].getCourseName() == courseList.value[j].getCourseName() && single_row_data.value[i].getId() == courseList.value[j].getId()){
-//                 single_row_data.value[i].setStartTime(courseList.value[j].getStartTime());
-//             }
-//         }
-//     }
-// }
 
 watch(searchInput, async (inputValue) => {
     show_search_box.value = true;
@@ -259,7 +224,7 @@ var push_to_table = async function(type, item) {
             alert("新增課程失敗，請檢查輸入資料是否正確");
             return;
         }
-        courseList.value = store.state.classListStorage;
+        courseList.value = store.state.course.classListStorage;
         await refresh_table();
     }
     else if(type == 2)
