@@ -56,6 +56,7 @@ import {Course} from "@functions/general.ts";
 import {v4 as uuidv4} from 'uuid';
 import {splittime} from "@functions/tool.ts";
 import {searchAdd} from "@functions/course_add";
+
 const env = import.meta.env;
 
 const store = useStore();
@@ -64,9 +65,7 @@ async function show_comment(courseid)
 {
     window.scrollTo(0, 0);
     store.dispatch("pass_course_id", courseid);
-    setTimeout(() => {
-        store.dispatch("display");
-    }, 100);
+    store.dispatch("display");
 }
 
 const show = ref(false);
