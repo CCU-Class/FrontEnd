@@ -65,9 +65,7 @@ async function show_comment(courseid)
 {
     window.scrollTo(0, 0);
     store.dispatch("pass_course_id", courseid);
-    setTimeout(() => {
-        store.dispatch("display");
-    }, 100);
+    store.dispatch("display");
 }
 
 const show = ref(false);
