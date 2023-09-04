@@ -311,7 +311,7 @@ var push_to_table = async function(type, item) {
     remerge_table();
     await Sleep(10);
     // 刷新網頁
-    // window.location.reload();
+    window.location.reload();
 }
 
 var clearTable = function() {
