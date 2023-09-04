@@ -2,10 +2,10 @@
 
 <template>
     <div class = "overflow-x-auto">
-        <div class = 'bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto shadow-lg md:w-6/12 min-w-[60rem]'>
-            <p class = "text-right py-2 mx-3" v-show = "show_credit">
+        <div class = 'bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto md:w-6/12 min-w-[60rem]' id = "table_with_credit">
+            <div class = "text-right py-2 mx-3 bg-transparent" v-show = "show_credit">
                 目前學分: {{credit}}
-            </p>
+            </div>
             <table class = 'bg-orange-100 border-separate w-full' id = "class_table">
                 <thead>
                     <tr>
@@ -301,9 +301,7 @@ var clearTable = function() {
     }
     
 }
-var download = function() {
-    renderImage("class_table") // finish 
-}
+
 const state = reactive({
     checked: false
 })

@@ -325,7 +325,7 @@ var clearTable = function() {
     
 }
 var download = function() {
-    renderImage("class_table") // finish 
+    renderImage("table_with_credit") // finish 
 }
 const state = reactive({
     checked: false

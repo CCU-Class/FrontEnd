@@ -4,6 +4,7 @@ import html2canvas from "html2canvas";
 export default function renderImage(element: string)
 {
     let htmlElement: any = document.getElementById(element);
+    console.log(htmlElement);
     html2canvas(htmlElement).then(
         function(canvas)
         {
