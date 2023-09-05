@@ -130,42 +130,43 @@ async function refresh_table(){
 }
 
 let push_to_table = async function (item){
-    await refresh_table();
+    // 從搜尋結果新增課程
+    // recordcourse(item)
     let time = splittime(item.class_time);
-        // console.log(typeof(item.credit))
-        let data = [];
-        let Uuid = uuidv4();
-        for(let i = 0; i < time.length; i++){
-            data.push(new Course({
-                start_time: time[i][1],
-                end_time: time[i][2],
-                week_day: time[i][0],
-                course_name: item.class_name,
-                classroom: item.class_room,
-                is_title: false,
-                is_course: true,
-                color: env.VITE_CARD_DEFAULT_COLOR,
-                Credit: item.credit,
-                ID: item.id,
-                is_custom: false,
-                Teacher: item.teacher,
-                Memo: null,
-                textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
-                textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
-                uuid: Uuid
-            }));
-        }
-        console.log(data);
-        // 成功插入會回傳課程陣列，反之回傳false
-        // 在做儲存
-        let check = searchAdd(data);
-        if(!check)
-        {   
-            alert("新增課程失敗，請檢查是否衝堂");
-            window.location.reload();
-            return;
-        }
-        store.dispatch('addCourseList', new Course({
+    // console.log(typeof(item.credit))
+    let data = [];
+    let Uuid = uuidv4();
+    for(let i = 0; i < time.length; i++){
+        data.push(new Course({
+            start_time: time[i][1],
+            end_time: time[i][2],
+            week_day: time[i][0],
+            course_name: item.class_name,
+            classroom: item.class_room,
+            is_title: false,
+            is_course: true,
+            color: env.VITE_CARD_DEFAULT_COLOR,
+            Credit: item.credit,
+            ID: item.id,
+            is_custom: false,
+            Teacher: item.teacher,
+            Memo: null,
+            textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
+            textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
+            uuid: Uuid,
+            length: 0
+        }));
+    }
+    // 成功插入會回傳課程陣列，反之回傳false
+    // 在做儲存
+    let check = searchAdd(data);
+    console.log(check)
+    if(!check)
+    {   
+        alert("新增課程失敗，請檢查是否衝堂");
+        return;
+    }
+    store.dispatch('addCourseList', new Course({
         start_time: item.class_time,
         end_time: item.class_time,
         week_day: item.class_time,
@@ -181,16 +182,12 @@ let push_to_table = async function (item){
         Memo: null,
         textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
         textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
-        uuid: Uuid
+        uuid: Uuid,
+        length: 0
     }));
-    await refresh_table();
     store.dispatch('addCredit', Number(item.credit));
-    // await Sleep(30);
-    // // _2data_to_1d();
-    // remerge_table();
-    // await Sleep(10);
-    // 先檔一下
-    window.location.reload();
+    // credit += Number(item.credit);
+    // console.log(credit.value);
 }
 
 watch(searchInput, async (inputValue) => {

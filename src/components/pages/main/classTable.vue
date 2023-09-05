@@ -49,12 +49,12 @@
                     </tr> 
                 </tbody>
             </table>
-            <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" id = "result" v-show="show_search_box">
+            <!-- <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" id = "result" v-show="show_search_box">
                 <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
                 <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
                     [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
                 </li>
-            </ul>
+            </ul> -->
         </div>
     </div>
 </template>
@@ -63,7 +63,7 @@
 import { onMounted, onUpdated, ref, watch, reactive, computed } from 'vue';
 import { Switch } from 'ant-design-vue'
 
-import { Rowspanizer } from '@functions/rowspanizer';
+import { rowspanize } from '@functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '@functions/general';
 import renderImage from "@functions/image_render.ts"
 import { courseAdd, searchAdd } from "@functions/course_add.ts"
@@ -97,7 +97,6 @@ import loadingSpinner from '@components/common/loadingSpinner.vue';
 import courseCard from "@components/pages/main/courseCard.vue";
 
 const env = import.meta.env;
-console.log(env.VITE_CARD_DEFAULT_COLOR)
 
 const week = ["一", "二", "三", "四", "五", "六"]
 const classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
@@ -141,7 +140,7 @@ watch(searchInput, async (inputValue) => {
 
 onMounted(() =>
 {   
-    remerge_table();
+    store.dispatch("initAll")
     // using env to control <ul> display
     let ul = document.getElementById("result");
     if(ul != null)
@@ -187,13 +186,6 @@ function Sleep(time) {
     });
 }
 
-function remerge_table(){
-    const temp = new Rowspanizer({
-        target: "#class_table",
-        colspan_index: 0
-    })
-    temp.rowspanize()
-}
 
 async function refresh_table(){
     return new Promise(async (resolve, reject) => {
@@ -204,106 +196,6 @@ async function refresh_table(){
     });
 }
 
-var push_to_table = async function(type, item) {
-    // 手動新增課程
-    // courseAdd(className.value: string, classRoom.value: string, weekDay.value: string, start.value: string, end.value: string)
-    // console.log(48763);
-    // console.log(48763);
-    if(type == 1)
-    {
-        // check if the input is valid
-        if(className.value == "" || classRoom.value == "" || weekDay.value == "星期" || start.value == "始堂" || end.value == "終堂")
-        {   
-            refresh_table();
-            return;
-        }
-
-        let check = courseAdd(className.value, classRoom.value, weekDay.value, start.value, end.value);
-        if(!check)
-        {   
-            alert("新增課程失敗，請檢查輸入資料是否正確");
-            return;
-        }
-        courseList.value = store.state.course.classListStorage;
-        await refresh_table();
-    }
-    else if(type == 2)
-    {
-        // 從搜尋結果新增課程
-        show_search_box.value = !show_search_box.value;
-        recordcourse(item)
-        let time = splittime(item.class_time);
-        // console.log(typeof(item.credit))
-        let data = [];
-        for(let i = 0; i < time.length; i++){
-            data.push(new Course({
-                start_time: time[i][1],
-                end_time: time[i][2],
-                week_day: time[i][0],
-                course_name: item.class_name,
-                classroom: item.class_room,
-                is_title: false,
-                is_course: true,
-                color: env.VITE_CARD_DEFAULT_COLOR,
-                Credit: item.credit,
-                ID: item.id,
-                is_custom: false,
-                Teacher: item.teacher,
-                Memo: null,
-                length: 0
-            }));
-        }
-        console.log(data);
-        // 成功插入會回傳課程陣列，反之回傳false
-        // 在做儲存
-        let check = searchAdd(data);
-        if(!check)
-        {   
-            alert("新增課程失敗，請檢查是否衝堂");
-            return;
-        }
-        store.dispatch('addCourseList', new Course({
-            start_time: item.class_time,
-            end_time: item.class_time,
-            week_day: item.class_time,
-            course_name: item.class_name,
-            classroom: item.class_room,
-            is_title: false,
-            is_course: true,
-            color: env.VITE_CARD_DEFAAULT_COLOR,
-            Credit: item.credit,
-            ID: item.id,
-            is_custom: false,
-            Teacher: item.teacher,
-            Memo: null,
-            length: 0
-        }));
-        await refresh_table();
-        store.dispatch('addCredit', Number(item.credit));
-        // credit += Number(item.credit);
-        // console.log(credit.value);
-    }
-    await Sleep(30);
-    // _2data_to_1d();
-    remerge_table();
-    await Sleep(10);
-    // 刷新網頁
-    // window.location.reload();
-}
-
-var clearTable = function() {
-    // 顯示確認視窗
-    if(confirm("確定要清空課表嗎？"))
-    {
-        // 清空課表
-        store.dispatch('clearCourse');
-        window.location.reload();
-    }
-    
-}
-var download = function() {
-    renderImage("class_table") // finish 
-}
 const state = reactive({
     checked: false
 })

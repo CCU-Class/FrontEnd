@@ -1574,6 +1574,11 @@
     "ast-types" "0.12.1"
     "recast" "0.17.2"
 
+"@types/lodash@^4.14.197":
+  "integrity" "sha512-BMVOiWs0uNxHVlHBgzTIqJYmj+PgCo4euloGF+5m4okL3rEYzM2EEv78mw8zWSMM57dM7kVIgJ2QDvwHSoCI5g=="
+  "resolved" "https://registry.npmjs.org/@types/lodash/-/lodash-4.14.197.tgz"
+  "version" "4.14.197"
+
 "@types/long@^4.0.0":
   "integrity" "sha512-MqTGEo5bj5t157U6fA/BiDynNkn0YknVdh48CMPkTSpFTVmvao5UQmm7uEF6xBEo7qIMAlY/JSleYaE6VOdpaA=="
   "resolved" "https://registry.npmjs.org/@types/long/-/long-4.0.2.tgz"

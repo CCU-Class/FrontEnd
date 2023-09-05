@@ -96,7 +96,7 @@
 import { onMounted, onUpdated, ref, watch, reactive, computed } from 'vue';
 import { Switch } from 'ant-design-vue'
 
-import { Rowspanizer } from '@functions/rowspanizer';
+import { rowspanize } from '@functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '@functions/general';
 import { searchCourse, recordcourse } from '@functions/course_search.ts';
 import { splittime } from '@functions/tool.ts';
@@ -169,7 +169,7 @@ watch(searchInput, async (inputValue) => {
 
 onMounted(() =>
 {   
-    remerge_table();
+    // remerge_table();
     // using env to control <ul> display
     if(searchList != null)
     {   
@@ -206,24 +206,15 @@ function Sleep(time) {
     });
 }
 
-function remerge_table(){
-    const temp = new Rowspanizer({
-        target: "#class_table",
-        colspan_index: 0
-    })
-    temp.rowspanize()
-}
+// function remerge_table(){
+//     const temp = new Rowspanizer({
+//         target: "#class_table",
+//         colspan_index: 0
+//     })
+//     temp.rowspanize()
+// }
 
-async function refresh_table(){
-    return new Promise(async (resolve, reject) => {
-        store.dispatch('setShowTable', false);
-        await Sleep(20);
-        store.dispatch('setShowTable', true);
-        resolve();
-    });
-}
-
-var push_to_table = async function(type, item) {
+var push_to_table = function(type, item) {
     // 手動新增課程
     // courseAdd(className.value: string, classRoom.value: string, weekDay.value: string, start.value: string, end.value: string)
     // console.log(48763);
@@ -233,7 +224,6 @@ var push_to_table = async function(type, item) {
         // check if the input is valid
         if(className.value == "" || classRoom.value == "" || weekDay.value == "星期" || start.value == "始堂" || end.value == "終堂")
         {   
-            refresh_table();
             return;
         }
 
@@ -243,13 +233,12 @@ var push_to_table = async function(type, item) {
             alert("新增課程失敗，請檢查輸入資料是否正確");
             return;
         }
-        await refresh_table();
     }
     else if(type == 2)
     {
         // 從搜尋結果新增課程
         show_search_box.value = !show_search_box.value;
-        recordcourse(item)
+        // recordcourse(item)
         let time = splittime(item.class_time);
         // console.log(typeof(item.credit))
         let data = [];
@@ -271,10 +260,10 @@ var push_to_table = async function(type, item) {
                 Memo: null,
                 textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
                 textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
-                uuid: Uuid
+                uuid: Uuid,
+                length: 0
             }));
         }
-        console.log(data);
         // 成功插入會回傳課程陣列，反之回傳false
         // 在做儲存
         let check = searchAdd(data);
@@ -299,19 +288,15 @@ var push_to_table = async function(type, item) {
             Memo: null,
             textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
             textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
-            uuid: Uuid
+            uuid: Uuid,
+            length: 0
         }));
-        await refresh_table();
         store.dispatch('addCredit', Number(item.credit));
         // credit += Number(item.credit);
         // console.log(credit.value);
     }
-    await Sleep(30);
-    // _2data_to_1d();
-    remerge_table();
-    await Sleep(10);
     // 刷新網頁
-    window.location.reload();
+    // window.location.reload();
 }
 
 var clearTable = function() {
@@ -320,13 +305,14 @@ var clearTable = function() {
     {
         // 清空課表
         store.dispatch('clearCourse');
-        window.location.reload();
+        // window.location.reload();
     }
     
 }
 var download = function() {
     renderImage("class_table") // finish 
 }
+
 const state = reactive({
     checked: false
 })

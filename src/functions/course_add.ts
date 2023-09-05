@@ -1,6 +1,9 @@
 import store  from '../store';
 import { Course, courseToTime, courseToStartIndex, courseToEndIndex, WeekDayToInt } from "./general";
 import {v4 as uuidv4} from 'uuid';
+import { rowspanize } from './rowspanizer';
+import _ from 'lodash';
+import { toRaw } from 'vue';
 
 const env = import.meta.env;
 
@@ -13,34 +16,7 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
     // push the course object to the local storage
     // store information in the database
     // return the status of the operation
-    let courseTable: string | null = localStorage.getItem("courseTable")
-    let table: Course[][] = []
-    let data = JSON.parse(courseTable!)
-    for(let i = 0; i < data.length; i++)
-    {
-        let row: Course[] = []
-        for(let j = 0; j < data[i].length; j++)
-        {
-            row.push(new Course({
-                course_name: data[i][j].courseData.course_name,
-                start_time: data[i][j].courseData.start_time,
-                classroom: data[i][j].courseData.classroom,
-                is_title: data[i][j].courseData.is_title,
-                is_course: data[i][j].courseData.is_course,
-                color: data[i][j].courseData.color,
-                ID: data[i][j].courseData.ID,
-                Credit: data[i][j].courseData.Credit,
-                is_custom: data[i][j].courseData.is_custom,
-                Teacher: data[i][j].courseData.Teacher,
-                Memo: data[i][j].courseData.Memo,
-                textColor: data[i][j].courseData.textColor,
-                textStyle: data[i][j].courseData.textStyle,
-                uuid: data[i][j].courseData.uuid,
-                length: 0
-            }))
-        }
-        table.push(row)
-    }
+    let table: Course[][] = _.cloneDeep(store.state.course.classStorage);
     let Uuid = uuidv4();
     let course = new Course({
         start_time: courseToTime[start],
@@ -73,19 +49,17 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
         else
         {
             // there is no course in the same time slot
-            table[i][weekDayIndex] = course;
+            table[i][weekDayIndex] = _.cloneDeep(course);
         }
     }
-    store.dispatch('addCourse', table);
-    let temp = JSON.parse(JSON.stringify(course));;
-    temp.start_time = startT;
-    store.dispatch('addCourseList', temp);
-    console.log("this")
+    course.setStartTime(startT);
+    store.dispatch('addCourseList', course);
     // 不要在這邊儲存localstorage，使用store
-    console.log(table)
     // window.location.reload();
-    return table;
+    rowspanize(table);
+    return true;
 }
+
 
 
 export function searchAdd(course_list : Course[])
@@ -94,8 +68,8 @@ export function searchAdd(course_list : Course[])
     // push the course object to the local storage
     // store information in the database
     // return the status of the operation
-    console.log(course_list);
-    let table: Course[][] = store.state.course.classStorage;
+    // console.log(course_list);
+    let table = _.cloneDeep(toRaw(store.state.course.classStorage));
     // put the list of courses into the table
     for(let i = 0; i < course_list.length; i++)
     {
@@ -108,7 +82,7 @@ export function searchAdd(course_list : Course[])
         let startT = courseToTime[course.getStartTime()];
         for(let j = startHour; j < endHour; j++)
         {   
-            console.log(table[j][weekDayIndex]);
+            // console.log(table[j][weekDayIndex]);
             if(table[j][weekDayIndex].getIsCourse())
             {
                 // there is a course in the same time slot
@@ -116,22 +90,12 @@ export function searchAdd(course_list : Course[])
             }
             else
             {   
-                // there is no course in the same time slot
-                // console.log(course.getStartTime());
-                // course.setStartTime(courseToTime[course.getStartTime().toString()]);
-                // console.log(j, weekDayIndex);
-                table[j][weekDayIndex] = course;
-                // console.log(course.getStartTime())
-                // console.log(course.getStartTime());
-                // console.log(courseToTime[course.getStartTime()])
-                // console.log(courseToTime['1'])
+                table[j][weekDayIndex] = _.cloneDeep(course);
                 table[j][weekDayIndex].setStartTime(startT);
-                // console.log(table[j][weekDayIndex].getStartTime())
             }
         }
     }
-    // console.log(table);
     // 不要在這邊儲存localstorage，使用storec
-    store.dispatch('addCourse', table);
-    return table;
+    rowspanize(table);
+    return true;
 }

@@ -1,5 +1,6 @@
 import { Module } from 'vuex';
 import { Course, InitTable } from '../functions/general'
+import { rowspanize  } from '../functions/rowspanizer';
 
 const env = import.meta.env;
 
@@ -68,6 +69,7 @@ const store: Module<State, any> = {
             let courseTable: string | null = localStorage.getItem("courseTable");
             if(courseTable == null){
                 state.classStorage = InitTable();
+                rowspanize(state.classStorage);
                 localStorage.setItem("courseTable", JSON.stringify(state.classStorage));
                 return;
             }
@@ -75,12 +77,16 @@ const store: Module<State, any> = {
             state.classStorage = Transfer(data);
         },
         addCourse(state: State, data : any){
-            console.log(data);
+            console.log(state.classStorage);
             state.classStorage = data;
+            console.log(state.classStorage);
             localStorage.setItem("courseTable", JSON.stringify(state.classStorage));
         },
         clearCourse(state: State){
+            console.log("clear")
             state.classStorage = InitTable();
+            rowspanize(state.classStorage);
+            console.log(state.classStorage)
             state.classListStorage = [];
             state.credit = 0 ;
             state.chooseCard = null;
@@ -124,7 +130,6 @@ const store: Module<State, any> = {
                 return;
             }
             state.credit = Number(creditL);
-            console.log(state.credit);
         },
         addCredit(state: State, delta : number){
             state.credit += delta;

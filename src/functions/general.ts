@@ -1,5 +1,7 @@
 import store from '../store';
 const env = import.meta.env;
+import {v4 as uuidv4} from 'uuid';
+
 // using a key-value pair to map courseID to time
 export const courseToTime: { [key: string]: string } = {
     "1" : "07:10",
@@ -115,10 +117,53 @@ interface CourseData
 
 export class Course
 {
-    private courseData: CourseData;
-    constructor(courseData: CourseData)
-    {
-        this.courseData = courseData;
+    private courseData!: CourseData;
+    constructor();
+    constructor(courseData: CourseData);
+    constructor(uuid: string);
+    constructor(uuid: string, start_time: string);
+    constructor(courseData?: CourseData | string, start_time?: string) {
+        if(!courseData){
+            this.courseData = {
+                course_name: "",
+                start_time: "",
+                classroom: "",
+                is_title: false,
+                is_course: false,
+                color: "",
+                ID: null,
+                Credit: null,
+                is_custom: null,
+                Teacher: null,
+                Memo: null,
+                textColor: "",
+                textStyle: "",
+                uuid: "",
+                length: 0
+            };
+        }
+        else if (typeof courseData === "string") {
+            this.courseData = {
+                course_name: "",
+                start_time: "",
+                classroom: "",
+                is_title: false,
+                is_course: false,
+                color: "",
+                ID: null,
+                Credit: null,
+                is_custom: null,
+                Teacher: null,
+                Memo: null,
+                textColor: "",
+                textStyle: "",
+                uuid: courseData,
+                length: 0
+            };
+            if(start_time) this.courseData.start_time = start_time;
+        } else if(typeof courseData === "object"){
+            this.courseData = courseData as CourseData;
+        }
     }
     public inputValue(courseData: CourseData): void
     {
@@ -202,7 +247,7 @@ export class Course
         this.courseData.textStyle = style;
     }
     public getUuid() : string
-    {
+    {   
         return this.courseData.uuid;
     }
     public setUuid(uuid : string) : void
@@ -222,6 +267,8 @@ export class Course
 
 export function InitTable()
 {   
+    // retrurn InitTable
+    // use uuid to decide length
     let data_table: Course[][] = []
     var data = [
         ["⠀", "1", "A", "", "", "", "", "", ""],
@@ -260,53 +307,41 @@ export function InitTable()
         let row: Course[] = []
         for(let j = 0; j < data[i].length; j++)
         {
-            if(j == 1 || j == 2 || j == 0)
+            if(j == 0)
             {
-                let time = courseToTime[data[i][j]]
-                let course = new Course({
-                    course_name: time,
-                    start_time: data[i][j],
-                    classroom: "",
-                    is_title: true,
-                    is_course: false,
-                    color: '',
-                    ID: null,
-                    Credit: null,
-                    is_custom: null,
-                    Teacher: null,
-                    Memo: null,
-                    textColor: "",
-                    textStyle: "",
-                    uuid: "",
-                    length: 0
-                });
-                if(j == 0){
+                row.push(new Course(uuidv4(), data[i][j]));
+            }
+            else if(j == 1)
+            {   
+                let course :Course = new Course(uuidv4(), data[i][j]);
+                course.setColor(env.VITE_TITLE_DEFAULT_COLOR);
+                if(i % 2 ==0)
+                {
                     row.push(course);
                 }
-                else{
-                    course.setColor(env.VITE_TITLE_DEFAULT_COLOR);
+                else
+                {   
+                    course.setUuid(data_table[i - 1][j].getUuid());
+                    row.push(course);
+                }
+            }
+            else if(j == 2)
+            {   
+                let course :Course = new Course(uuidv4(), data[i][j]);
+                course.setColor(env.VITE_TITLE_DEFAULT_COLOR);
+                if(i % 3 ==0)
+                {
+                    row.push(course);
+                }
+                else
+                {   
+                    course.setUuid(data_table[i - 1][j].getUuid());
                     row.push(course);
                 }
             }
             else
             {
-                row.push(new Course({
-                    course_name: "",
-                    start_time: "",
-                    classroom: "",
-                    is_title: false,
-                    is_course: false,
-                    color: "",
-                    ID: null,
-                    Credit: null,
-                    is_custom: null,
-                    Teacher: null,
-                    Memo: null,
-                    textColor: "",
-                    textStyle: "",
-                    uuid: "",
-                    length: 0
-                }))
+                row.push(new Course());
             }
         }
         data_table.push(row)

@@ -1,11 +1,14 @@
 <template>
-    <td class="text-center p-0 h-full  relative overflow-hidden card"
+    <td v-if="item.getIsCourse()"
+        v-show="item.getLength()"
+        class="text-center p-0 h-full  relative overflow-hidden card"
         :class="{ title: item.getIsTitle(), course: item.getIsCourse() }"
         style="height: 50px;"
-        :style="{backgroundColor: item.getColor(), color: item.getTextColor()}"
+        :style="{backgroundColor: item.getColor(), color: item.getTextColor(), display: item.getLength()}"
+        :rowspan="item.getLength()"
         @mouseenter="showButton = true" 
         @mouseleave="showButton = false" 
-        v-if="item.getIsCourse()">
+        >
         <div class="card-content" @click="flip">
             <transition name="fliping" >
                 <!-- 正面 -->
@@ -36,12 +39,15 @@
 
 
 
-    <td class="text-center p-0 h-full overflow-auto "
+    <td v-if="!item.getIsCourse()"
+        v-show="item.getLength()"
+        class="text-center p-0 h-full overflow-auto "
         :class="{ title: item.getIsTitle(), course: item.getIsCourse() }"
         style="height: 50px;"
+        :rowspan="item.getLength()"
         :style="{backgroundColor: item.getColor(), color: item.getTextColor()}"
         @mouseenter="showButton = true" 
-        @mouseleave="showButton =false" v-if="!item.getIsCourse()">
+        @mouseleave="showButton =false">
         <div> {{ item.getStartTime() }} </div>
         <div> {{ item.getCourseName() }} </div>
         <div> {{ item.getClassroom() }} </div>

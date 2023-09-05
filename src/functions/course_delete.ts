@@ -1,6 +1,6 @@
 import { Course} from "./general";
 import store from "../store";
-
+import { rowspanize } from "./rowspanizer";
 export function courseDelete(item: Course)
 {   
     // 比對名子 課程編號 教室 其他不管
@@ -60,7 +60,7 @@ export function courseDelete(item: Course)
     }
     // 不要在這邊儲存localstorage，使用store
     store.dispatch('deleteCourseList', item);
-    store.dispatch('addCourse', table);
+    rowspanize(table);
     return true;
 }
 
