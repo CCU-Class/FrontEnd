@@ -175,7 +175,7 @@ export class Course
     }
     public setStartTime(time :string): void
     {   
-        console.log(time)
+        // console.log(time)
         this.courseData.start_time = time;
     }
     public getEndTime(): string

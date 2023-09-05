@@ -51,7 +51,7 @@
 <script setup>
 import { onMounted, onUpdated, ref, watch, reactive, computed } from 'vue';
 import { useStore } from "vuex";
-import {searchCourse} from "@functions/course_search.ts";
+import {searchCourse, recordcourse} from "@functions/course_search.ts";
 import {Course} from "@functions/general.ts";
 import {v4 as uuidv4} from 'uuid';
 import {splittime} from "@functions/tool.ts";
@@ -131,7 +131,7 @@ async function refresh_table(){
 
 let push_to_table = async function (item){
     // 從搜尋結果新增課程
-    // recordcourse(item)
+    recordcourse(item)
     let time = splittime(item.class_time);
     // console.log(typeof(item.credit))
     let data = [];

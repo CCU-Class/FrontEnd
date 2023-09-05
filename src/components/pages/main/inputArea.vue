@@ -125,7 +125,7 @@ const hidden = () =>
 import courseCard from "@components/pages/main/courseCard.vue";
 
 const env = import.meta.env;
-console.log(env.VITE_CARD_DEFAULT_COLOR)
+// console.log(env.VITE_CARD_DEFAULT_COLOR)
 
 const week = ["一", "二", "三", "四", "五", "六"]
 const classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
@@ -292,8 +292,6 @@ var push_to_table = function(type, item) {
             length: 0
         }));
         store.dispatch('addCredit', Number(item.credit));
-        // credit += Number(item.credit);
-        // console.log(credit.value);
     }
     // 刷新網頁
     // window.location.reload();

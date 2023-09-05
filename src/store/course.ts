@@ -77,16 +77,16 @@ const store: Module<State, any> = {
             state.classStorage = Transfer(data);
         },
         addCourse(state: State, data : any){
-            console.log(state.classStorage);
+            // console.log(state.classStorage);
             state.classStorage = data;
-            console.log(state.classStorage);
+            // console.log(state.classStorage);
             localStorage.setItem("courseTable", JSON.stringify(state.classStorage));
         },
         clearCourse(state: State){
-            console.log("clear")
+            // console.log("clear")
             state.classStorage = InitTable();
             rowspanize(state.classStorage);
-            console.log(state.classStorage)
+            // console.log(state.classStorage)
             state.classListStorage = [];
             state.credit = 0 ;
             state.chooseCard = null;
@@ -133,7 +133,7 @@ const store: Module<State, any> = {
         },
         addCredit(state: State, delta : number){
             state.credit += delta;
-            console.log(state.credit, delta)
+            // console.log(state.credit, delta)
             localStorage.setItem("credit", state.credit.toString());
         },
         changeShowColorPick(state: State, Bool: boolean){
@@ -208,7 +208,7 @@ const store: Module<State, any> = {
             context.commit("setDefaultColor", color);
         },
         setShowTable(context: any, Bool: boolean){
-            console.log("change")
+            // console.log("change")
             context.commit("setShowTable", Bool);
         }
     }

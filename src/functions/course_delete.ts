@@ -4,9 +4,9 @@ import { rowspanize } from "./rowspanizer";
 export function courseDelete(item: Course)
 {   
     // 比對名子 課程編號 教室 其他不管
-    console.log(item)
+    // console.log(item)
     let data = JSON.parse(localStorage.getItem("courseTable")!)
-    console.log(data);
+    // console.log(data);
     let table: Course[][] = []
     for(let i = 0; i < data.length; i++)
     {
