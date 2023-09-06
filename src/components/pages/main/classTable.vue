@@ -2,7 +2,7 @@
 
 <template>
     <div class = "overflow-x-auto">
-        <div class = 'bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto shadow-lg md:w-6/12 min-w-[60rem]'>
+        <div class = 'bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto md:w-6/12 min-w-[60rem]' id="WholeTable">
             <p class = "text-right py-2 mx-3" v-show = "show_credit">
                 目前學分: {{credit}}
             </p>

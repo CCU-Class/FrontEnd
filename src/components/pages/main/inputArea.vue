@@ -309,7 +309,7 @@ var clearTable = function() {
     
 }
 var download = function() {
-    renderImage("class_table") // finish 
+    renderImage("WholeTable") // finish 
 }
 
 const state = reactive({
