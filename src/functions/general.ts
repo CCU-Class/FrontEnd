@@ -190,6 +190,10 @@ export class Course
     {
         return this.courseData.course_name;
     }
+    public setCourseName(name : string): void
+    {
+        this.courseData.course_name = name;
+    }
     public getClassroom(): string
     {
         return this.courseData.classroom;
@@ -315,6 +319,7 @@ export function InitTable()
             {   
                 let course :Course = new Course(uuidv4(), data[i][j]);
                 course.setColor(env.VITE_TITLE_DEFAULT_COLOR);
+                course.setCourseName(courseToTime[data[i][j]]);
                 if(i % 2 ==0)
                 {
                     row.push(course);
@@ -329,6 +334,7 @@ export function InitTable()
             {   
                 let course :Course = new Course(uuidv4(), data[i][j]);
                 course.setColor(env.VITE_TITLE_DEFAULT_COLOR);
+                course.setCourseName(courseToTime[data[i][j]]);
                 if(i % 3 ==0)
                 {
                     row.push(course);
