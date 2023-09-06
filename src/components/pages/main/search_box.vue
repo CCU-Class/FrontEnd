@@ -242,7 +242,9 @@ function checkVisibility()
 }
 
 onMounted(() => {
-    checkVisibility();
+    setTimeout(() => {
+        checkVisibility();
+    }, 1000);
 });
 // Listen for scroll events and check visibility
 window.addEventListener('scroll', checkVisibility);
