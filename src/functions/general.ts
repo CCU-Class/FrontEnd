@@ -202,6 +202,10 @@ export class Course
     {
         return this.courseData.is_title;
     }
+    public setTitle(state: boolean): void
+    {
+        this.courseData.is_title = state;
+    }
     public getIsCourse(): boolean
     {
         return this.courseData.is_course;
@@ -320,6 +324,7 @@ export function InitTable()
                 let course :Course = new Course(uuidv4(), data[i][j]);
                 course.setColor(env.VITE_TITLE_DEFAULT_COLOR);
                 course.setCourseName(courseToTime[data[i][j]]);
+                course.setTitle(true);
                 if(i % 2 ==0)
                 {
                     row.push(course);
@@ -335,6 +340,7 @@ export function InitTable()
                 let course :Course = new Course(uuidv4(), data[i][j]);
                 course.setColor(env.VITE_TITLE_DEFAULT_COLOR);
                 course.setCourseName(courseToTime[data[i][j]]);
+                course.setTitle(true);
                 if(i % 3 ==0)
                 {
                     row.push(course);
