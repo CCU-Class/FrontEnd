@@ -75,6 +75,7 @@ const store: Module<State, any> = {
             }
             let data = JSON.parse(courseTable!);
             state.classStorage = Transfer(data);
+            rowspanize(state.classStorage);
         },
         addCourse(state: State, data : any){
             // console.log(state.classStorage);
