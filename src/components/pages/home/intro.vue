@@ -25,6 +25,9 @@
                         <li>
                             下載課表圖檔
                         </li>
+                        <li>
+                            課程評價查詢
+                        </li>
                     </ol>
                 </div>
             </div>
@@ -40,7 +43,8 @@
                     v 0.0.7 資料庫更改為postgreSQL <br>
                     v 0.0.8 增加計算學分之功能 <br>
                     v 1.0.0 使用 Vue + Typescript 來完全重構本網站，並新增數個新功能 <br>
-                    v 1.0.1 與 ccu.plus 合作，新增查看 ccu.plus 評價功能
+                    v 1.0.1 與 ccu.plus 合作，新增查看 ccu.plus 評價功能<br>
+                    v 1.0.2 更新課表合併方式，提供更穩定的課表渲染。
                 </div>
             </div>
             <div class = 'w-11/12 md:w-7/12 mx-auto my-3'>
@@ -57,7 +61,8 @@
                     </div>
                     <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto'>
                         現在就讀於中正大學資訊工程學系三年級，<br>
-                        目前正在鑽研程式演算法競賽與網頁前後端工程。
+                        目前正在鑽研程式演算法競賽與網頁前後端工程，<br>
+                        負責本網站的前端工程，是一位 Vue 新手。
                     </div>
                     <div class = 'col-span-1 mx-auto my-7 md:my-0'>
                         <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member02.jpg'>
@@ -67,7 +72,7 @@
                     </div>
                     <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto'>
                         中正大學通訊工程學系三年級，<br>
-                        主要研究網頁前後端，與演算法競賽。<br>
+                        主要研究網頁前後端與演算法競賽。<br>
                         2023 中研院 Summer intern
                     </div>
 
@@ -79,9 +84,9 @@
                     </div>
                     <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto'>
                         中正大學資訊工程學系三年級<br>
-                        主要研究軟體工程，網頁前後端，競程<br>
+                        主要研究軟體工程、網頁前後端、競程<br>
                         目前主要學習ML<br>
-                        此專案主要負責後端伺服器 資料庫 API
+                        此專案主要負責後端伺服器、資料庫、API
                     </div>
                     
                     
