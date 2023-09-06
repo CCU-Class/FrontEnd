@@ -110,14 +110,31 @@ const hidden = () =>
     store.dispatch("purge");
 };
 
-onMounted(async () => {
+watch(course_id, async (newId, oldId) => {
+    console.log(newId, oldId);
+    isLoading.value = true;
     let data = await searchCommentsOnCcuplus(course_id.value);
-    isLoading.value = !isLoading.value;
+    console.log(data.data);
+    isLoading.value = false;
     if(data.data.length == 0)
         comment_status.value = false;
     else
         comment_status.value = true;
-    for(let i = 0; i < Math.min(10, data.data.length); i++)
+    comments.value = [];
+    for(let i = 0; i < Math.min(1000, data.data.length); i++)
+        comments.value.push(data.data[i]);
+})
+
+onMounted(async () => {
+    isLoading.value = true;
+    let data = await searchCommentsOnCcuplus(course_id.value);
+    isLoading.value = false;
+    if(data.data.length == 0)
+        comment_status.value = false;
+    else
+        comment_status.value = true;
+    comments.value = [];
+    for(let i = 0; i < Math.min(1000, data.data.length); i++)
         comments.value.push(data.data[i]);
 });
 </script>

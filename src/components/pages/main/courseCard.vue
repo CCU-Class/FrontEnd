@@ -88,7 +88,7 @@
     }
 
     .fliping-enter {
-        transform: rotateY(90deg);
+        transform: rotateY(180deg);
         opacity: 0;
     }
     .fliping-leave-to {
@@ -97,11 +97,11 @@
     }
     .fliping-enter-to{
         transform: rotateY(0);
-        opacity: 1;
+        opacity: 0;
     }
     .fliping-leave  {
-        transform: rotateY(0);
-        opacity: 1;
+        transform: rotateY(180deg);
+        opacity: 0;
     }
 
     
@@ -120,7 +120,6 @@
     let isFliped = ref(false);
     let isSelectingColor = ref(false);
     let showButton = ref(false);
-
 
     const props = defineProps({
         item: Course

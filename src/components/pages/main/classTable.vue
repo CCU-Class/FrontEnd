@@ -126,7 +126,7 @@ watch(searchInput, async (inputValue) => {
         
         isLoading.value = true;
         show_search_box.value = true;
-        console.log(show_search_box.value)
+        // console.log(show_search_box.value)
         data.value = await searchCourse(inputValue);
         isLoading.value = false;
     }
@@ -153,12 +153,12 @@ onMounted(() =>
 var delete_course = function(item)
 {
     // 刪除課程
-    console.log(item);
+    // console.log(item);
     if(item.getCredit() != null){
-        console.log(credit.value);
+        // console.log(credit.value);
         decreaseCredit(item.getCredit())
         // credit.value -= item.getCredit();
-        console.log(credit.value);
+        // console.log(credit.value);
     }
     // 再刪除函式裡面去更改store狀態
     courseDelete(item);

@@ -186,12 +186,13 @@ let push_to_table = async function (item){
         length: 0
     }));
     store.dispatch('addCredit', Number(item.credit));
+    show_content.value = false;
+    searchInput.value = "";
     // credit += Number(item.credit);
     // console.log(credit.value);
 }
 
 watch(searchInput, async (inputValue) => {
-    let list = document.getElementById("result");
     if(inputValue != "")
     {   
         isInputEmpty.value = false;

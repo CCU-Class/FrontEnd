@@ -67,7 +67,7 @@ const store: Module<State, any> = {
         },
         initCourseFromLocalstorage(state: State){
             let courseTable: string | null = localStorage.getItem("courseTable");
-            if(courseTable == null){
+            if(courseTable == null || courseTable == ""){
                 state.classStorage = InitTable();
                 rowspanize(state.classStorage);
                 localStorage.setItem("courseTable", JSON.stringify(state.classStorage));
