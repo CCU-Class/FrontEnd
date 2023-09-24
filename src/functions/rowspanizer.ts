@@ -126,6 +126,11 @@ export function rowspanize(inputTable : Course[][]) : void
         for(let j = 0; j < table[i].length; j++)
         {   
             table[i][j].setLength(0);
+            if(j == 0 && table[i][j].getStartTime() != "")
+            {
+                table[i][j].setStartTime("");
+            }
+
             if(j < 3 && table[i][j].getUuid() == "") // 沒更新的處理一下
             {
                 if(j == 0)
