@@ -51,57 +51,55 @@
                 <div class = 'text-center text-3xl font-bold border-b-2 mb-3 bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text'>
                     成員介紹
                 </div>
-                <div class = 'grid grid-cols-1 md:grid-cols-4 mx-auto border'>
-                    
-                    <div class = 'col-span-1 mx-auto my-7 md:my-0'>
-                        <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member01.jpg'>
+                <transition>
+                    <div class = 'grid grid-cols-1 md:grid-cols-4 mx-auto border'>
+                        <div class = 'col-span-1 mx-auto my-7 md:my-0' v-show = 'i == 0'>
+                            <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member01.jpg'>
+                        </div>
+                        <div class = 'col-span-1 text-xl flex items-center mx-auto' v-show = 'i == 0'>
+                            創辦人 吳翰平
+                        </div>
+                        <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto' v-show = 'i == 0'>
+                            現在就讀於中正大學資訊工程學系三年級，<br>
+                            目前正在鑽研程式演算法競賽與網頁前後端工程，<br>
+                            負責本網站的前端工程，是一位 Vue 新手。
+                        </div>
+                        <div class = 'col-span-1 mx-auto my-7 md:my-0' v-show = 'i == 1'>
+                            <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member02.jpg'>
+                        </div>
+                        <div class = 'col-span-1 text-xl flex items-center mx-auto' v-show = 'i == 1'>
+                            王子銜
+                        </div>
+                        <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto' v-show = 'i == 1'>
+                            中正大學通訊工程學系三年級，<br>
+                            主要研究網頁前後端與演算法競賽。<br>
+                            2023 中研院 Summer intern
+                        </div>
+                        <div class = 'col-span-1 mx-auto my-7 md:my-0' v-show = 'i == 2'>
+                            <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member03.jpg'>
+                        </div>
+                        <div class = 'col-span-1 text-xl flex items-center mx-auto' v-show = 'i == 2'>
+                        <a href="https://ben99933.github.io/">楊其龍</a>
+                        </div>
+                        <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto' v-show = 'i == 2'>
+                            中正大學資訊工程學系三年級<br>
+                            主要研究軟體工程、網頁前後端、競程<br>
+                            目前主要學習ML<br>
+                            此專案主要負責後端伺服器、資料庫、API
+                        </div>
+                        <div class = 'col-span-1 mx-auto my-7 md:my-0' v-show = 'i == 3'>
+                            <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member04.png'>
+                        </div>
+                        <div class = 'col-span-1 text-xl flex items-center mx-auto' v-show = 'i == 3'>
+                        <a href="https://milaroot.github.io/">凃昀辰</a>
+                        </div>
+                        <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto' v-show = 'i == 3'>
+                            現在就讀於資訊工程學系三年級，<br>
+                            主要研究跨域資訊安全與CTF，<br>
+                            目前主要為學習ML相關知識。
+                        </div>
                     </div>
-                    <div class = 'col-span-1 text-xl flex items-center mx-auto'>
-                        創辦人 吳翰平
-                    </div>
-                    <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto'>
-                        現在就讀於中正大學資訊工程學系三年級，<br>
-                        目前正在鑽研程式演算法競賽與網頁前後端工程，<br>
-                        負責本網站的前端工程，是一位 Vue 新手。
-                    </div>
-                    <div class = 'col-span-1 mx-auto my-7 md:my-0'>
-                        <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member02.jpg'>
-                    </div>
-                    <div class = 'col-span-1 text-xl flex items-center mx-auto'>
-                        王子銜
-                    </div>
-                    <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto'>
-                        中正大學通訊工程學系三年級，<br>
-                        主要研究網頁前後端與演算法競賽。<br>
-                        2023 中研院 Summer intern
-                    </div>
-
-                    <div class = 'col-span-1 mx-auto my-7 md:my-0'>
-                        <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member03.jpg'>
-                    </div>
-                    <div class = 'col-span-1 text-xl flex items-center mx-auto'>
-                       <a href="https://ben99933.github.io/">楊其龍</a>
-                    </div>
-                    <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto'>
-                        中正大學資訊工程學系三年級<br>
-                        主要研究軟體工程、網頁前後端、競程<br>
-                        目前主要學習ML<br>
-                        此專案主要負責後端伺服器、資料庫、API
-                    </div>
-                    
-                    
-                    <div class = 'col-span-1 mx-auto my-7 md:my-0'>
-                        <img class = 'inline-block rounded-full w-72 h-72 md:w-auto md:h-auto md:rounded-none' src = '/member04.png'>
-                    </div>
-                    <div class = 'col-span-1 text-xl flex items-center mx-auto'>
-                       <a href="https://milaroot.github.io/">凃昀辰</a>
-                    </div>
-                    <div class = 'col-span-1 mt-3 md:mt-0 md:col-span-2 text-xl text-center flex items-center mx-auto'>
-                        現在就讀於資訊工程學系三年級，<br>
-                        主要研究跨域資訊安全與CTF，<br>
-                        目前主要為學習ML相關知識。
-                    </div>
-                </div>
+                </transition>
             </div>
             <div class = "w-full text-center px-3 md:w-8/12 mx-auto py-9">
                 <div class = 'text-orange-300 font-semibold text-3xl'>
@@ -123,3 +121,27 @@
         </div>
     </div>
 </template>
+
+<script setup>
+import { onMounted, ref } from 'vue';
+let i = ref(0);
+
+onMounted(() => {
+    setInterval(() => {
+        i.value = (i.value == 3) ? 0 : i.value + 1;
+    }, 2500);
+})
+
+</script>
+
+<style>
+.v-enter-active, .v-leave-active {
+    transition: opacity 1s;
+}
+.v-enter-from, .v-leave-to {
+    opacity: 0;
+}
+.v-enter-to, .v-leave-from {
+    opacity: 1;
+}
+</style>
