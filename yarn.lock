@@ -1209,6 +1209,11 @@
     "@babel/helper-validator-identifier" "^7.22.20"
     to-fast-properties "^2.0.0"
 
+"@chenfengyuan/vue-carousel@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/@chenfengyuan/vue-carousel/-/vue-carousel-2.0.0.tgz"
+  integrity sha512-1PV4kDXH9IrDhb6rUUiD5l2IgcNZfcgL0mG7MLhHE6goMrpissUBTeAM9K4NqZeoamlY9XFAxUuEkbQh9qa7Jg==
+
 "@ctrl/tinycolor@^3.4.0", "@ctrl/tinycolor@^3.5.0":
   version "3.6.1"
   resolved "https://registry.npmjs.org/@ctrl/tinycolor/-/tinycolor-3.6.1.tgz"
@@ -10268,7 +10273,7 @@ vue@^2.6.14:
     "@vue/compiler-sfc" "2.7.14"
     csstype "^3.1.0"
 
-vue@^3.0.0, vue@^3.2.0, vue@^3.2.25, vue@^3.2.36, vue@^3.2.x, vue@>=3.0.3, vue@>=3.2.0, "vue@2 || 3", vue@3.3.4:
+vue@^3.0.0, vue@^3.2.0, vue@^3.2.25, vue@^3.2.x, vue@^3.3.4, vue@>=3.0.3, vue@>=3.2.0, "vue@2 || 3", vue@3.3.4:
   version "3.3.4"
   resolved "https://registry.npmjs.org/vue/-/vue-3.3.4.tgz"
   integrity sha512-VTyEYn3yvIeY1Py0WaYGZsXnz3y5UnGi62GjVEqvEGPl6nxbOrCXbVOTQWBEJUqAyTUk2uJ5JLVnYJ6ZzGbrSw==
