@@ -1,7 +1,12 @@
 <template>
     <div class = "w-full mx-auto">
         <div>
-            <div class = "w-full px-3 md:w-8/12 mx-auto py-9">
+            <div class = "w-full px-3 md:w-8/12 mx-auto pb-9">
+                <div class = "py-6 text-center">
+                    <router-link to = "/main" class = "btn-link">
+                        > 開始使用 
+                    </router-link>
+                </div>
                 <div class = 'text-orange-300 font-semibold text-3xl'>
                     初次見面?
                 </div>
@@ -123,6 +128,8 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+const router = useRouter();
 import { onMounted, ref } from 'vue';
 let i = ref(0);
 

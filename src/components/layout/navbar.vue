@@ -4,7 +4,7 @@ const router = useRouter();
 </script>
 
 <template>
-    <div class = "z-10 bg-orange-200 px-3 py-3 flex items-center place-content-between">
+    <div class = "z-10 bg-orange-200 px-3 py-3 flex md:flex-row flex-row-reverse items-center place-content-between">
         <router-link to = "/">
             <div class = "font-bold text-2xl bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text">
                 中正課表   此為測試機
@@ -28,7 +28,7 @@ const router = useRouter();
         </div>
     </div>
         <div class = 'z-0 block w-full bg-orange-200 md:hidden' v-if = "view === 2">
-            <div class = 'grid grid-cols-1 w-10/12 mx-auto'>
+            <div class = 'grid grid-cols-1 w-10/12 mx-auto text-left'>
                 <router-link to = "/" class = "btn-head-mobile">
                     首頁
                 </router-link>
