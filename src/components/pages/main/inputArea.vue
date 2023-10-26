@@ -5,12 +5,33 @@
                 開始建置你的課表    
             </div>
             <div class = "my-2">
-                <div class = 'flex flex-col py-1 mx-auto'>
+                <div class = 'flex flex-col py-1 w-40'>
+                    <select class = 'mx-1 py-1 rounded-md text-center' v-model = "searchType">
+                        <option selected>以課程名稱搜尋</option>
+                        <option>以教師名稱搜尋</option>
+                    </select>
+                </div>
+                <div class = 'flex flex-col py-1 mx-auto' v-if = "searchType == '以課程名稱搜尋'">
                     <div class = "flex flex-col w-full">
-                        <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1'>
-                            課程搜尋
+                        <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-orange-500'>
+                            以課程名稱進行搜尋
                         </div>
-                        <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "在此搜尋課程" v-model = "searchInput">
+                        <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "使用課程名稱進行課程搜尋" v-model = "searchInput">
+                        
+                        <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" ref="searchList" v-show="show_search_box">
+                            <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
+                            <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
+                                [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class = 'flex flex-col py-1 mx-auto' v-else-if = "searchType == '以教師名稱搜尋'">
+                    <div class = "flex flex-col w-full">
+                        <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-green-500'>
+                            以教師名稱進行搜尋
+                        </div>
+                        <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "使用教師名稱進行課程搜尋" v-model = "searchTeacher">
                         
                         <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" ref="searchList" v-show="show_search_box">
                             <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
@@ -98,7 +119,7 @@ import { Switch } from 'ant-design-vue'
 
 import { rowspanize } from '@functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '@functions/general';
-import { searchCourse, recordcourse } from '@functions/course_search.ts';
+import { searchCourse, recordcourse, searchByTeacher } from '@functions/course_search.ts';
 import { splittime } from '@functions/tool.ts';
 import { courseDelete, decreaseCredit } from '@functions/course_delete.ts';
 import { courseAdd, searchAdd } from '@functions/course_add.ts';
@@ -125,7 +146,6 @@ const hidden = () =>
 import courseCard from "@components/pages/main/courseCard.vue";
 
 const env = import.meta.env;
-// console.log(env.VITE_CARD_DEFAULT_COLOR)
 
 const week = ["一", "二", "三", "四", "五", "六"]
 const classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
@@ -134,7 +154,9 @@ const classRoom = ref()
 const weekDay = ref("星期")
 const start = ref("始堂")
 const end = ref("終堂")
+const searchType = ref("以課程名稱搜尋")
 const searchInput = ref('');
+const searchTeacher = ref('');
 const isLoading = ref(false);
 const isInputEmpty = ref(false);
 let class_list_title = ["課程名稱", "課程教室", "課程時間", "操作"];
@@ -152,11 +174,27 @@ watch(searchInput, async (inputValue) => {
     show_search_box.value = true;
     if(inputValue != "")
     {   
-        
         isLoading.value = true;
         show_search_box.value = true;
         // console.log(show_search_box.value)
         data.value = await searchCourse(inputValue);
+        isLoading.value = false;
+    }
+    else
+    {
+        isLoading.value = false;
+        show_search_box.value = false;
+    }
+});
+
+watch(searchTeacher, async (inputValue) => {
+    show_search_box.value = true;
+    if(inputValue != "")
+    {   
+        isLoading.value = true;
+        show_search_box.value = true;
+        // console.log(show_search_box.value)
+        data.value = await searchByTeacher(inputValue);
         isLoading.value = false;
     }
     else
@@ -183,14 +221,10 @@ var delete_course = function(item)
     // 刪除課程
     // console.log(item);
     if(item.getCredit() != null){
-        // console.log(credit.value);
         decreaseCredit(item.getCredit())
-        // credit.value -= item.getCredit();
-        // console.log(credit.value);
     }
     // 再刪除函式裡面去更改store狀態
     courseDelete(item);
-    // _2data_to_1d();
 }
 
 var show_list = function() {
@@ -206,13 +240,6 @@ function Sleep(time) {
     });
 }
 
-// function remerge_table(){
-//     const temp = new Rowspanizer({
-//         target: "#class_table",
-//         colspan_index: 0
-//     })
-//     temp.rowspanize()
-// }
 
 var push_to_table = function(type, item) {
     // 手動新增課程
