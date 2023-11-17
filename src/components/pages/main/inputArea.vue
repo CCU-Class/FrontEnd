@@ -170,6 +170,10 @@ let searchList = ref(null);
 let inputValue = searchInput.value.trim();
 let single_row_data = ref([])
 
+watch(searchType, async (inputValue) => {
+    show_search_box.value = false;
+})
+
 watch(searchInput, async (inputValue) => {
     show_search_box.value = true;
     if(inputValue != "")
