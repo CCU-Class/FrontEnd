@@ -170,6 +170,10 @@ let searchList = ref(null);
 let inputValue = searchInput.value.trim();
 let single_row_data = ref([])
 
+watch(searchType, async (inputValue) => {
+    show_search_box.value = false;
+})
+
 watch(searchInput, async (inputValue) => {
     show_search_box.value = true;
     if(inputValue != "")
@@ -179,6 +183,11 @@ watch(searchInput, async (inputValue) => {
         // console.log(show_search_box.value)
         data.value = await searchCourse(inputValue);
         isLoading.value = false;
+        if(searchList != null)
+        {   
+            // ul's max-height is 2rem x env.VITE_UL_ROW
+            searchList.value.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
+        }
     }
     else
     {
@@ -196,6 +205,11 @@ watch(searchTeacher, async (inputValue) => {
         // console.log(show_search_box.value)
         data.value = await searchByTeacher(inputValue);
         isLoading.value = false;
+        if(searchList != null)
+        {   
+            // ul's max-height is 2rem x env.VITE_UL_ROW
+            searchList.value.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
+        }
     }
     else
     {
@@ -203,7 +217,6 @@ watch(searchTeacher, async (inputValue) => {
         show_search_box.value = false;
     }
 });
-
 
 onMounted(() =>
 {   
