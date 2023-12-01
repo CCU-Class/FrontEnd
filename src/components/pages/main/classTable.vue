@@ -16,7 +16,9 @@
                     </div>   
                     <div class = 'virtualtable'>
                         <div class="virtualtablehead"></div>
-                        <div v-for="item in 30" style="height: 50px" class="bg-gray-100">b</div>
+                        <drag-select v-model="selection">
+                            <drag-select-option v-for="item in 30" style="height: 50px" class="bg-gray-100" :value="item" :key="item">{{item}}</drag-select-option>
+                        </drag-select>
                     </div>
                     <div class = 'virtualtable'>
                         
