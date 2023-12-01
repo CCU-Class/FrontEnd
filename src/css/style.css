@@ -38,6 +38,10 @@ table
 {
     table-layout: fixed;
 }
+thead > tr > th
+{
+    @apply text-center text-gray-900 py-1.5 font-semibold min-w-[9rem] border-b border-gray-500;
+}
 .table-head
 {
     @apply text-center text-gray-900 py-1.5 font-semibold min-w-[9rem];
