@@ -40,15 +40,15 @@ table
 }
 .table-head
 {
-    @apply text-center text-gray-900 border-b border-black py-1.5 font-semibold min-w-[9rem];
+    @apply text-center text-gray-900 py-1.5 font-semibold min-w-[9rem];
 }
 .title
 {
-    @apply w-16 text-xl text-gray-700 font-serif;
+    @apply w-16 text-xl text-gray-700 font-serif border-orange-100 border-2; 
 }
 .course
 {
-    @apply rounded-md font-bold text-base;
+    @apply rounded-md font-bold text-base border-separate border-2 border-orange-100;
 }
 [type=search]::-webkit-search-cancel-button
 {
