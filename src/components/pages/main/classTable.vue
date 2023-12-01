@@ -6,55 +6,72 @@
             <p class = "text-right py-2 mx-3" v-show = "show_credit">
                 目前學分: {{credit}}
             </p>
-            <table class = 'bg-orange-100 border-separate w-full' id = "class_table">
-                <thead>
-                    <tr>
-                        <th class = "w-[10px]">
-                            ⠀
-                        </th>
-                        <th class = 'table-head w-36' colspan = "2">
-                            節次
-                        </th>   
-                        <th class = 'table-head'>
-                            星期一
-                        </th>
-                        <th class = 'table-head'>
-                            星期二
-                        </th>
-                        <th class = 'table-head'>
-                            星期三
-                        </th>
-                        <th class = 'table-head'>
-                            星期四
-                        </th>
-                        <th class = 'table-head'>
-                            星期五
-                        </th>
-                        <th class = 'table-head'>
-                            星期六
-                        </th>
-                    </tr>
-                </thead>
-                <tbody v-if = "show">
-                    <!-- <tr v-for = "row in course_data">
-                        <td v-for = "item in row" class = "text-center p-0 h-full overflow-auto" v-on:click = "show_popover()" :class = "{ title: item.getIsTitle(), course: item.getIsCourse() }" style = "height: 50px;">
-                            <div> {{ item.getStartTime() }} </div>
-                            <div> {{ item.getCourseName() }} </div>
-                            <div> {{ item.getClassroom() }} </div>
-                            
-                        </td>
-                    </tr>  -->
-                    <tr v-for = "row in course_data" :key="row.id">
-                        <courseCard v-for="item in row" :key="item.id" :item="item" />
-                    </tr> 
-                </tbody>
-            </table>
-            <!-- <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" id = "result" v-show="show_search_box">
-                <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
-                <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item)">
-                    [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
-                </li>
-            </ul> -->
+            <div class="relative inset-0">
+                <div class="absolute w-full h-full left-0 top-0 z-20 bg-opacity-2 flex">
+                    <div class = "w-[10px]">
+                        ⠀
+                    </div>
+                    <div class = 'table-head w-36'>
+                        
+                    </div>   
+                    <div class = 'virtualtable'>
+                        <div class="virtualtablehead"></div>
+                        <div v-for="item in 30" style="height: 50px" class="bg-gray-100">b</div>
+                    </div>
+                    <div class = 'virtualtable'>
+                        
+                    </div>
+                    <div class = 'virtualtable'>
+                        
+                    </div>
+                    <div class = 'virtualtable'>
+                        
+                    </div>
+                    <div class = 'virtualtable'>
+                        
+                    </div>
+                    <div class = 'virtualtable'>
+                        
+                    </div>
+                </div>
+                <div class="z-10">
+                    <table class = 'bg-orange-100 w-full' id = "class_table">
+                        <thead>
+                            <tr>
+                                <th class = "w-[10px] m-1">
+                                    ⠀
+                                </th>
+                                <th class = 'table-head w-36' colspan = "2">
+                                    節次
+                                </th>   
+                                <th class = 'table-head bg-red-400'>
+                                    星期一
+                                </th>
+                                <th class = 'table-head bg-amber-500'>
+                                    星期二
+                                </th>
+                                <th class = 'table-head bg-red-400'>
+                                    星期三
+                                </th>
+                                <th class = 'table-head'>
+                                    星期四
+                                </th>
+                                <th class = 'table-head'>
+                                    星期五
+                                </th>
+                                <th class = 'table-head'>
+                                    星期六
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody v-if = "show">
+                            <tr v-for = "row in course_data" :key="row.id">
+                                <courseCard v-for="item in row" :key="item.id" :item="item" />
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </template>

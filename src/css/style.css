@@ -26,6 +26,14 @@ img
 {
     @apply text-center shadow-2xl font-medium mx-2 px-5 py-1 border-2 border-[#aefff7] bg-[#aefff7] rounded-lg hover:bg-transparent hover:text-white duration-500;
 }
+.virtualtablehead
+{
+    @apply h-[1.9rem];
+}
+.virtualtable
+{
+    @apply min-w-[8.22rem] text-center py-1.5;
+}
 table
 {
     table-layout: fixed;
@@ -40,7 +48,7 @@ table
 }
 .course
 {
-    @apply rounded-md font-bold text-base ;
+    @apply rounded-md font-bold text-base;
 }
 [type=search]::-webkit-search-cancel-button
 {
