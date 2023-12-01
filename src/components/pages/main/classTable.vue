@@ -45,7 +45,7 @@
                                 <th class = "w-[10px] m-1">
                                     ⠀
                                 </th>
-                                <th class = 'table-head w-36' colspan = "2">
+                                <th class = 'table-head w-36 border-b border-gray-500' colspan = "2">
                                     節次
                                 </th>   
                                 <th class = 'table-head bg-red-400'>
