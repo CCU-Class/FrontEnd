@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.drag-select-option--selected{
+    background-color: #fff2bb;
+}
 img
 {
     display: unset;
