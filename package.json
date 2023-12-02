@@ -20,6 +20,7 @@
     "ant-design-vue": "^4.0.0",
     "argon2": "^0.31.0",
     "axios": "^1.4.0",
+    "caniuse-lite": "^1.0.30001565",
     "dotenv": "^16.3.1",
     "dotenv-cli": "^7.2.1",
     "fund": "^1.0.0",
