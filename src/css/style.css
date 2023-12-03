@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 
-
-.conflict{
+.conflict
+{
     @apply bg-red-300;
 }
-.drag-select-option--selected{
+.drag-select-option--selected
+{
     background-color: rgb(254, 255, 166);
     opacity: 0.4;
 }
@@ -137,6 +138,7 @@ thead > tr > th
 {
     max-height: 95vh;
     overflow-y: auto;
+    position: relative;
 }
 
 /* scroll bar */

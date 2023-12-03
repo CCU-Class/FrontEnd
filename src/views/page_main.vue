@@ -11,6 +11,7 @@ import timeSelection from '@components/pages/main/timeSelection.vue';
 import store from '../store';
 
 const show_colorpick = computed(() => store.state.course.show_ColorPick);
+const show_search_mode = computed(() => store.state.course.timeSearchMode);
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 
@@ -35,13 +36,13 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div id = "main" class="flex relative">
+    <div id = "main" class="flex">
         <div>
             <Navbar/>
             <Box/>
             <splitpanes class = "bg-white">
                 <pane class = "w-full" min-size = "50" size = "70">
-                    <div :class="{ main_page_left: status }">
+                    <div class="h-full" :class="{ main_page_left: status}">
                         <inputArea/>
                         <Colorpick v-show="show_colorpick"/>
                         <timeSelection/>

@@ -16,24 +16,6 @@ export function classconflict(course: any)
     let table: Course[][] = _.cloneDeep(store.state.course.classStorage);
     let time = splittime(course.class_time);
     for(let i = 0; i < time.length; i++){
-        let Uuid = uuidv4();
-        let course = new Course({
-            start_time: courseToTime[time[i][1]],
-            course_name: "",
-            classroom: "",
-            is_title: false,
-            is_course: true,
-            color: env.VITE_CARD_DEFAULT_COLOR,
-            ID: null,
-            Credit: null,
-            is_custom: true,
-            Teacher: null,
-            Memo: null,
-            textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
-            textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
-            uuid: Uuid,
-            length: 0
-        })
         let weekDayIndex = WeekDayToInt[time[i][0]]; // 2 is the offset of the first two columns
         let startHour = courseToStartIndex[time[i][1]];
         let endHour = courseToEndIndex[time[i][2]];

@@ -232,6 +232,8 @@ const store: Module<State, any> = {
         },
         changeTimeSearchMode(context: any){
             context.commit("changeTimeSearchMode");
+            context.commit("hidden")
+            context.commit("purge");
         },
         settimeSearchArgument(context: any, arg: Array<number>){
             context.commit("settimeSearchArgument", arg);

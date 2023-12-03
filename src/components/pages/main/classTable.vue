@@ -136,9 +136,6 @@ let courseList = computed(() => store.state.course.classListStorage);
 let credit = computed(() => store.state.course.credit);
 
 
-watch(selection, async () => {
-    console.log(selection.value)
-})
 
 const hidden = () =>
 {
