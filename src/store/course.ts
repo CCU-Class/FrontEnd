@@ -15,6 +15,9 @@ interface State {
     defaultColor : string;
     showTable: boolean;
     show_credit: boolean;
+    searchTime_status: boolean;
+    timeSearchMode: boolean;
+    timeSearchArgument: Array<number>;
 }
 
 function Transfer(data : any)
@@ -50,7 +53,10 @@ const store: Module<State, any> = {
         cardMode: 0,
         defaultColor: env.VITE_CARD_DEFAULT_COLOR,
         showTable: true,
-        show_credit: false
+        show_credit: false,
+        searchTime_status: false,
+        timeSearchMode: false,
+        timeSearchArgument: [0, 0, 0]
     },
     mutations: {
         display(state: State) {
@@ -151,6 +157,15 @@ const store: Module<State, any> = {
         },
         setShowTable(state: State, Bool: boolean){
             state.showTable = Bool;
+        },
+        setSearchTimeTable(state: State, Bool: boolean){
+            state.searchTime_status = Bool;
+        },
+        changeTimeSearchMode(state: State){
+            state.timeSearchMode = !state.timeSearchMode;
+        },
+        settimeSearchArgument(state: State, arg: Array<number>){
+            state.timeSearchArgument = arg;
         }
     },
     actions: {
@@ -211,6 +226,15 @@ const store: Module<State, any> = {
         setShowTable(context: any, Bool: boolean){
             // console.log("change")
             context.commit("setShowTable", Bool);
+        },
+        setSearchTimeTable(context: any, Bool: boolean){
+            context.commit("setSearchTimeTable", Bool);
+        },
+        changeTimeSearchMode(context: any){
+            context.commit("changeTimeSearchMode");
+        },
+        settimeSearchArgument(context: any, arg: Array<number>){
+            context.commit("settimeSearchArgument", arg);
         }
     }
 };

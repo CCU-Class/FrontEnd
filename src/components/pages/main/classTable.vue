@@ -7,7 +7,7 @@
                 目前學分: {{credit}}
             </p>
             <div class="relative inset-0">
-                <div class="absolute w-full h-full left-0 top-0 z-20 bg-opacity-0 flex" @contextmenu.prevent="showsearchclass">
+                <div v-if="TimeMode" class="absolute w-full h-full left-0 top-0 z-20 bg-opacity-0 flex" @contextmenu.prevent="showsearchclass">
                     <div class = "w-[10px]">
                         ⠀
                     </div>
@@ -169,6 +169,8 @@ let data = ref([]);
 let show_search_box = ref(true);
 let selectClassTable = ref([]);
 
+let TimeMode = computed(() => store.state.course.timeSearchMode);
+
 
 let inputValue = searchInput.value.trim();
 let single_row_data = ref([])
@@ -197,8 +199,9 @@ async function showsearchclass(event) {
     console.log('监听右键点击');
     try {
         // 使用 let 或 const 来声明局部变量
-        const data = await searchCourseByTime(selection.value[0]['0'] + 1, selection.value[0]['1'], selection.value.slice(-1)[0]['1']);
-        console.log(data);
+        store.dispatch('setSearchTimeTable', true);
+        console.log(selection.value[0]['0'] + 1, selection.value[0]['1'], selection.value.slice(-1)[0]['1']);
+        store.dispatch('settimeSearchArgument', [selection.value[0]['0'] + 1, selection.value[0]['1'], selection.value.slice(-1)[0]['1']]);
         selection.value = [];
     } catch (error) {
         console.error('异步操作出错:', error);

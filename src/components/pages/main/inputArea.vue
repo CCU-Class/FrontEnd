@@ -67,7 +67,7 @@
                 </div>
                 <hr class = 'mx-3 my-3 text-slate-300'>
                 <div class = 'flex place-content-end items-center'>
-                    <a-switch v-model:checked = "opened" class = 'mx-3 py-1 min-w-[4rem]'></a-switch>
+                    <a-switch v-model:checked = "opened" v-on:change = "changeTimeSearchMode()" class = 'mx-3 py-1 min-w-[4rem]'></a-switch>
                     <span class = 'mx-3 py-1 min-w-[4rem]'>
                         時間搜尋模式
                     </span>
@@ -138,6 +138,7 @@ const status = computed(() => store.state.course.show);
 const show_credit = computed(() => store.state.course.show_credit)
 const open_credit = () => store.dispatch("show_credit");
 const close_credit = () => store.dispatch("hidden_credit");
+const changeTimeSearchMode = () => store.dispatch("changeTimeSearchMode");
 let course_data = computed(() => store.state.course.classStorage);
 let courseList = computed(() => store.state.course.classListStorage);
 let credit = computed(() => store.state.course.credit);
@@ -167,6 +168,10 @@ let class_list_title = ["課程名稱", "課程教室", "課程時間", "操作"
 let class_list_visible = ref(false);
 let checked = ref(false);
 let show = computed(() => store.state.course.showTable);
+
+// 這個是打開用時間搜尋的模式的
+let opened = computed(() => store.state.course.timeSearchMode);
+
 let data = ref([]);
 let show_search_box = ref(true);
 let searchList = ref(null);

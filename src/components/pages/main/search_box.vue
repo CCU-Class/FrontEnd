@@ -1,7 +1,7 @@
 <template>
     <Vue3DraggableResizable :draggable="false" :resizable="false" @dragging="handle_drag" @drag-end="drag_end" 
     id = "drag">
-        <div class="w-full top-8 h-8 flex sticky z-50">
+        <div class="w-full top-8 h-8 flex sticky z-10">
             <div class="mr-1 ml-auto w-8 text-lg relative small transition-all ease-in-out duration-500" 
             :class="{ 'large mr-2 border': !show}" @transitionend="transitionComplete" >
                 <div v-if="show" @click="search_button">
