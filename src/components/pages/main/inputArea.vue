@@ -67,6 +67,10 @@
                 </div>
                 <hr class = 'mx-3 my-3 text-slate-300'>
                 <div class = 'flex place-content-end items-center'>
+                    <a-switch v-model:checked = "opened" class = 'mx-3 py-1 min-w-[4rem]'></a-switch>
+                    <span class = 'mx-3 py-1 min-w-[4rem]'>
+                        時間搜尋模式
+                    </span>
                     <a-switch v-model:checked = "checked" v-on:change = "checked ? open_credit() : close_credit()" class = 'mx-3 py-1 min-w-[4rem]'></a-switch>
                     <span class = 'mx-3 py-1 min-w-[4rem]'>
                         顯示學分

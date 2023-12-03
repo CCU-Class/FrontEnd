@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 .drag-select-option--selected{
-    background-color: #fff2bb;
-    opacity: 0.5;
+    background-color: rgb(254, 255, 166);
+    opacity: 0.4;
 }
 img
 {

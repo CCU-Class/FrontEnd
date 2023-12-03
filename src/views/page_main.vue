@@ -7,6 +7,7 @@ import Box from '@components/pages/main/search_box.vue';
 import comment from '@components/pages/main/comment.vue';
 import inputArea from '@components/pages/main/inputArea.vue';
 import Colorpick from '@components/pages/main/colorTemplate.vue';
+import timeSelection from '@components/pages/main/timeSelection.vue';
 import store from '../store';
 
 const show_colorpick = computed(() => store.state.course.show_ColorPick);
@@ -43,6 +44,7 @@ onMounted(async () => {
                     <div :class="{ main_page_left: status }">
                         <inputArea/>
                         <Colorpick v-show="show_colorpick"/>
+                        <timeSelection/>
                         <classTable/>
                     </div>
                 </pane>

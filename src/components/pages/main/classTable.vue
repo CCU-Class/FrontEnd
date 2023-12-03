@@ -16,7 +16,7 @@
                     </div>   
                     <div class = 'virtualtable'>
                         <div class="virtualtablehead"></div>
-                        <drag-select v-model="selection" >
+                        <drag-select v-model="selection" background="rgba(254, 255, 166, 0.1)" >
                             <drag-select-option v-for="item in selectClassTable[0]" style="height: 50px" :value="item.val" :key="item.id" >
                                 {{}}
                             </drag-select-option>
@@ -24,7 +24,7 @@
                     </div>
                     <div class = 'virtualtable'>
                         <div class="virtualtablehead"></div>
-                        <drag-select v-model="selection" >
+                        <drag-select v-model="selection" background="rgba(254, 255, 166, 0.1)" >
                             <drag-select-option v-for="item in selectClassTable[1]" style="height: 50px" :value="item.val" :key="item.id" >
                                 {{}}
                             </drag-select-option>
@@ -32,7 +32,7 @@
                     </div>
                     <div class = 'virtualtable'>
                         <div class="virtualtablehead"></div>
-                        <drag-select v-model="selection" >
+                        <drag-select v-model="selection" background="rgba(254, 255, 166, 0.1)" >
                             <drag-select-option v-for="item in selectClassTable[2]" style="height: 50px" :value="item.val" :key="item.id" >
                                 {{}}
                             </drag-select-option>
@@ -40,7 +40,7 @@
                     </div>
                     <div class = 'virtualtable'>
                         <div class="virtualtablehead"></div>
-                        <drag-select v-model="selection" >
+                        <drag-select v-model="selection" background="rgba(254, 255, 166, 0.1)" >
                             <drag-select-option v-for="item in selectClassTable[3]" style="height: 50px" :value="item.val" :key="item.id" >
                                 {{}}
                             </drag-select-option>
@@ -48,7 +48,7 @@
                     </div>
                     <div class = 'virtualtable'>
                         <div class="virtualtablehead"></div>
-                        <drag-select v-model="selection" >
+                        <drag-select v-model="selection" background="rgba(254, 255, 166, 0.1)" >
                             <drag-select-option v-for="item in selectClassTable[4]" style="height: 50px" :value="item.val" :key="item.id" >
                                 {{}}
                             </drag-select-option>
@@ -56,7 +56,7 @@
                     </div>
                     <div class = 'virtualtable'>
                         <div class="virtualtablehead"></div>
-                        <drag-select v-model="selection" >
+                        <drag-select v-model="selection" background="rgba(254, 255, 166, 0.1)" >
                             <drag-select-option v-for="item in selectClassTable[5]" style="height: 50px" :value="item.val" :key="item.id" >
                                 {{}}
                             </drag-select-option>

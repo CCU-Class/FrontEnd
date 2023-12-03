@@ -26,5 +26,6 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Search_box: typeof import('./src/components/pages/main/search_box.vue')['default']
+    TimeSelection: typeof import('./src/components/pages/main/timeSelection.vue')['default']
   }
 }
