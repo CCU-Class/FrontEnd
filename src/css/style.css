@@ -44,7 +44,7 @@ table
 }
 thead > tr > th
 {
-    @apply text-center text-gray-900 py-1.5 font-semibold min-w-[9rem] border-b border-gray-500;
+    @apply text-center text-gray-900 py-1.5 font-semibold min-w-[9rem] border-b border-b-gray-900;
 }
 .table-head
 {
@@ -52,7 +52,7 @@ thead > tr > th
 }
 .title
 {
-    @apply w-16 text-xl text-gray-700 font-serif border-orange-100 border-2; 
+    @apply w-16 text-xl text-gray-700 font-serif border-orange-100 border-2;
 }
 .course
 {
