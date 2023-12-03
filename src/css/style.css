@@ -4,6 +4,7 @@
 
 .drag-select-option--selected{
     background-color: #fff2bb;
+    opacity: 0.5;
 }
 img
 {

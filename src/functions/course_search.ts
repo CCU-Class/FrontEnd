@@ -98,3 +98,33 @@ export async function searchByTeacher(Input: string)
         });
     });
 }
+
+export async function searchCourseByTime(day: number, start: number, end: number) {
+    
+    const apiUrl = apiSite + "searchCourse/ByTime";
+    
+    return new Promise((resolve, reject) => {
+        const startTime = performance.now();
+        axios.get(apiUrl, {
+            params: {
+                day: day,
+                start: start,
+                end: end
+            }
+        })
+        .then((response) => {
+            // 在這裡處理回應資料
+            // console.log(response.data)
+            const endTime = performance.now();
+            console.log('查詢課程請求到回應時間:', endTime - startTime, '毫秒');
+            // 計算http request 時間
+            // console.log('查詢課程請求到回應時間:', endTime - startTime, '毫秒');
+            resolve(response.data);
+        })
+        .catch((error) => {
+            // 在這裡處理錯誤
+            console.error(error);
+            reject(error);
+        });
+    });
+}

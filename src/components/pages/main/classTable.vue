@@ -7,7 +7,7 @@
                 目前學分: {{credit}}
             </p>
             <div class="relative inset-0">
-                <div class="absolute w-full h-full left-0 top-0 z-20 bg-opacity-2 flex">
+                <div class="absolute w-full h-full left-0 top-0 z-20 bg-opacity-0 flex" @contextmenu.prevent="showsearchclass">
                     <div class = "w-[10px]">
                         ⠀
                     </div>
@@ -16,26 +16,51 @@
                     </div>   
                     <div class = 'virtualtable'>
                         <div class="virtualtablehead"></div>
-                        <drag-select v-model="selection" dragAreaClass="bg-red-500">
-                            <drag-select-option v-for="item in 30" style="height: 50px" class="bg-gray-100" :value="item" :key="item">
-                                {{item}}
+                        <drag-select v-model="selection" >
+                            <drag-select-option v-for="item in selectClassTable[0]" style="height: 50px" :value="item.val" :key="item.id" >
+                                {{}}
                             </drag-select-option>
                         </drag-select>
                     </div>
                     <div class = 'virtualtable'>
-                        
+                        <div class="virtualtablehead"></div>
+                        <drag-select v-model="selection" >
+                            <drag-select-option v-for="item in selectClassTable[1]" style="height: 50px" :value="item.val" :key="item.id" >
+                                {{}}
+                            </drag-select-option>
+                        </drag-select>
                     </div>
                     <div class = 'virtualtable'>
-                        
+                        <div class="virtualtablehead"></div>
+                        <drag-select v-model="selection" >
+                            <drag-select-option v-for="item in selectClassTable[2]" style="height: 50px" :value="item.val" :key="item.id" >
+                                {{}}
+                            </drag-select-option>
+                        </drag-select>
                     </div>
                     <div class = 'virtualtable'>
-                        
+                        <div class="virtualtablehead"></div>
+                        <drag-select v-model="selection" >
+                            <drag-select-option v-for="item in selectClassTable[3]" style="height: 50px" :value="item.val" :key="item.id" >
+                                {{}}
+                            </drag-select-option>
+                        </drag-select>
                     </div>
                     <div class = 'virtualtable'>
-                        
+                        <div class="virtualtablehead"></div>
+                        <drag-select v-model="selection" >
+                            <drag-select-option v-for="item in selectClassTable[4]" style="height: 50px" :value="item.val" :key="item.id" >
+                                {{}}
+                            </drag-select-option>
+                        </drag-select>
                     </div>
                     <div class = 'virtualtable'>
-                        
+                        <div class="virtualtablehead"></div>
+                        <drag-select v-model="selection" >
+                            <drag-select-option v-for="item in selectClassTable[5]" style="height: 50px" :value="item.val" :key="item.id" >
+                                {{}}
+                            </drag-select-option>
+                        </drag-select>
                     </div>
                 </div>
                 <div class="z-10">
@@ -45,16 +70,16 @@
                                 <th class = "w-[10px] m-1">
                                     ⠀
                                 </th>
-                                <th class = 'table-head w-36 border-b border-gray-500' colspan = "2">
+                                <th class = 'table-head w-36' colspan = "2">
                                     節次
                                 </th>   
-                                <th class = 'table-head bg-red-400'>
+                                <th class = 'table-head'>
                                     星期一
                                 </th>
-                                <th class = 'table-head bg-amber-500'>
+                                <th class = 'table-head'>
                                     星期二
                                 </th>
-                                <th class = 'table-head bg-red-400'>
+                                <th class = 'table-head'>
                                     星期三
                                 </th>
                                 <th class = 'table-head'>
@@ -88,7 +113,7 @@ import { rowspanize } from '@functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '@functions/general';
 import renderImage from "@functions/image_render.ts"
 import { courseAdd, searchAdd } from "@functions/course_add.ts"
-import { searchCourse, recordcourse } from '@functions/course_search.ts';
+import { searchCourse, recordcourse, searchCourseByTime } from '@functions/course_search.ts';
 import { splittime } from '@functions/tool.ts';
 import { courseDelete, decreaseCredit } from '@functions/course_delete.ts';
 
@@ -98,6 +123,7 @@ import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 import { useStore } from 'vuex';
 
+const selection = ref([]);
 
 const store = useStore();
 store.dispatch('initAll');
@@ -108,6 +134,12 @@ const close_credit = () => store.dispatch("hidden_credit");
 let course_data = computed(() => store.state.course.classStorage);
 let courseList = computed(() => store.state.course.classListStorage);
 let credit = computed(() => store.state.course.credit);
+
+
+watch(selection, async () => {
+    console.log(selection.value)
+})
+
 const hidden = () =>
 {
     store.dispatch("hidden");
@@ -135,6 +167,7 @@ let checked = ref(false);
 let show = ref(1);
 let data = ref([]);
 let show_search_box = ref(true);
+let selectClassTable = ref([]);
 
 
 let inputValue = searchInput.value.trim();
@@ -159,6 +192,21 @@ watch(searchInput, async (inputValue) => {
 });
 
 
+// 測試右鍵監聽
+async function showsearchclass(event) {
+    console.log('监听右键点击');
+    try {
+        // 使用 let 或 const 来声明局部变量
+        const data = await searchCourseByTime(selection.value[0]['0'] + 1, selection.value[0]['1'], selection.value.slice(-1)[0]['1']);
+        console.log(data);
+        selection.value = [];
+    } catch (error) {
+        console.error('异步操作出错:', error);
+    }
+}
+
+
+
 onMounted(() =>
 {   
     store.dispatch("initAll")
@@ -168,6 +216,13 @@ onMounted(() =>
     {
         // ul's max-height is 2rem x env.VITE_UL_ROW
         ul.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
+    }
+    for (let index = 0; index <= 5; index++){
+        let temp = []
+        for(let j = 0; j < 30; j++){
+            temp.push({id : j, val:[index, j]});
+        }
+        selectClassTable.value.push(temp);
     }
 })
 
