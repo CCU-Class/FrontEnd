@@ -64,6 +64,7 @@
         justify-content: center;
         align-items: center;
         user-select: none;
+        border-radius: 0.5rem;
         /* border:2px solid #9ed6a1; */
         z-index:1;
     }

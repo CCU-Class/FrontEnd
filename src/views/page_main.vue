@@ -34,9 +34,9 @@ onMounted(async () => {
     resizeObserver.observe(left.value);
 });
 
-onUnmounted(() => {
-    resizeObserver.unobserve(left.value);
-});
+// onUnmounted(() => {
+//     resizeObserver.unobserve(left.value);
+// });
 
 const left = ref();
 const wid = ref();
