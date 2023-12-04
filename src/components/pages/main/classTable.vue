@@ -193,11 +193,11 @@ watch(searchInput, async (inputValue) => {
 
 // 測試右鍵監聽
 async function showsearchclass(event) {
-    console.log('监听右键点击');
+    // console.log('监听右键点击');
     try {
         // 使用 let 或 const 来声明局部变量
         store.dispatch('setSearchTimeTable', true);
-        console.log(selection.value[0]['0'] + 1, selection.value[0]['1'], selection.value.slice(-1)[0]['1']);
+        // console.log(selection.value[0]['0'] + 1, selection.value[0]['1'], selection.value.slice(-1)[0]['1']);
         store.dispatch('settimeSearchArgument', [selection.value[0]['0'] + 1, selection.value[0]['1'], selection.value.slice(-1)[0]['1']]);
         selection.value = [];
     } catch (error) {

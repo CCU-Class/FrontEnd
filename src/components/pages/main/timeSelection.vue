@@ -1,5 +1,5 @@
 <template>
-    <div class="absolute z-30 top-0 left-0 w-full h-screen flex items-center backdrop-blur-sm"  v-show="status" >
+    <div class="fixed z-30 top-0 left-0 h-screen flex items-center backdrop-blur-sm"  v-show="status" :style="{width: widthnum}">
         <div class="max-h-4/6 w-full md:w-6/12 mx-auto bg-white px-3 py-2 rounded-lg drop-shadow-xl"> 
             <div class="px-6 py-6">
                 <div class="flex justify-between border-b border-b-orange-200 pb-2 mb-2">
@@ -62,6 +62,7 @@ const isLoading = ref(false);
 const show_content_search_by_time = ref(false);
 const search_inform = ref(true);
 const selectedCoursesearchtime = ref({});
+const out = ref();
 
 async function show_comment(courseid)
 {
@@ -70,21 +71,33 @@ async function show_comment(courseid)
     store.dispatch("display");
 }
 
+// 使用defineProps来访问prop
+const width = defineProps(['message']);
+const widthnum = ref();
+
+watch(width, async() => {
+    // console.log(width.message);
+    widthnum.value = width.message + "px"
+    // console.log(widthnum.value);
+    // console.log(out.value.clientWidth);
+    // out.value.width = width.message;
+})
+
 const show_inform = (course)=>{
     
     selectedCoursesearchtime.value = course;
-    console.log(selectedCoursesearchtime);
+    // console.log(selectedCoursesearchtime);
     show_content_search_by_time.value = true;
     search_inform.value = false;
     // console.log(selectedCourse.value);
 }
 
 watch(searchTimeArgument, async () => {
-    console.log(searchTimeArgument.value);
+    // console.log(searchTimeArgument.value);
     search_class_list_in_timemode.value = [];
     isLoading.value = true;
     let data = await searchCourseByTime(searchTimeArgument.value[0], searchTimeArgument.value[1], searchTimeArgument.value[2]);
-    console.log(data);
+    // console.log(data);
     search_class_list_in_timemode.value = [];
     for(let i = 0; i < data.length; i++){
         let temp = data[i];
@@ -126,7 +139,7 @@ let push_to_table = async function (item){
     // 成功插入會回傳課程陣列，反之回傳false
     // 在做儲存
     let check = searchAdd(data);
-    console.log(check)
+    // console.log(check)
     if(!check)
     {   
         alert("新增課程失敗，請檢查是否衝堂");
