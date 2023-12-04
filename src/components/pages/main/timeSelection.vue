@@ -10,11 +10,14 @@
                     <p class = "font-bold"></p>
                     <p class = "mx-2"></p>
                 </div> -->
-                <div class="overflow-x-hidden mt-4 overflow-y-auto h-80" v-show="search_inform">
+                <div class="overflow-x-hidden mt-4 overflow-y-auto max-h-80" v-show="search_inform">
                     <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner> 
                     <div v-for="item in search_class_list_in_timemode" class="w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white cursor-pointer border-2" 
                     :class="{conflict: item.conflict}" @click="show_inform(item)">
                         {{item.class_name}} {{item.teacher}} {{item.class_time}} 
+                    </div>
+                    <div v-if="!search_class_list_in_timemode.length && !isLoading" class="text-center">
+                        此時段無課程
                     </div>
                 </div>
                 <div v-show="show_content_search_by_time" class="mt-4">

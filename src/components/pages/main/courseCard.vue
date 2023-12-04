@@ -41,7 +41,7 @@
 
     <td v-if="!item.getIsCourse()"
         v-show="item.getLength()"
-        class="text-center p-0 h-full overflow-auto "
+        class="text-center p-0 h-full overflow-auto rounded-lg"
         :class="{ title: item.getIsTitle(), course: item.getIsCourse() }"
         style="height: 50px;"
         :rowspan="item.getLength()"
