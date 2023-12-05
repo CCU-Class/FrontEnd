@@ -7,11 +7,11 @@
                 目前學分: {{credit}}
             </p>
             <div class="relative inset-0">
-                <div v-if="TimeMode" class="absolute w-full h-full left-0 top-0 z-20 bg-opacity-0 flex" @contextmenu.prevent="showsearchclass">
-                    <div class = "w-[10px]">
+                <div v-if="TimeMode" class="absolute w-full h-full left-0 top-0 z-20 bg-opacity-1 flex" @contextmenu.prevent="showsearchclass">
+                    <div class = "w-[11px]">
                         ⠀
                     </div>
-                    <div class = 'table-head w-36'>
+                    <div class = 'table-head w-[9.5rem]'>
                         
                     </div>   
                     <div class = 'virtualtable'>
@@ -64,7 +64,7 @@
                     </div>
                 </div>
                 <div class="z-10">
-                    <table class = 'bg-orange-100 w-full' id = "class_table">
+                    <table class = 'bg-orange-100 w-full border-separate' id = "class_table">
                         <thead>
                             <tr>
                                 <th class = "w-[10px] m-1">

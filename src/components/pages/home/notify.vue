@@ -5,8 +5,8 @@
                 <h2 class = "text-xl font-semibold mb-4 text-center"> 提醒 </h2>
                 <hr class = "py-2">
                 <p class = "mb-4">
-                    本次更新新增了時間課程搜尋功能，可以透過按鈕來切換至時間搜尋模式，<br>
-                    另外除了可以透過課程名稱搜尋外，現在也可以透過教師名稱來搜尋課程了!<br>
+                    本次更新新增了 <font class = "border-b border-double font-bold">時間課程搜尋</font> 功能，可以透過按鈕來切換至時間搜尋模式，<br>
+                    另外除了可以透過課程名稱搜尋外，現在也可以透過 <font class = "border-b border-double font-bold">教師名稱 </font>來搜尋課程了!<br>
                     <br>
                     如發生顯示問題可以嘗試重新整理頁面或清空課表重建，也可以回報發生問題的選課組合，我們會盡快修復!<br><br>
                     同時要請手機使用者多多包涵，為了實現更多功能，目前手機版的網頁版面不太完善，請使用電腦版瀏覽器以獲得更好的使用體驗。
