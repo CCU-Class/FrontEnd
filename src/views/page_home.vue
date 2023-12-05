@@ -17,7 +17,6 @@
             </div>
         </div>
         
-        <Announce/>
         <Notify/>
         <Intro/>
         <Foot/>
@@ -28,7 +27,6 @@
 import Navbar from '@components/layout/navbar.vue';
 import Foot from '@components/layout/footer.vue';
 import Intro from '@components/pages/home/intro.vue';
-import Announce from '@components/pages/home/announcement.vue';
 import Notify from '@components/pages/home/notify.vue';
 
 const visitCount = ref(0);

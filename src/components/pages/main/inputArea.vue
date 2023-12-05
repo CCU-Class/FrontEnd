@@ -9,6 +9,8 @@
                     <select class = 'mx-1 py-1 rounded-md text-center' v-model = "searchType">
                         <option selected>以課程名稱搜尋</option>
                         <option>以教師名稱搜尋</option>
+                        <option>以時間區間搜尋</option>
+                        <option>自定義新增課程</option>
                     </select>
                 </div>
                 <div class = 'flex flex-col py-1 mx-auto' v-if = "searchType == '以課程名稱搜尋'">
@@ -41,36 +43,49 @@
                         </ul>
                     </div>
                 </div>
-                <div class = 'flex py-1 mx-auto'>
-                </div>
-                <div class = 'flex py-1 mx-auto items-center'>
-                    <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
-                        課程資訊
+                <div class = 'flex flex-col py-1 mx-auto' v-else-if = "searchType == '以時間區間搜尋'">
+                    <div class = "flex flex-col w-full">
+                        <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-purple-500'>
+                            以時間區間進行搜尋
+                        </div>
+                        <div class = "mx-3">
+                            現正開啟時間搜尋模式中，請直接在課表上用左鍵拖拉來選擇時間區間，右鍵點擊來確認選擇區間，
+                            每次選擇只能在同一日的時間內選擇，若要選擇多日的時間請多次選擇。
+                            選擇的結果若與當前課表衝堂，則會顯示紅色的衝堂警告，請自行判斷是否要加入課表，
+                            另外，在時間搜尋模式中，無法修改課程顏色，若要修改顏色請切換至其他模式。
+                        </div>
                     </div>
-                    <input class = 'mx-2 w-full md:w-4/12 py-1 rounded-md text-center' type = "text" placeholder = "課程名稱" v-model = "className"/>
-                    <input class = 'mx-2 w-full md:w-3/12 py-1 rounded-md text-center' type = "text" placeholder = "課程教室" v-model = "classRoom"/>
-                    <select class = 'mx-1 py-1 rounded-md text-center' v-model = "weekDay">
-                        <option selected>星期</option>
-                        <option v-for = "day in week" :value = "day">{{day}}</option>
-                    </select>
-                    <select class = 'mx-1 py-1 rounded-md text-center' v-model = "start">
-                        <option selected>始堂</option>
-                        <option v-for = "cla in classes" :value = "cla">{{cla}}</option>
-                    </select>
-                    <select class = 'mx-1 py-1 rounded-md text-center' v-model = "end">
-                        <option selected>終堂</option>
-                        <option v-for = "cla in classes" :value = "cla">{{cla}}</option>
-                    </select>
-                    <button class = 'btn-normal' v-on:click = "push_to_table(1)">
-                        +
-                    </button>
+                </div>
+                <div class = 'flex flex-col py-1 mx-auto' v-else-if = "searchType == '自定義新增課程'">
+                    <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-pink-500'>
+                        自定義新增課程
+                    </div>
+                    <div class = 'flex flex-row mx-auto w-full'>
+                        <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
+                            課程資訊
+                        </div>
+                        <input class = 'mx-2 w-full md:w-5/12 py-1 rounded-md text-center' type = "text" placeholder = "課程名稱" v-model = "className"/>
+                        <input class = 'mx-2 w-full md:w-3/12 py-1 rounded-md text-center' type = "text" placeholder = "課程教室" v-model = "classRoom"/>
+                        <select class = 'mx-1 py-1 rounded-md text-center' v-model = "weekDay">
+                            <option selected>星期</option>
+                            <option v-for = "day in week" :value = "day">{{day}}</option>
+                        </select>
+                        <select class = 'mx-1 py-1 rounded-md text-center' v-model = "start">
+                            <option selected>始堂</option>
+                            <option v-for = "cla in classes" :value = "cla">{{cla}}</option>
+                        </select>
+                        <select class = 'mx-1 py-1 rounded-md text-center' v-model = "end">
+                            <option selected>終堂</option>
+                            <option v-for = "cla in classes" :value = "cla">{{cla}}</option>
+                        </select>
+                        <button class = 'btn-normal' v-on:click = "push_to_table(1)">
+                            +
+                        </button>
+                    </div>
+                    
                 </div>
                 <hr class = 'mx-3 my-3 text-slate-300'>
                 <div class = 'flex place-content-end items-center'>
-                    <a-switch v-model:checked = "opened" v-on:change = "changeTimeSearchMode()" class = 'mx-3 py-1 min-w-[4rem]'></a-switch>
-                    <span class = 'mx-3 py-1 min-w-[4rem]'>
-                        時間搜尋模式
-                    </span>
                     <a-switch v-model:checked = "checked" v-on:change = "checked ? open_credit() : close_credit()" class = 'mx-3 py-1 min-w-[4rem]'></a-switch>
                     <span class = 'mx-3 py-1 min-w-[4rem]'>
                         顯示學分
@@ -114,6 +129,9 @@
                 </div>
             </div>
         </div>
+        <div class = "w-full md:w-9/12 mx-auto py-3" v-if = "searchType == '以時間區間搜尋'">
+            
+        </div>
     </div>    
 </template>
 
@@ -138,7 +156,7 @@ const status = computed(() => store.state.course.show);
 const show_credit = computed(() => store.state.course.show_credit)
 const open_credit = () => store.dispatch("show_credit");
 const close_credit = () => store.dispatch("hidden_credit");
-const changeTimeSearchMode = () => store.dispatch("changeTimeSearchMode");
+const setSearchTimeMode = (flag) => store.dispatch("setTimeSearchMode", flag);
 let course_data = computed(() => store.state.course.classStorage);
 let courseList = computed(() => store.state.course.classListStorage);
 let credit = computed(() => store.state.course.credit);
@@ -181,6 +199,14 @@ let single_row_data = ref([])
 
 watch(searchType, async (inputValue) => {
     show_search_box.value = false;
+    if(inputValue == "以時間區間搜尋")
+    {
+        setSearchTimeMode(true);
+    }
+    else
+    {
+        setSearchTimeMode(false);
+    }
 })
 
 watch(searchInput, async (inputValue) => {

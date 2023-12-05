@@ -30,6 +30,11 @@ const routes = [
     component: () => import('../views/page_admin.vue'),
     meta: { requireAuth: true }
   },
+  {
+    path: '/tutorial',
+    name: 'Tutorial',
+    component: () => import('../views/page_tutorial.vue'),
+  },
   
 ];
 

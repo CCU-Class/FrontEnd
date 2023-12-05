@@ -14,6 +14,9 @@ const router = useRouter();
             <router-link to = "/" class = "btn-head">
                 首頁
             </router-link>
+            <router-link to = "/tutorial" class = "btn-head">
+                使用教學
+            </router-link>
             <router-link to = "/main" class = "btn-head">
                 開始使用
             </router-link>

@@ -164,6 +164,9 @@ const store: Module<State, any> = {
         changeTimeSearchMode(state: State){
             state.timeSearchMode = !state.timeSearchMode;
         },
+        setTimeSearchMode(state: State, Bool: boolean){
+            state.timeSearchMode = Bool;
+        },
         settimeSearchArgument(state: State, arg: Array<number>){
             state.timeSearchArgument = arg;
         }
@@ -232,6 +235,11 @@ const store: Module<State, any> = {
         },
         changeTimeSearchMode(context: any){
             context.commit("changeTimeSearchMode");
+            context.commit("hidden")
+            context.commit("purge");
+        },
+        setTimeSearchMode(context: any, Bool: boolean){
+            context.commit("setTimeSearchMode", Bool);
             context.commit("hidden")
             context.commit("purge");
         },

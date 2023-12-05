@@ -86,6 +86,8 @@ const selectedNull =  ref(true);
 let show_search = ref(false)
 let show_content = ref(false)
 
+let opened = computed(() => store.state.course.timeSearchMode);
+
 const search_button = () => {
     if(!can_open) return;
     show.value = !show.value;
@@ -236,7 +238,7 @@ function checkVisibility()
     const triggerElement = document.querySelector('.input');
     const hiddenElement = document.querySelector('#drag');
     const triggerRect = triggerElement.getBoundingClientRect();
-    if(triggerRect.bottom <= 0)
+    if(triggerRect.bottom <= 0 && !opened.value)
         hiddenElement.style.display = 'block';
     else
         hiddenElement.style.display = 'none';
