@@ -87,7 +87,7 @@
                 <hr class = 'mx-3 my-3 text-slate-300'>
                 <div class = 'flex place-content-end items-center'>
                     <div class = "flex justify-between items-center" @click="toggleActive = !toggleActive">
-                        <div class = "w-12 h-6 flex items-center bg-gray-300 rounded-full duration-300 ease-in-out" :class="{ 'bg-orange-400': toggleActive}">
+                        <div class = "w-12 h-6 flex items-center bg-gray-300 rounded-full duration-300 ease-in-out" :class="{ 'bg-orange-300': toggleActive}">
                         <div class = "bg-white w-5 h-5 rounded-full shadow-md transform duration-300 ease-in-out" :class="{ 'translate-x-6': toggleActive}"></div>
                         </div>
                         <span class = 'mx-3 py-1 min-w-[4rem]'>

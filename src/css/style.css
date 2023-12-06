@@ -4,7 +4,7 @@
 
 .selectDisplayColor
 {
-    @apply bg-red-300;
+    @apply bg-orange-300/50;
 }
 .conflict
 {
