@@ -280,6 +280,7 @@ onMounted(() =>
         // ul's max-height is 2rem x env.VITE_UL_ROW
         searchList.value.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
     }
+    setSearchTimeMode(false);
 })
 
 var delete_course = function(item)

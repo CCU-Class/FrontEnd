@@ -120,8 +120,6 @@ import { searchCourse, recordcourse, searchCourseByTime } from '@functions/cours
 import { splittime } from '@functions/tool.ts';
 import { courseDelete, decreaseCredit } from '@functions/course_delete.ts';
 
-
-
 import { Splitpanes, Pane } from 'splitpanes'
 import 'splitpanes/dist/splitpanes.css'
 import { useStore } from 'vuex';
@@ -217,8 +215,6 @@ async function showsearchclass(event) {
         console.error('异步操作出错:', error);
     }
 }
-
-
 
 onMounted(() =>
 {   
