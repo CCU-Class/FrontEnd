@@ -2,7 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-
+.selectDisplayColor
+{
+    @apply bg-red-300;
+}
 .conflict
 {
     @apply bg-red-300;

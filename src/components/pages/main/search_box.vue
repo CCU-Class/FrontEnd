@@ -68,8 +68,8 @@ async function show_comment(courseid)
     store.dispatch("display");
 }
 
-const show = ref(false);
-const show_icon = ref(false);
+const show = ref(true);
+const show_icon = ref(true);
 const transitionCount = ref(0);
 let can_open = true;
 
@@ -84,7 +84,7 @@ let selectedCourse = ref(null);
 const selectedNull =  ref(true);
 
 let show_search = ref(false)
-let show_content = ref(false)
+let show_content = ref(true)
 
 let opened = computed(() => store.state.course.timeSearchMode);
 

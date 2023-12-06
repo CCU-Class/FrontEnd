@@ -9,7 +9,10 @@
             <div class="relative inset-0">
                 <div v-if="TimeMode" class="absolute w-full h-full left-0 top-0 z-20 bg-opacity-1 flex" @contextmenu.prevent="showsearchclass">
                     <div class = "w-[11px]">
-                        ⠀
+                        <div class="h-10"></div>
+                        <div v-for="item in selectDisplay" class="h-[52px]" :class="{selectDisplayColor:item.display}">
+
+                        </div>
                     </div>
                     <div class = 'table-head w-[9.5rem]'>
                         
@@ -165,6 +168,7 @@ let show = ref(1);
 let data = ref([]);
 let show_search_box = ref(true);
 let selectClassTable = ref([]);
+let selectDisplay = ref([]);
 
 let TimeMode = computed(() => store.state.course.timeSearchMode);
 
@@ -190,6 +194,15 @@ watch(searchInput, async (inputValue) => {
     }
 });
 
+watch(selection, async() => {
+    // console.log(selection.value)
+    for(let i = 0; i < 30; i++){
+        selectDisplay.value[i].display = false;
+    }
+    for(let i = 0; i < selection.value.length; i++){
+        selectDisplay.value[selection.value[i]['1']].display = true;
+    }
+})
 
 // 測試右鍵監聽
 async function showsearchclass(event) {
@@ -223,6 +236,9 @@ onMounted(() =>
             temp.push({id : j, val:[index, j]});
         }
         selectClassTable.value.push(temp);
+    }
+    for(let i = 0; i < 30; i++){
+        selectDisplay.value.push({display: false});
     }
 })
 
