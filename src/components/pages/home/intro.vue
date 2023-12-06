@@ -42,23 +42,6 @@
                     </ol>
                 </div>
             </div>
-            <div class = "w-full px-3 md:w-8/12 mx-auto py-9">
-                <div class = 'text-orange-300 font-semibold text-3xl'>
-                    版本紀錄
-                </div>
-                <div class = 'text-xl text-gray-500 my-1'>
-                    v 0.0.1 第一次公開測試版本開放 <br>
-                    v 0.0.2 UI大規模重構與優化，準備加入搜尋功能 <br>
-                    v 0.0.5 UI全面使用Tailwind改寫 <br>
-                    v 0.0.6 加入搜尋功能，並使用MySQL當作資料庫 <br>
-                    v 0.0.7 資料庫更改為postgreSQL <br>
-                    v 0.0.8 增加計算學分之功能 <br>
-                    v 1.0.0 使用 Vue + Typescript 來完全重構本網站，並新增數個新功能 <br>
-                    v 1.0.1 與 ccu.plus 合作，新增查看 ccu.plus 評價功能<br>
-                    v 1.0.2 更新課表合併方式，提供更穩定的課表渲染。<br>
-                    v 1.0.3 新增時間搜尋、教師名稱搜尋功能。
-                </div>
-            </div>
             <div class = 'w-11/12 md:w-7/12 mx-auto my-3'>
                 <div class = 'text-center text-3xl font-bold border-b-2 mb-3 bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text'>
                     成員介紹
@@ -126,6 +109,24 @@
                     </div>
                 </div>
             </div>
+            <div class = "w-full px-3 md:w-8/12 mx-auto py-9">
+                <div class = 'text-center text-3xl font-bold border-b-2 mb-3 bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text'>
+                    版本紀錄
+                </div>
+                <div class = 'text-xl text-gray-500 my-1'>
+                    v 0.0.1 第一次公開測試版本開放 <br>
+                    v 0.0.2 UI大規模重構與優化，準備加入搜尋功能 <br>
+                    v 0.0.5 UI全面使用Tailwind改寫 <br>
+                    v 0.0.6 加入搜尋功能，並使用MySQL當作資料庫 <br>
+                    v 0.0.7 資料庫更改為postgreSQL <br>
+                    v 0.0.8 增加計算學分之功能 <br>
+                    v 1.0.0 使用 Vue + Typescript 來完全重構本網站，並新增數個新功能 <br>
+                    v 1.0.1 與 ccu.plus 合作，新增查看 ccu.plus 評價功能<br>
+                    v 1.0.2 更新課表合併方式，提供更穩定的課表渲染。<br>
+                    v 1.0.3 新增時間搜尋、教師名稱搜尋功能。
+                </div>
+            </div>
+            
             <div class = "w-full text-center px-3 md:w-8/12 mx-auto py-9">
                 <div class = 'text-center text-3xl font-bold mb-3 bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text'>
                     聯絡我們
