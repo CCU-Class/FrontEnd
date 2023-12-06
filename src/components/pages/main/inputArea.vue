@@ -86,10 +86,14 @@
                 </div>
                 <hr class = 'mx-3 my-3 text-slate-300'>
                 <div class = 'flex place-content-end items-center'>
-                    <a-switch v-model:checked = "checked" v-on:change = "checked ? open_credit() : close_credit()" class = 'mx-3 py-1 min-w-[4rem]'></a-switch>
-                    <span class = 'mx-3 py-1 min-w-[4rem]'>
-                        顯示學分
-                    </span>
+                    <div class = "flex justify-between items-center" @click="toggleActive = !toggleActive">
+                        <div class = "w-12 h-6 flex items-center bg-gray-300 rounded-full duration-300 ease-in-out" :class="{ 'bg-orange-400': toggleActive}">
+                        <div class = "bg-white w-5 h-5 rounded-full shadow-md transform duration-300 ease-in-out" :class="{ 'translate-x-6': toggleActive}"></div>
+                        </div>
+                        <span class = 'mx-3 py-1 min-w-[4rem]'>
+                            顯示學分
+                        </span>
+                    </div>
                     <button class = 'btn-normal min-w-[8rem]' v-on:click = "show_list">
                         展開課程列表
                     </button>
@@ -160,6 +164,9 @@ const setSearchTimeMode = (flag) => store.dispatch("setTimeSearchMode", flag);
 let course_data = computed(() => store.state.course.classStorage);
 let courseList = computed(() => store.state.course.classListStorage);
 let credit = computed(() => store.state.course.credit);
+
+const toggleActive = ref(false);
+
 const hidden = () =>
 {
     store.dispatch("hidden");
@@ -206,6 +213,17 @@ watch(searchType, async (inputValue) => {
     else
     {
         setSearchTimeMode(false);
+    }
+})
+
+watch(toggleActive, (inputValue) => {
+    if(inputValue == true)
+    {
+        store.dispatch("show_credit");
+    }
+    else
+    {
+        store.dispatch("hidden_credit");
     }
 })
 
