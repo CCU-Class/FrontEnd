@@ -10234,6 +10234,11 @@ vue-html2canvas@^0.0.4:
   dependencies:
     html2canvas "^1.0.0-alpha.12"
 
+vue-lazyload@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmjs.org/vue-lazyload/-/vue-lazyload-3.0.0.tgz"
+  integrity sha512-h2keL/Rj550dLgesgOtXJS9qOiSMmuJNeVlfNAYV1/IYwOQYaWk5mFJlwRxmZDK9YC5gECcFLYYj7z1lKSf9ug==
+
 vue-router@^4.2.2:
   version "4.2.5"
   resolved "https://registry.npmjs.org/vue-router/-/vue-router-4.2.5.tgz"
