@@ -9,14 +9,14 @@ export function splittime(time: string){
     for(let i = 0; i < store.length; i++){
         let temp = store[i][0];
         // temp2 remove the first char
+        // 去掉星期幾 只留時間
         let temp2 = store[i].slice(1);
         let TimeArr = temp2.split(',');
-        // console.log(TimeArr)
+        // 把每個時段切開
         for(let j = 0; j < TimeArr.length; j++){
             let single_data: [string, string, string] = [temp, TimeArr[j], TimeArr[j]];
             arr.push(single_data);
         }
     }
-    // console.log(arr)
     return arr;
 }
