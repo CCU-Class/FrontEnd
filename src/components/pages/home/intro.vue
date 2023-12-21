@@ -48,8 +48,8 @@
                 </div>
                 <!-- <vue-carousel :data="slides" class="bg-dark"></vue-carousel> -->
                 <div class = "bg-orange-100/50 py-6 px-3 flex flex-row">
-                    <div class = "w-[20rem] align-middle">
-                        <img src = '/member01.jpg' class = 'max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]'>    
+                    <div class = "w-[20rem] align-middle" v-lazy-container="{ selector: 'img' }">
+                        <img data-src = '/member01.jpg' class = 'max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]'>    
                     </div>
                     <div>
                         <p class = "text-2xl font-bold px-5 border-b border-white text-orange-700">
@@ -63,8 +63,8 @@
                     </div>
                 </div>
                 <div class = "bg-orange-100/50 py-6 px-3 flex flex-row">
-                    <div class = "w-[20rem] align-middle">
-                        <img src = '/member02.jpg' class = 'max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]'>    
+                    <div class = "w-[20rem] align-middle" v-lazy-container="{ selector: 'img' }">
+                        <img data-src = '/member02.jpg' class = 'max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]'>    
                     </div>
                     <div>
                         <p class = "text-2xl font-bold px-5 border-b border-white text-orange-700">
@@ -78,8 +78,8 @@
                     </div>
                 </div>
                 <div class = "bg-orange-100/50 py-6 px-3 flex flex-row">
-                    <div class = "w-[20rem] align-middle">
-                        <img src = '/member03.jpg' class = 'max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]'>    
+                    <div class = "w-[20rem] align-middle" v-lazy-container="{ selector: 'img' }">
+                        <img data-src = '/member03.jpg' class = 'max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]'>    
                     </div>
                     <div>
                         <p class = "text-2xl font-bold px-5 border-b border-white text-orange-700">
@@ -94,8 +94,8 @@
                     </div>
                 </div>
                 <div class = "bg-orange-100/50 py-6 px-3 flex flex-row">
-                    <div class = "w-[20rem] align-middle">
-                        <img src = '/member04.png' class = 'max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]'>    
+                    <div class = "w-[20rem] align-middle" v-lazy-container="{ selector: 'img' }">
+                        <img data-src = '/member04.png' class = 'max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]'>    
                     </div>
                     <div>
                         <p class = "text-2xl font-bold px-5 border-b border-white text-orange-700">
