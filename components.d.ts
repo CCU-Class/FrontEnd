@@ -7,7 +7,6 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    ASwitch: typeof import('ant-design-vue/es')['Switch']
     ClassTable: typeof import('./src/components/pages/main/classTable.vue')['default']
     ClipLoadingSpinner: typeof import('./src/components/common/ClipLoadingSpinner.vue')['default']
     ColorTemplate: typeof import('./src/components/pages/main/colorTemplate.vue')['default']
