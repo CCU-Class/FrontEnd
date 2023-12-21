@@ -10,11 +10,13 @@ export function splittime(time: string){
         let temp = store[i][0];
         // temp2 remove the first char
         let temp2 = store[i].slice(1);
-        for(let j = 0; j < temp2.length; j++){
-            if(temp2[j] == ",") continue;
-            let single_data: [string, string, string] = [temp, temp2[j], temp2[j]];
+        let TimeArr = temp2.split(',');
+        // console.log(TimeArr)
+        for(let j = 0; j < TimeArr.length; j++){
+            let single_data: [string, string, string] = [temp, TimeArr[j], TimeArr[j]];
             arr.push(single_data);
         }
     }
+    // console.log(arr)
     return arr;
 }
