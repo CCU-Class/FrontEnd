@@ -48,17 +48,6 @@
                         <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-purple-500'>
                             以時間區間進行搜尋
                         </div>
-                        <div class = "mx-3 py-2">
-                            <div class = "flex items-center" @click="toggleActive2 = !toggleActive2">
-                                <div class = "w-12 h-6 flex items-center bg-gray-300 rounded-full duration-300 ease-in-out" :class="{ 'bg-purple-300': toggleActive2}">
-                                <div class = "bg-white w-5 h-5 rounded-full shadow-md transform duration-300 ease-in-out" :class="{ 'translate-x-6': toggleActive2}"></div>
-                                </div>
-                                <span class = 'mx-3 py-1 min-w-[4rem]'>
-                                    僅搜尋通識課程
-                                </span>
-                            </div>
-                        </div>
-
                         <div class = "mx-3">
                             現正開啟時間搜尋模式中，請直接在課表上用左鍵拖拉來選擇時間區間，右鍵點擊來確認選擇區間，
                             每次選擇只能在同一日的時間內選擇，若要選擇多日的時間請多次選擇。

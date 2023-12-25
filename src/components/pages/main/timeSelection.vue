@@ -6,10 +6,16 @@
                     <div class="text-2xl font-bold text-orange-300">課程時間搜尋</div>
                     <CloseCircleOutlined class="text-2xl font-bold cursor-pointer text-purple-900" @click="close"/>
                 </div>
-                <!-- <div class = "flex flex-row text-md">
-                    <p class = "font-bold"></p>
-                    <p class = "mx-2"></p>
-                </div> -->
+                <div class = "mx-1" v-if = "search_class_list_in_timemode.length && !isLoading">
+                    <div class = "flex items-center" @click="toggleActive = !toggleActive">
+                        <div class = "w-12 h-6 flex items-center bg-gray-300 rounded-full duration-300 ease-in-out" :class="{ 'bg-orange-300': toggleActive}">
+                        <div class = "bg-white w-5 h-5 rounded-full shadow-md transform duration-300 ease-in-out" :class="{ 'translate-x-6': toggleActive}"></div>
+                        </div>
+                        <span class = 'mx-3 py-1 min-w-[4rem]'>
+                            僅顯示通識課程
+                        </span>
+                    </div>
+                </div>
                 <div class="overflow-x-hidden mt-4 overflow-y-auto max-h-80" v-show="search_inform">
                     <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner> 
                     <div v-for="item in search_class_list_in_timemode" class="w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white cursor-pointer border-2" 
@@ -66,6 +72,7 @@ const show_content_search_by_time = ref(false);
 const search_inform = ref(true);
 const selectedCoursesearchtime = ref({});
 const out = ref();
+const toggleActive = ref(false);
 
 async function show_comment(courseid)
 {
