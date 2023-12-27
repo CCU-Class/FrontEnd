@@ -1,6 +1,6 @@
 import axios from 'axios';
 const env = import.meta.env;
-const apiSite = `https://${env.VITE_BACKEND_DEVICE}/`;
+const apiSite = `${env.VITE_BACKEND_DEVICE}/`;
 
 const Token = {
     saveToken(token: string){

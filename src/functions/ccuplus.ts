@@ -1,6 +1,6 @@
 import axios from "axios";
 const env = import.meta.env;
-const apiSite = `https://${env.VITE_CCUPLUS_DEVICE}`;
+const apiSite = `${env.VITE_CCUPLUS_DEVICE}`;
 
 export async function searchCourseOnCcuplus(course_id: string) {
     const apiUrl = apiSite + course_id;

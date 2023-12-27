@@ -2,9 +2,10 @@ import axios from 'axios';
 
 //require dotenv
 const env = import.meta.env;
-const apiSite = `https://${env.VITE_BACKEND_DEVICE}/`;
+const apiSite = `${env.VITE_BACKEND_DEVICE}/`;
 export async function visitWeb(web_name:string|null){
     const apiUrl = apiSite + "record/visistWebsite";
+    console.log(web_name)
     return new Promise((resolve, reject) => {
         axios.get(apiUrl, {
             params: {
