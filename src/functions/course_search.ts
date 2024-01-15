@@ -128,3 +128,22 @@ export async function searchCourseByTime(day: number, start: number, end: number
         });
     });
 }
+
+export async function getDepartment() {
+    
+    const apiUrl = apiSite + "searchCourse/getDepartment";
+    
+    return new Promise((resolve, reject) => {
+        axios.get(apiUrl, {
+            
+        })
+        .then((response) => {
+            resolve(response.data);
+        })
+        .catch((error) => {
+            // 在這裡處理錯誤
+            console.error(error);
+            reject(error);
+        });
+    });
+}
