@@ -192,7 +192,6 @@ const isLoading = ref(false);
 const isInputEmpty = ref(false);
 let class_list_title = ["課程名稱", "課程教室", "課程時間", "操作"];
 let class_list_visible = ref(false);
-let checked = ref(false);
 let show = computed(() => store.state.course.showTable);
 
 // 這個是打開用時間搜尋的模式的
@@ -406,10 +405,6 @@ var clearTable = function() {
 var download = function() {
     renderImage("WholeTable") // finish 
 }
-
-const state = reactive({
-    checked: false
-})
 
 
 </script>
