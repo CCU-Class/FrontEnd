@@ -24,7 +24,7 @@
                             <commonOption @click.stop="delete_course_card(item)">刪除</commonOption>
                             <commonOption @click="openColorTemplate(item, 1)">修改顏色</commonOption>
                             <commonOption @click="openColorTemplate(item, 2)">文字樣式</commonOption>
-                            <commonOption @click="openComment(item)">查看評價</commonOption>
+                            <commonOption @click="show_comment(item.getId())">查看評價</commonOption>
                             <!-- <colorTemplate v-show="isSelectingColor">
                                 
                             </colorTemplate> -->
@@ -123,6 +123,7 @@
     import {Course} from '@functions/general.ts';
     import { courseDelete, decreaseCredit } from '@functions/course_delete.ts';
     import store from '../../../store';
+    import { show_comment } from '@functions/ccuplus';
     const env = import.meta.env;
     let isHovering = ref(false);
     let isFliped = ref(false);
@@ -168,11 +169,5 @@
         // 再刪除函式裡面去更改store狀態
         courseDelete(item);
         // course_data.value = GetCourseTable();
-    }
-    let openComment = function(item){
-        let courseid = item.getId();
-        window.scrollTo(0, 0);
-        store.dispatch("pass_course_id", courseid);
-        store.dispatch("display");
     }
 </script>

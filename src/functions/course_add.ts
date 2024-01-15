@@ -13,7 +13,7 @@ const env = import.meta.env;
 
 export function classconflict(course: any)
 {   
-    let table: Course[][] = _.cloneDeep(store.state.course.classStorage);
+    let table: Course[][] = store.state.course.classStorage;
     let time = splittime(course.class_time);
     for(let i = 0; i < time.length; i++){
         let weekDayIndex = WeekDayToInt[time[i][0]]; // 2 is the offset of the first two columns

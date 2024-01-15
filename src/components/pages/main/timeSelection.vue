@@ -60,6 +60,7 @@ import { classconflict, searchAdd } from '@functions/course_add.ts';
 import { splittime } from '@functions/tool.ts';
 import {v4 as uuidv4} from 'uuid';
 import {Course} from "@functions/general.ts";
+import { show_comment } from '@functions/ccuplus';
 
 const env = import.meta.env;
 const status = computed(() => store.state.course.searchTime_status);
@@ -80,12 +81,6 @@ const filteredClassList = computed(() => {
     : search_class_list_in_timemode.value;
 });
 
-async function show_comment(courseid)
-{
-    window.scrollTo(0, 0);
-    store.dispatch("pass_course_id", courseid);
-    store.dispatch("display");
-}
 
 // 使用defineProps来访问prop
 const width = defineProps(['message']);

@@ -56,18 +56,10 @@ import {Course} from "@functions/general.ts";
 import {v4 as uuidv4} from 'uuid';
 import {splittime} from "@functions/tool.ts";
 import {searchAdd} from "@functions/course_add";
+import { show_comment } from '@functions/ccuplus';
 
 const env = import.meta.env;
-
 const store = useStore();
-
-async function show_comment(courseid)
-{
-    window.scrollTo(0, 0);
-    store.dispatch("pass_course_id", courseid);
-    store.dispatch("display");
-}
-
 const show = ref(true);
 const show_icon = ref(true);
 const transitionCount = ref(0);
@@ -114,22 +106,6 @@ function Sleep(time) {
     });
 }
 
-function remerge_table(){
-    const temp = new Rowspanizer({
-        target: "#class_table",
-        colspan_index: 0
-    })
-    temp.rowspanize()
-}
-
-async function refresh_table(){
-    return new Promise(async (resolve, reject) => {
-        store.dispatch('setShowTable', false);
-        await Sleep(100);
-        store.dispatch('setShowTable', true);
-        resolve();
-    });
-}
 
 let push_to_table = async function (item){
     // 從搜尋結果新增課程
@@ -233,6 +209,7 @@ const drag_end = () => {
     }, 100);
 };
 
+// 被滑到看不見才會顯示小框框
 function checkVisibility()
 {
     const triggerElement = document.querySelector('.input');
