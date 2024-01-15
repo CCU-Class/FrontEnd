@@ -55,7 +55,7 @@ import {searchCourse, recordcourse} from "@functions/course_search.ts";
 import {Course} from "@functions/general.ts";
 import {v4 as uuidv4} from 'uuid';
 import {splittime} from "@functions/tool.ts";
-import {searchAdd} from "@functions/course_add";
+import {searchAdd, push_to_table} from "@functions/course_add";
 import { show_comment } from '@functions/ccuplus';
 
 const env = import.meta.env;
@@ -106,69 +106,6 @@ function Sleep(time) {
     });
 }
 
-
-let push_to_table = async function (item){
-    // 從搜尋結果新增課程
-    recordcourse(item)
-    let time = splittime(item.class_time);
-    // console.log(typeof(item.credit))
-    let data = [];
-    let Uuid = uuidv4();
-    for(let i = 0; i < time.length; i++){
-        data.push(new Course({
-            start_time: time[i][1],
-            end_time: time[i][2],
-            week_day: time[i][0],
-            course_name: item.class_name,
-            classroom: item.class_room,
-            is_title: false,
-            is_course: true,
-            color: env.VITE_CARD_DEFAULT_COLOR,
-            Credit: item.credit,
-            ID: item.id,
-            is_custom: false,
-            Teacher: item.teacher,
-            Memo: null,
-            textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
-            textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
-            uuid: Uuid,
-            length: 0
-        }));
-    }
-    // 成功插入會回傳課程陣列，反之回傳false
-    // 在做儲存
-    let check = searchAdd(data);
-    console.log(check)
-    if(!check)
-    {   
-        alert("新增課程失敗，請檢查是否衝堂");
-        return;
-    }
-    store.dispatch('addCourseList', new Course({
-        start_time: item.class_time,
-        end_time: item.class_time,
-        week_day: item.class_time,
-        course_name: item.class_name,
-        classroom: item.class_room,
-        is_title: false,
-        is_course: true,
-        color: env.VITE_CARD_DEFAAULT_COLOR,
-        Credit: item.credit,
-        ID: item.id,
-        is_custom: false,
-        Teacher: item.teacher,
-        Memo: null,
-        textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
-        textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
-        uuid: Uuid,
-        length: 0
-    }));
-    store.dispatch('addCredit', Number(item.credit));
-    show_content.value = false;
-    searchInput.value = "";
-    // credit += Number(item.credit);
-    // console.log(credit.value);
-}
 
 watch(searchInput, async (inputValue) => {
     if(inputValue != "")
