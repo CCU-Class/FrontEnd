@@ -14,17 +14,6 @@
     
 </template>
 
-
-<style>
-    .color-picker {
-        width: 200%;
-        height: 100%;
-        max-width: 100%;
-        max-height: 100%;
-    }
-</style>
-
-
 <script setup>
     import {ColorPicker} from 'vue-accessible-color-picker';
     import {ref, computed, watch, onMounted} from 'vue';

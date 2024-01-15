@@ -54,67 +54,6 @@
     </td>
 </template>
 
-<style>
-
-    .card{
-        cursor: pointer;
-        justify-items: center;
-        height: 100%;
-        width: auto;
-        justify-content: center;
-        align-items: center;
-        user-select: none;
-        border-radius: 0.5rem;
-        /* border:2px solid #9ed6a1; */
-        z-index:1;
-    }
-    .card-content{
-        justify-content: center;
-        align-items: center;
-        display:flex;
-        width: 100%;
-        height: 100%;
-        max-width: 100%;
-    }
-    .card:hover{
-        transition: 0.100s linear;
-        transform: scale(1.25);
-        -webkit-transform: scale(1.25) ;
-        z-index:2;
-    }
-    .fliping-enter-active {
-        transition: all 0.15s ease;
-        -webkit-transition: all 0.15s ease;
-    }
-    .fliping-leave-active{
-        transition: all 0.15s ease;
-        -webkit-transition: all 0.15s ease;
-    }
-
-    .fliping-enter {
-        transform: rotateY(180deg);
-        -webkit-transform: rotateY(180deg);
-        opacity: 0;
-    }
-    .fliping-leave-to {
-        transform: rotateY(90deg);
-        -webkit-transform: rotateY(90deg);
-        opacity: 0;
-    }
-    .fliping-enter-to{
-        transform: rotateY(0);
-        -webkit-transform: rotateY(0);
-        opacity: 0;
-    }
-    .fliping-leave  {
-        transform: rotateY(180deg);
-        -webkit-transform: rotateY(180deg);
-        opacity: 0;
-    }
-
-    
-</style>
-
 <script setup>
     import {ref, watch, computed} from "vue";
     import kebabButton from '@components/common/optionButton/kebabButton.vue';
