@@ -9,6 +9,7 @@
                     <select class = 'mx-1 py-1 rounded-md text-center' v-model = "searchType">
                         <option selected>以課程名稱搜尋</option>
                         <option>以教師名稱搜尋</option>
+                        <option>以系所年級搜尋</option>
                         <option>以時間區間搜尋</option>
                         <option>自定義新增課程</option>
                     </select>
@@ -16,6 +17,7 @@
                 <div class = 'flex flex-col py-1 mx-auto'>
                     <CourseName v-if = "searchType == '以課程名稱搜尋'" />
                     <Teacher v-if = "searchType == '以教師名稱搜尋'" />
+                    <Department v-if="searchType == '以系所年級搜尋'"/>
                     <Time v-if = "searchType == '以時間區間搜尋'" />
                     <Custom v-if = "searchType == '自定義新增課程'" />
                 </div>
@@ -79,6 +81,7 @@ import CourseName from '@components/pages/main/serach_modes/course_name.vue';
 import Teacher from '@components/pages/main/serach_modes/teacher.vue';
 import Time from '@components/pages/main/serach_modes/time.vue';
 import Custom from '@components/pages/main/serach_modes/custom.vue';
+import Department from '@components/pages/main/serach_modes/department.vue';
 
 import { onMounted, onUpdated, ref, watch, reactive, computed } from 'vue';
 import { Switch } from 'ant-design-vue'
