@@ -20,8 +20,7 @@
             </div>
             <div class="w-full mx-2">
                 <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" ref="searchList">
-                    
-                    <li v-for = "item in filteredClassList" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item), cleanInputArea()">
+                    <li v-for = "item in filteredClassList" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" :class="{conflict: item.conflict}" @click="push_to_table(2, item) && addConflict(item)">
                         [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
                     </li>
                 </ul>
@@ -34,7 +33,7 @@
 <script setup>
 import { Course, InitTable, GetCourseTable } from '@functions/general';
 import { getDepartment, getGradeByDepartment, getCourseByDepartment } from '@functions/course_search.ts';
-import { push_to_table } from '@functions/course_add.ts';
+import { classconflict, push_to_table } from '@functions/course_add.ts';
 
 import { onMounted, ref, watch, computed } from 'vue';
 import { useStore } from 'vuex';
@@ -109,13 +108,6 @@ watch(departmentInput, async (inputValue) => {
     }
 });
 
-watch(departmentflag, async (flag) => {
-    console.log("48763", flag)
-    if(!flag)
-    {   
-        
-    }
-});
 
 async function clickDepartment()
 {
@@ -123,8 +115,15 @@ async function clickDepartment()
     gradeList.value = await getGradeByDepartment(departmentInput.value);
     gradeList.value.push({'grade': 'all'});
     gradeSelection.value = 'all';
-    courseList.value = await getCourseByDepartment(departmentInput.value);
-    console.log(courseList.value)
+    let coursedata = await getCourseByDepartment(departmentInput.value);
+    courseList.value = coursedata.map(temp => {
+        temp['conflict'] = classconflict(temp);
+        return temp;
+    })
+}
+
+function addConflict(item){
+    item['conflict'] = true;
 }
 
 onMounted(async () =>
@@ -136,7 +135,6 @@ onMounted(async () =>
         department_search_list.value.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
     }
     departmentList= await getDepartment();
-    console.log(departmentList);
     setSearchTimeMode(false);
 })
 </script>
