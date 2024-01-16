@@ -38,7 +38,7 @@
                             </div>
                             <div class="flex w-full h-8 p-2">
                                 <div class="m-auto text-base rounded-2xl bg-green-200 px-3 py-1 hover:bg-green-300" @click="show_comment(selectedCourse.id)">查看評價</div>
-                                <div class="m-auto text-base rounded-2xl bg-green-200 px-3 py-1 hover:bg-green-300" @click="push_to_table(selectedCourse)">加入課表</div>
+                                <div class="m-auto text-base rounded-2xl bg-green-200 px-3 py-1 hover:bg-green-300" @click="push_to_table(2, selectedCourse)">加入課表</div>
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,6 @@ const search_button = () => {
     if(show.value == true){
         setTimeout(() => {
             show_icon.value = !show_icon.value;
-            // console.log("fuck you");
             selectedNull.value = true;
             selectedCourse.value = null;
             searchInput.value = '';
