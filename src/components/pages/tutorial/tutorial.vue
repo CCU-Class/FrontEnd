@@ -30,6 +30,12 @@
                 在搜尋欄中輸入課程名稱，即可搜尋到相關課程。
             </p>
             <div class = "text-lg font-semibold border-b border-b-black text-orange-600"> 
+                系所搜尋
+            </div>
+            <p class = "text-base my-1 mx-3">
+                在搜尋欄中輸入科系，會用科系搜尋相關課程，並且可以用年級、向度等方式進行篩選。
+            </p>
+            <div class = "text-lg font-semibold border-b border-b-black text-orange-600"> 
                 以教師名稱搜尋課程
             </div>
             <p class = "text-base my-1 mx-3">

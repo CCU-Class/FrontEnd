@@ -1,11 +1,11 @@
 <template>
     <div class = "flex flex-col w-full">
-        <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-green-500'>
+        <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-red-500'>
             以系所年級進行搜尋
         </div>
         <div class="flex px-4">
-            <div class="w-1/5 mx-2">
-                <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "系所" v-model = "departmentInput">
+            <div class="w-3/12">
+                <input class = 'mx-auto py-1 text-center course_search' type = "search" placeholder = "系所" v-model = "departmentInput">
                 <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" ref = "department_search_list" v-show="show_department">
                     <li v-for="item in department_data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" 
                     @click="departmentInput = item, departmentflag = false, clickDepartment()">
@@ -13,12 +13,12 @@
                     </li>
                 </ul>
             </div>
-            <div class="w-1/5 mx-4">
-                <select class = 'mx-1 py-1 rounded-md text-center' v-model = "gradeSelection">
+            <div class="w-1/12">
+                <select class = 'w-full h-8 text-center' v-model = "gradeSelection">
                     <option v-for="(option, index) in gradeList" :key="index" :value="option.grade"> {{ option.grade }} </option>
                 </select>
             </div>
-            <div class="w-full mx-2">
+            <div class="w-full">
                 <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" ref="searchList">
                     <li v-for = "item in filteredClassList" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" :class="{conflict: item.conflict}" @click="push_to_table(2, item) && addConflict(item)">
                         [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
@@ -42,7 +42,6 @@ const env = import.meta.env;
 
 const store = useStore();
 const setSearchTimeMode = (flag) => store.dispatch("setTimeSearchMode", flag);
-const searchInput = ref('');
 const isLoading = ref(false);
 const isInputEmpty = ref(false);
 const show_search_box = ref(false);
@@ -59,35 +58,11 @@ const courseList = ref([]);
 const gradeSelection = ref();
 
 const filteredClassList = computed(() => {
+    if(departmentInput.value == "") return [];
     if(gradeSelection.value == 'all') return courseList.value;
     return courseList.value.filter(item => item.grade == gradeSelection.value);
 });
 
-let cleanInputArea = function() {
-    show_search_box.value = !show_search_box.value;
-    searchInput.value = "";
-}
-
-watch(searchInput, async (inputValue) => {
-    show_search_box.value = true;
-    if(inputValue != "")
-    {   
-        isLoading.value = true;
-        show_search_box.value = true;
-        data.value = await searchByTeacher(inputValue);
-        isLoading.value = false;
-        if(searchList != null)
-        {   
-            // ul's max-height is 2rem x env.VITE_UL_ROW
-            searchList.value.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
-        }
-    }
-    else
-    {
-        isLoading.value = false;
-        show_search_box.value = false;
-    }
-});
 
 
 watch(departmentInput, async (inputValue) => {
@@ -113,6 +88,10 @@ async function clickDepartment()
 {
     gradeList.value = [];
     gradeList.value = await getGradeByDepartment(departmentInput.value);
+    if(gradeList.value.length == 1)
+    {
+        gradeList.value = []; // clear
+    }
     gradeList.value.push({'grade': 'all'});
     gradeSelection.value = 'all';
     let coursedata = await getCourseByDepartment(departmentInput.value);
