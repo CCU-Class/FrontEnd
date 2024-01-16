@@ -13,80 +13,11 @@
                         <option>自定義新增課程</option>
                     </select>
                 </div>
-                <div class = 'flex flex-col py-1 mx-auto' v-if = "searchType == '以課程名稱搜尋'">
-                    <div class = "flex flex-col w-full">
-                        <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-orange-500'>
-                            以課程名稱進行搜尋
-                        </div>
-                        <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "使用課程名稱進行課程搜尋" v-model = "searchInput">
-                        
-                        <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" ref="searchList" v-show="show_search_box">
-                            <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
-                            <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item), cleanInputArea()">
-                                [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class = 'flex flex-col py-1 mx-auto' v-else-if = "searchType == '以教師名稱搜尋'">
-                    <div class = "flex flex-col w-full">
-                        <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-green-500'>
-                            以教師名稱進行搜尋
-                        </div>
-                        <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "使用教師名稱進行課程搜尋" v-model = "searchTeacher">
-                        
-                        <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" ref="searchList" v-show="show_search_box">
-                            <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
-                            <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item), cleanInputArea()">
-                                [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class = 'flex flex-col py-1 mx-auto' v-else-if = "searchType == '以時間區間搜尋'">
-                    <div class = "flex flex-col w-full">
-                        <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-purple-500'>
-                            以時間區間進行搜尋
-                        </div>
-                        <div class = "mx-3">
-                            現正開啟時間搜尋模式中，請直接在課表上用左鍵拖拉來選擇時間區間，右鍵點擊來確認選擇區間，
-                            每次選擇只能在同一日的時間內選擇，若要選擇多日的時間請多次選擇。
-                            選擇的結果若與當前課表衝堂，則會顯示紅色的衝堂警告，請自行判斷是否要加入課表，
-                            另外，在時間搜尋模式中，無法修改課程顏色，若要修改顏色請切換至其他模式。
-                        </div>
-                    </div>
-                </div>
-                <div class = 'flex flex-col py-1 mx-auto' v-else-if = "searchType == '自定義新增課程'">
-                    <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-pink-500'>
-                        自定義新增課程
-                    </div>
-                    <div class = 'flex flex-row mx-auto w-full'>
-                        <div class = 'mx-3 py-1 font-semibold min-w-[4rem]'>
-                            課程資訊
-                        </div>
-                        <input class = 'mx-2 w-full md:w-5/12 py-1 rounded-md text-center' type = "text" placeholder = "課程名稱" v-model = "className"/>
-                        <input class = 'mx-2 w-full md:w-3/12 py-1 rounded-md text-center' type = "text" placeholder = "課程教室" v-model = "classRoom"/>
-                        <select class = 'mx-1 py-1 rounded-md text-center' v-model = "weekDay">
-                            <option selected>星期</option>
-                            <option v-for = "day in week" :value = "day">{{day}}</option>
-                        </select>
-                        <select class = 'mx-1 py-1 rounded-md text-center' v-model = "start">
-                            <option selected>始堂</option>
-                            <option v-for = "cla in classes" :value = "cla">{{cla}}</option>
-                        </select>
-                        <select class = 'mx-1 py-1 rounded-md text-center' v-model = "end">
-                            <option selected>終堂</option>
-                            <option v-for = "cla in classes" :value = "cla">{{cla}}</option>
-                        </select>
-                        <button class = 'btn-normal' v-on:click = "push_to_table(1, {'className':className,
-                                                                                     'classRoom':classRoom,
-                                                                                     'weekDay'  :weekDay,
-                                                                                     'start'    :start,
-                                                                                     'end'      :end })">
-                            +
-                        </button>
-                    </div>
-                    
+                <div class = 'flex flex-col py-1 mx-auto'>
+                    <CourseName v-if = "searchType == '以課程名稱搜尋'" />
+                    <Teacher v-if = "searchType == '以教師名稱搜尋'" />
+                    <Time v-if = "searchType == '以時間區間搜尋'" />
+                    <Custom v-if = "searchType == '自定義新增課程'" />
                 </div>
                 <hr class = 'mx-3 my-3 text-slate-300'>
                 <div class = 'flex place-content-end items-center'>
@@ -144,19 +75,20 @@
 </template>
 
 <script setup>
+import CourseName from '@components/pages/main/serach_modes/course_name.vue';
+import Teacher from '@components/pages/main/serach_modes/teacher.vue';
+import Time from '@components/pages/main/serach_modes/time.vue';
+import Custom from '@components/pages/main/serach_modes/custom.vue';
+
 import { onMounted, onUpdated, ref, watch, reactive, computed } from 'vue';
 import { Switch } from 'ant-design-vue'
 
 import { rowspanize } from '@functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '@functions/general';
-import { searchCourse, recordcourse, searchByTeacher } from '@functions/course_search.ts';
-import { splittime } from '@functions/tool.ts';
 import { courseDelete, decreaseCredit } from '@functions/course_delete.ts';
-import { courseAdd, searchAdd, push_to_table } from '@functions/course_add.ts';
 import renderImage from '@functions/image_render.ts';
 
 import { useStore } from 'vuex';
-import {v4 as uuidv4} from 'uuid';
 
 const store = useStore();
 store.dispatch('initAll');
@@ -165,7 +97,6 @@ const show_credit = computed(() => store.state.course.show_credit)
 const open_credit = () => store.dispatch("show_credit");
 const close_credit = () => store.dispatch("hidden_credit");
 const setSearchTimeMode = (flag) => store.dispatch("setTimeSearchMode", flag);
-let course_data = computed(() => store.state.course.classStorage);
 let courseList = computed(() => store.state.course.classListStorage);
 let credit = computed(() => store.state.course.credit);
 
@@ -180,20 +111,8 @@ const hidden = () =>
 //component
 import courseCard from "@components/pages/main/courseCard.vue";
 
-const env = import.meta.env;
-
-const week = ["一", "二", "三", "四", "五", "六"]
-const classes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
-const className = ref()
-const classRoom = ref()
-const weekDay = ref("星期")
-const start = ref("始堂")
-const end = ref("終堂")
 const searchType = ref("以課程名稱搜尋")
-const searchInput = ref('');
-const searchTeacher = ref('');
-const isLoading = ref(false);
-const isInputEmpty = ref(false);
+
 let class_list_title = ["課程名稱", "課程教室", "課程時間", "操作"];
 let class_list_visible = ref(false);
 let show = computed(() => store.state.course.showTable);
@@ -201,15 +120,7 @@ let show = computed(() => store.state.course.showTable);
 // 這個是打開用時間搜尋的模式的
 let opened = computed(() => store.state.course.timeSearchMode);
 
-let data = ref([]);
-let show_search_box = ref(true);
-let searchList = ref(null);
-
-let inputValue = searchInput.value.trim();
-let single_row_data = ref([])
-
 watch(searchType, async (inputValue) => {
-    show_search_box.value = false;
     if(inputValue == "以時間區間搜尋")
     {
         setSearchTimeMode(true);
@@ -231,66 +142,9 @@ watch(toggleActive1, (inputValue) => {
     }
 })
 
-watch(searchInput, async (inputValue) => {
-    show_search_box.value = true;
-    if(inputValue != "")
-    {   
-        isLoading.value = true;
-        show_search_box.value = true;
-        // console.log(show_search_box.value)
-        data.value = await searchCourse(inputValue);
-        isLoading.value = false;
-        if(searchList != null)
-        {   
-            // ul's max-height is 2rem x env.VITE_UL_ROW
-            searchList.value.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
-        }
-    }
-    else
-    {
-        isLoading.value = false;
-        show_search_box.value = false;
-    }
-});
-
-watch(searchTeacher, async (inputValue) => {
-    show_search_box.value = true;
-    if(inputValue != "")
-    {   
-        isLoading.value = true;
-        show_search_box.value = true;
-        // console.log(show_search_box.value)
-        data.value = await searchByTeacher(inputValue);
-        isLoading.value = false;
-        if(searchList != null)
-        {   
-            // ul's max-height is 2rem x env.VITE_UL_ROW
-            searchList.value.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
-        }
-    }
-    else
-    {
-        isLoading.value = false;
-        show_search_box.value = false;
-    }
-});
-
-onMounted(() =>
-{   
-    // remerge_table();
-    // using env to control <ul> display
-    if(searchList != null)
-    {   
-        // ul's max-height is 2rem x env.VITE_UL_ROW
-        searchList.value.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
-    }
-    setSearchTimeMode(false);
-})
-
 var delete_course = function(item)
 {
     // 刪除課程
-    // console.log(item);
     if(item.getCredit() != null){
         decreaseCredit(item.getCredit())
     }
@@ -310,13 +164,6 @@ function Sleep(time) {
         }, time);
     });
 }
-
-let cleanInputArea = function() {
-    console.log(48763)
-    show_search_box.value = !show_search_box.value;
-    searchInput.value = "";
-}
-
 
 var clearTable = function() {
     // 顯示確認視窗

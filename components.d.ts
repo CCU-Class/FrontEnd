@@ -12,7 +12,9 @@ declare module 'vue' {
     ColorTemplate: typeof import('./src/components/pages/main/colorTemplate.vue')['default']
     Comment: typeof import('./src/components/pages/main/comment.vue')['default']
     CommonOption: typeof import('./src/components/common/option/commonOption.vue')['default']
+    Course_name: typeof import('./src/components/pages/main/serach_modes/course_name.vue')['default']
     CourseCard: typeof import('./src/components/pages/main/courseCard.vue')['default']
+    Custom: typeof import('./src/components/pages/main/serach_modes/custom.vue')['default']
     Footer: typeof import('./src/components/layout/footer.vue')['default']
     InputArea: typeof import('./src/components/pages/main/inputArea.vue')['default']
     Intro: typeof import('./src/components/pages/home/intro.vue')['default']
@@ -24,6 +26,8 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Search_box: typeof import('./src/components/pages/main/search_box.vue')['default']
+    Teacher: typeof import('./src/components/pages/main/serach_modes/teacher.vue')['default']
+    Time: typeof import('./src/components/pages/main/serach_modes/time.vue')['default']
     TimeSelection: typeof import('./src/components/pages/main/timeSelection.vue')['default']
     Tutorial: typeof import('./src/components/pages/tutorial/tutorial.vue')['default']
   }
