@@ -142,3 +142,46 @@ export async function getDepartment() {
         });
     });
 }
+
+export async function getGradeByDepartment(Department: string) {
+    
+    const apiUrl = apiSite + "searchCourse/GetGardeByDepartment";
+    
+    return new Promise((resolve, reject) => {
+        axios.get(apiUrl, {
+            params:{
+                Department: Department
+            }
+        })
+        .then((response) => {
+            resolve(response.data);
+        })
+        .catch((error) => {
+            // 在這裡處理錯誤
+            console.error(error);
+            reject(error);
+        });
+    });
+}
+
+export async function getCourseByDepartment(Department: string) {
+    
+    const apiUrl = apiSite + "searchCourse/ByDepartment";
+    
+    return new Promise((resolve, reject) => {
+        axios.get(apiUrl, {
+            params:{
+                Department: Department
+            }
+        })
+        .then((response) => {
+            resolve(response.data);
+        })
+        .catch((error) => {
+            // 在這裡處理錯誤
+            console.error(error);
+            reject(error);
+        });
+    });
+}
+

@@ -8,34 +8,35 @@
                 <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "系所" v-model = "departmentInput">
                 <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" ref = "department_search_list" v-show="show_department">
                     <li v-for="item in department_data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" 
-                    @click="departmentInput = item, departmentflag = false">
+                    @click="departmentInput = item, departmentflag = false, clickDepartment()">
                         {{ item }}
                     </li>
                 </ul>
             </div>
             <div class="w-1/5 mx-4">
-                <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "年級" v-model = "searchInput">
+                <select class = 'mx-1 py-1 rounded-md text-center' v-model = "gradeSelection">
+                    <option v-for="(option, index) in gradeList" :key="index" :value="option.grade"> {{ option.grade }} </option>
+                </select>
             </div>
             <div class="w-full mx-2">
-                <input class = 'w-11/12 mx-auto py-1 text-center course_search' type = "search" placeholder = "課程" v-model = "searchInput">
+                <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" ref="searchList">
+                    
+                    <li v-for = "item in filteredClassList" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item), cleanInputArea()">
+                        [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
+                    </li>
+                </ul>
             </div>
         </div>
         
-        <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" ref="searchList" v-show="show_search_box">
-            <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
-            <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item), cleanInputArea()">
-                [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
-            </li>
-        </ul>
     </div>
 </template>
 
 <script setup>
 import { Course, InitTable, GetCourseTable } from '@functions/general';
-import { getDepartment } from '@functions/course_search.ts';
+import { getDepartment, getGradeByDepartment, getCourseByDepartment } from '@functions/course_search.ts';
 import { push_to_table } from '@functions/course_add.ts';
 
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch, computed } from 'vue';
 import { useStore } from 'vuex';
 
 const env = import.meta.env;
@@ -52,8 +53,16 @@ let departmentList = [];
 const departmentInput = ref('');
 const department_data = ref();
 const show_department = ref(false);
-let departmentflag = true;
+const departmentflag = ref(true);
 const department_search_list = ref();
+const gradeList = ref();
+const courseList = ref([]);
+const gradeSelection = ref();
+
+const filteredClassList = computed(() => {
+    if(gradeSelection.value == 'all') return courseList.value;
+    return courseList.value.filter(item => item.grade == gradeSelection.value);
+});
 
 let cleanInputArea = function() {
     show_search_box.value = !show_search_box.value;
@@ -81,25 +90,12 @@ watch(searchInput, async (inputValue) => {
     }
 });
 
-function searchDepartment(inputValue)
-{   
-    let data = [];
-    for(const name of departmentList)
-    {   
-        if(name.includes(inputValue))
-        {
-            data.push(name);
-        }
-    }
-    console.log(data)
-    return data;
-}
 
 watch(departmentInput, async (inputValue) => {
-    if(inputValue != "" && departmentflag == true)
+    if(inputValue != "" && departmentflag.value == true)
     {   
         show_department.value = true;
-        department_data.value = searchDepartment(inputValue);
+        department_data.value = departmentList.filter(name => name.includes(inputValue));
         if(searchList != null)
         {   
             // ul's max-height is 2rem x env.VITE_UL_ROW
@@ -109,9 +105,27 @@ watch(departmentInput, async (inputValue) => {
     else
     {
         show_department.value = false;
-        departmentflag = true;
+        departmentflag.value = true;
     }
 });
+
+watch(departmentflag, async (flag) => {
+    console.log("48763", flag)
+    if(!flag)
+    {   
+        
+    }
+});
+
+async function clickDepartment()
+{
+    gradeList.value = [];
+    gradeList.value = await getGradeByDepartment(departmentInput.value);
+    gradeList.value.push({'grade': 'all'});
+    gradeSelection.value = 'all';
+    courseList.value = await getCourseByDepartment(departmentInput.value);
+    console.log(courseList.value)
+}
 
 onMounted(async () =>
 {   
