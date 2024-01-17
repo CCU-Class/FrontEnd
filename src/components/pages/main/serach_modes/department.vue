@@ -25,7 +25,7 @@
             </div>
             <div class="w-full -z-40 mt-3">
                 <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" ref="searchList" v-show="show_search_list">
-                    <li v-for = "item in filteredClassList" class = "w-full bg-white/70 px-6 py-1 hover:bg-orange-300 hover:text-white" :class="{conflict: item.conflict}" @click="push_to_table(2, item) && addConflict(item)">
+                    <li v-for = "item in filteredClassList" class = "w-full bg-white/70 px-6 py-1 hover:bg-orange-300 hover:text-white" :class="{conflict: item.conflict}" @click="push_to_table(2, item) && setConflictState(true);">
                         [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
                     </li>
                 </ul>
@@ -118,9 +118,6 @@ async function clickDepartment()
     show_search_list.value = true;
 }
 
-function addConflict(item){
-    item['conflict'] = true;
-}
 
 onMounted(async () =>
 {   
