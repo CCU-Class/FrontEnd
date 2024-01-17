@@ -3,7 +3,7 @@
         <div class = 'w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-red-500'>
             以系所年級進行搜尋
         </div>
-        <div>
+        <div class="">
             <div class = "w-full flex justify-between">
                 <div class="mx-12 w-4/12">
                     <input class = 'w-full py-1 text-center' type = "search" placeholder = "系所" v-model = "departmentInput">
@@ -25,13 +25,14 @@
             </div>
             <div class="w-full -z-40 mt-3">
                 <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" ref="searchList" v-show="show_search_list">
-                    <li v-for = "item in filteredClassList" class = "w-full bg-white/70 px-6 py-1 hover:bg-orange-300 hover:text-white" :class="{conflict: item.conflict}" @click="push_to_table(2, item) && setConflictState(true);">
+                    <li v-for = "item in filteredClassList" class = "w-full bg-white/70 px-6 py-1 hover:bg-orange-300 hover:text-white animate__animated" 
+                    :class="{conflict: item.conflict, animate__rubberBand :item.click}" :key="`${item.id}-${item.teacher}-${item.class_time}`" @click="classClick(item)">
                         [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
                     </li>
                 </ul>
                 <div class = "mx-auto w-11/12 h-36" v-show = "!show_search_list">
-                    <div class = "w-full h-full flex justify-center items-center text-2xl bg-white">
-                        
+                    <div class = "w-full h-full flex justify-center items-center text-2xl bg-white text-slate-300">
+                        請選擇系所
                     </div>
                 </div>
             </div>
@@ -44,7 +45,7 @@
 import { Course, InitTable, GetCourseTable } from '@functions/general';
 import { getDepartment, getGradeByDepartment, getCourseByDepartment } from '@functions/course_search.ts';
 import { classconflict, push_to_table } from '@functions/course_add.ts';
-
+import 'animate.css';
 import { onMounted, ref, watch, computed } from 'vue';
 import { useStore } from 'vuex';
 
@@ -76,10 +77,19 @@ const filteredClassList = computed(() => {
 const runConflictState = computed(() => store.state.course.runConflict);
 const setConflictState = (state) => store.dispatch("setrunConflictState", state);
 
+const classClick = (item) => {
+    if(push_to_table(2, item)){
+        setConflictState(true).then(() => {
+            item.click = true;
+        })
+    }
+};
+
 watch(runConflictState, async (state) => {
     if(state){
         courseList.value = courseList.value.map(temp => {
             temp['conflict'] = classconflict(temp);
+            temp['click'] = false;
             return temp;
         })
         setConflictState(false);
@@ -105,13 +115,12 @@ watch(departmentInput, async (inputValue) => {
 async function clickDepartment()
 {
     gradeList.value = [];
-    gradeList.value = await getGradeByDepartment(departmentInput.value);
-    if(gradeList.value.length == 1)
-    {
-        gradeList.value = []; // clear
-    }
-    gradeList.value.push({'grade': 'all'});
-    gradeSelection.value = 'all';
+    getGradeByDepartment(departmentInput.value).then((data) => {
+        if(data.length == 1) data = [];
+        gradeList.value = data;
+        gradeList.value.unshift({'grade': 'all'});
+        gradeSelection.value = 'all';
+    });
     let coursedata = await getCourseByDepartment(departmentInput.value);
     courseList.value = coursedata;
     setConflictState(true);

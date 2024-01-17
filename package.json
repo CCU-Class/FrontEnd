@@ -17,6 +17,7 @@
     "@types/jquery": "^3.5.16",
     "@types/lodash": "^4.14.197",
     "@vue/cli": "^5.0.8",
+    "animate.css": "^4.1.1",
     "ant-design-vue": "^4.0.0",
     "argon2": "^0.31.0",
     "axios": "^1.4.0",
