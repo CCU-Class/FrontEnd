@@ -21,7 +21,7 @@
                     <!-- 反面 -->
                     <div v-else id="back">
                         <div>
-                            <commonOption @click.stop="delete_course_card(item)">刪除</commonOption>
+                            <commonOption @click.stop="delete_course_card(item), setConflictState(true)">刪除</commonOption>
                             <commonOption @click="openColorTemplate(item, 1)">修改顏色</commonOption>
                             <commonOption @click="openColorTemplate(item, 2)">文字樣式</commonOption>
                             <commonOption @click="show_comment(item.getId())">查看評價</commonOption>
@@ -68,6 +68,7 @@
     let isFliped = ref(false);
     let isSelectingColor = ref(false);
     let showButton = ref(false);
+    const setConflictState = (state) => store.dispatch("setrunConflictState", state);
 
     const props = defineProps({
         item: Course

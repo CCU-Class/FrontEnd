@@ -60,7 +60,7 @@
                                 <td> {{ item.getStartTime() }} </td>
                                 <td>
                                     <button class = "bg-gray-700 py-2 my-1 px-6 rounded-lg text-white hover:bg-gray-500"
-                                        v-on:click="delete_course(item)">
+                                        v-on:click="delete_course(item), setConflictState(true)">
                                         刪除
                                     </button>
                                 </td>
@@ -105,6 +105,9 @@ let credit = computed(() => store.state.course.credit);
 
 const toggleActive1 = ref(false);
 const toggleActive2 = ref(false);
+
+// 控制以系所查詢那邊的衝堂顯示要不要重新渲染
+const setConflictState = (state) => store.dispatch("setrunConflictState", state);
 
 const hidden = () =>
 {

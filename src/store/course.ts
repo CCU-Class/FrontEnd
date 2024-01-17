@@ -18,6 +18,7 @@ interface State {
     searchTime_status: boolean;
     timeSearchMode: boolean;
     timeSearchArgument: Array<number>;
+    runConflict: boolean;
 }
 
 function Transfer(data : any)
@@ -56,7 +57,8 @@ const store: Module<State, any> = {
         show_credit: false,
         searchTime_status: false,
         timeSearchMode: false,
-        timeSearchArgument: [0, 0, 0]
+        timeSearchArgument: [0, 0, 0],
+        runConflict: false
     },
     mutations: {
         display(state: State) {
@@ -169,6 +171,9 @@ const store: Module<State, any> = {
         },
         settimeSearchArgument(state: State, arg: Array<number>){
             state.timeSearchArgument = arg;
+        },
+        setrunConflictState(state: State, arg: boolean){
+            state.runConflict = arg;
         }
     },
     actions: {
@@ -245,6 +250,9 @@ const store: Module<State, any> = {
         },
         settimeSearchArgument(context: any, arg: Array<number>){
             context.commit("settimeSearchArgument", arg);
+        },
+        setrunConflictState(context: any, arg: boolean){
+            context.commit("setrunConflictState", arg);
         }
     }
 };

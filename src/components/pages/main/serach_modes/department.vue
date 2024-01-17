@@ -73,7 +73,18 @@ const filteredClassList = computed(() => {
     return courseList.value.filter(item => item.grade == gradeSelection.value);
 });
 
+const runConflictState = computed(() => store.state.course.runConflict);
+const setConflictState = (state) => store.dispatch("setrunConflictState", state);
 
+watch(runConflictState, async (state) => {
+    if(state){
+        courseList.value = courseList.value.map(temp => {
+            temp['conflict'] = classconflict(temp);
+            return temp;
+        })
+        setConflictState(false);
+    }
+})
 
 watch(departmentInput, async (inputValue) => {
     if(inputValue != "" && departmentflag.value == true)
@@ -102,10 +113,8 @@ async function clickDepartment()
     gradeList.value.push({'grade': 'all'});
     gradeSelection.value = 'all';
     let coursedata = await getCourseByDepartment(departmentInput.value);
-    courseList.value = coursedata.map(temp => {
-        temp['conflict'] = classconflict(temp);
-        return temp;
-    })
+    courseList.value = coursedata;
+    setConflictState(true);
     show_search_list.value = true;
 }
 
