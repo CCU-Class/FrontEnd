@@ -69,14 +69,14 @@ thead > tr > th
 }
 [type=search]::-webkit-search-cancel-button
 {
-    width: 36px;
-    height: 36px;
+    width: 12px;
+    height: 12px;
     border: 0;
-    padding-right: .5rem;
     background-size: 16px;
     cursor: pointer;
     opacity: .4;
     transition: .2s;
+    position: relative;
 }
 .result
 {
@@ -100,7 +100,6 @@ thead > tr > th
     border-width: 0.1px;
     border-color: #ffb676;
     box-shadow: 0 0 5px #f8efcf;
-    text-align: center;
 }
 [type=text]
 {
@@ -239,4 +238,7 @@ thead > tr > th
 }
 .color-picker {
     @apply max-w-full max-h-full w-72 h-72;
+}
+[type=search]::placeholder{
+    @apply text-center;
 }
