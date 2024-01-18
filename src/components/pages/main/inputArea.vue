@@ -8,9 +8,9 @@
                 <div class = 'flex flex-col py-1 w-40'>
                     <select class = 'mx-1 py-1 rounded-md text-center' v-model = "searchType">
                         <option selected>以課程名稱搜尋</option>
-                        <option>以教師名稱搜尋</option>
                         <option>以系所年級搜尋</option>
                         <option>以時間區間搜尋</option>
+                        <option>以教師名稱搜尋</option>
                         <option>自定義新增課程</option>
                     </select>
                 </div>

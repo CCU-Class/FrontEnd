@@ -112,6 +112,7 @@ watch(searchInput, async (inputValue) => {
         isInputEmpty.value = false;
         isLoading.value = true;
         show_search.value = true;
+        show_content.value = false;
         data.value = await searchCourse(inputValue);
         isLoading.value = false;
     }
@@ -119,6 +120,7 @@ watch(searchInput, async (inputValue) => {
     {
         isInputEmpty.value = true;
         show_search.value = false;
+        show_content.value = false;
         isLoading.value = false;
     }
 });
