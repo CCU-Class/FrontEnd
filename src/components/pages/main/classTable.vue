@@ -115,7 +115,6 @@ import { Switch } from 'ant-design-vue'
 import { rowspanize } from '@functions/rowspanizer';
 import { Course, InitTable, GetCourseTable } from '@functions/general';
 import renderImage from "@functions/image_render.ts"
-import { courseAdd, searchAdd } from "@functions/course_add.ts"
 import { searchCourse, recordcourse, searchCourseByTime } from '@functions/course_search.ts';
 import { splittime } from '@functions/tool.ts';
 import { courseDelete, decreaseCredit } from '@functions/course_delete.ts';

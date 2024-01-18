@@ -37,7 +37,7 @@ function conflictMessage(){
 }
 
 // 自定義課程
-export function courseAdd(courseName: string, classRoom: string, weekDay: string, start: string, end:string)
+function courseAdd(courseName: string, classRoom: string, weekDay: string, start: string, end:string)
 {
     // construct a course object here
     // push the course object to the local storage
@@ -89,7 +89,7 @@ export function courseAdd(courseName: string, classRoom: string, weekDay: string
 
 
 
-export function searchAdd(course_list : Course[])
+function searchAdd(course_list : Course[])
 {
     // construct a course object here
     // push the course object to the local storage

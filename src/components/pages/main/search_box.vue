@@ -18,7 +18,8 @@
                         <input class = 'w-full mx-auto py-1 px-3 text-center course_search rounded-lg' type = "search" placeholder = "在此搜尋課程"  v-model = "searchInput">
                         <ul class = "mx-auto w-full result-show overflow-hidden overflow-y-auto overflow-x-hidden search_list" style="max-height: 10rem;" id = "result" v-show = "show_search">
                              <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner> 
-                             <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white cursor-pointer border-2" style="font-size: smaller;" @click="selectCourse(item)">
+                             <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white cursor-pointer border-2" 
+                             :class = "{conflict: item.conflict}" style="font-size: smaller;" @click="selectCourse(item)">
                                 {{item.class_name}} 
                                 {{item.teacher}} 
                             </li> 
@@ -55,8 +56,9 @@ import {searchCourse, recordcourse} from "@functions/course_search.ts";
 import {Course} from "@functions/general.ts";
 import {v4 as uuidv4} from 'uuid';
 import {splittime} from "@functions/tool.ts";
-import {searchAdd, push_to_table} from "@functions/course_add";
+import {classconflict, push_to_table} from "@functions/course_add";
 import { show_comment } from '@functions/ccuplus';
+
 
 const env = import.meta.env;
 const store = useStore();
@@ -80,6 +82,20 @@ let show_content = ref(true)
 
 let opened = computed(() => store.state.course.timeSearchMode);
 
+const runConflictState = computed(() => store.state.course.runConflict);
+const setConflictState = (state) => store.dispatch("setrunConflictState", state);
+
+
+watch(runConflictState, async (state) => {
+    if(state){
+        data.value = data.value.map(temp => {
+            temp['conflict'] = classconflict(temp);
+            return temp;
+        })
+        setConflictState(false);
+    }
+})
+
 const search_button = () => {
     if(!can_open) return;
     show.value = !show.value;
@@ -94,6 +110,7 @@ const search_button = () => {
     }else{
         show_icon.value = !show_icon.value;
         show_content.value = !show_content.value;
+        show_content.value = false;
     }
 };
 
@@ -114,6 +131,10 @@ watch(searchInput, async (inputValue) => {
         show_search.value = true;
         show_content.value = false;
         data.value = await searchCourse(inputValue);
+        data.value = data.value.map(temp => {
+            temp['conflict'] = classconflict(temp);
+            return temp;
+        })
         isLoading.value = false;
     }
     else
