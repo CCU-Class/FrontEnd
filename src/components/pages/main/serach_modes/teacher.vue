@@ -7,7 +7,8 @@
         
         <ul class = "mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden" ref="searchList" v-show="show_search_box">
             <loadingSpinner v-if="isLoading" style="height: auto;"></loadingSpinner>
-            <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" @click="push_to_table(2, item), cleanInputArea()">
+            <li v-else v-for = "item in data" class = "w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white" 
+            :key="`${item.id}-${item.teacher}-${item.class_time}`" :class="{conflict: item.conflict}" @click="push_to_table(2, item), cleanInputArea()">
                 [{{item.id}}] {{item.class_name}} {{item.teacher}} {{item.class_time}} {{item.class_room}} 
             </li>
         </ul>
@@ -18,7 +19,7 @@
 import { Course, InitTable, GetCourseTable } from '@functions/general';
 import { recordcourse, searchByTeacher } from '@functions/course_search.ts';
 import { splittime } from '@functions/tool.ts';
-import { courseAdd, searchAdd, push_to_table } from '@functions/course_add.ts';
+import { classconflict, push_to_table } from '@functions/course_add.ts';
 
 import { onMounted, onUpdated, ref, watch, reactive, computed } from 'vue';
 import { useStore } from 'vuex';
@@ -47,6 +48,10 @@ watch(searchInput, async (inputValue) => {
         isLoading.value = true;
         show_search_box.value = true;
         data.value = await searchByTeacher(inputValue);
+        data.value = data.value.map(temp => {
+            temp['conflict'] = classconflict(temp);
+            return temp;
+        })
         isLoading.value = false;
         if(searchList != null)
         {   
