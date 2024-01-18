@@ -151,13 +151,13 @@ watch(toggleActive1, (inputValue) => {
 var delete_course = async function(item)
 {
     // 刪除課程
-    await setConflictState(1);
-    await setConflictState(2);
     if(item.getCredit() != null){
         decreaseCredit(item.getCredit())
     }
-    // 再刪除函式裡面去更改store狀態
-    courseDelete(item);
+    // 再刪除函式裡面去更改store狀態，改完後再重跑衝堂判定
+    await courseDelete(item);
+    await setConflictState(1);
+    await setConflictState(2);
 }
 
 var show_list = function() {

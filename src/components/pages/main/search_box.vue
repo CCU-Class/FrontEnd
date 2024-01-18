@@ -92,7 +92,7 @@ watch(runConflictState, async (state) => {
             temp['conflict'] = classconflict(temp);
             return temp;
         })
-        setConflictState(false);
+        setConflictState(0);
     }
 })
 

@@ -79,20 +79,21 @@ const setConflictState = (state) => store.dispatch("setrunConflictState", state)
 
 const classClick = (item) => {
     if(push_to_table(2, item)){
-        setConflictState(true).then(() => {
+        setConflictState(1).then(() => {
             item.click = true;
         })
     }
 };
 
 watch(runConflictState, async (state) => {
+    console.log(state);
     if(state == 1){
         courseList.value = courseList.value.map(temp => {
             temp['conflict'] = classconflict(temp);
             temp['click'] = false;
             return temp;
         })
-        setConflictState(false);
+        setConflictState(0);
     }
 })
 
