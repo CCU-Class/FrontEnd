@@ -45,11 +45,30 @@
                     <p class = "text-right py-2 mx-3" v-show = "show_credit">
                         目前學分: {{credit}}
                     </p>
+                    <p class = "mx-3 my-2">
+                        Hint: 課程教室、課程時間皆可<strong>點擊選擇</strong>顯示其他資訊
+                    </p>
                     <table class = "w-full my-1 mb-1">
                         <thead>
                             <tr>
-                                <th v-for = "title in class_list_title" class = "text-center py-2 px-2 border-collapse bg-gray-200">
-                                    {{ title }}
+                                <th class = "text-center py-2 px-2 border-collapse bg-gray-200">
+                                    課程名稱
+                                </th>
+                                <th class = "text-center py-2 px-2 border-collapse bg-gray-200">
+                                    <select class = "custom">
+                                        <option selected>課程教室</option>
+                                        <option>課程教師</option>
+                                        <option>課程編號</option>
+                                    </select>
+                                </th>
+                                <th class = "text-center py-2 px-2 border-collapse bg-gray-200">
+                                    <select class = "custom">
+                                        <option selected>課程時間</option>
+                                        <option>系所 / 向度</option>
+                                    </select>
+                                </th>
+                                <th class = "text-center py-2 px-2 border-collapse bg-gray-200">
+                                    操作
                                 </th>
                             </tr>
                         </thead>
@@ -119,7 +138,6 @@ import courseCard from "@components/pages/main/courseCard.vue";
 
 const searchType = ref("以課程名稱搜尋")
 
-let class_list_title = ["課程名稱", "課程教室", "課程時間", "操作"];
 let class_list_visible = ref(false);
 let show = computed(() => store.state.course.showTable);
 

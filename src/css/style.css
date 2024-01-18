@@ -242,3 +242,6 @@ thead > tr > th
 [type=search]::placeholder{
     @apply text-center;
 }
+.custom {
+    @apply bg-transparent border-0 border-b-2 border-gray-500 w-28 text-center;
+}
