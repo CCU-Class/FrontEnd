@@ -60,7 +60,7 @@
                                 <td> {{ item.getStartTime() }} </td>
                                 <td>
                                     <button class = "bg-gray-700 py-2 my-1 px-6 rounded-lg text-white hover:bg-gray-500"
-                                        v-on:click="delete_course(item), setConflictState(true)">
+                                        v-on:click="delete_course(item)">
                                         刪除
                                     </button>
                                 </td>
@@ -148,9 +148,11 @@ watch(toggleActive1, (inputValue) => {
     }
 })
 
-var delete_course = function(item)
+var delete_course = async function(item)
 {
     // 刪除課程
+    await setConflictState(1);
+    await setConflictState(2);
     if(item.getCredit() != null){
         decreaseCredit(item.getCredit())
     }

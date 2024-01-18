@@ -21,7 +21,7 @@
                     <!-- 反面 -->
                     <div v-else id="back">
                         <div>
-                            <commonOption @click.stop="delete_course_card(item), setConflictState(true)">刪除</commonOption>
+                            <commonOption @click.stop="delete_course_card(item)">刪除</commonOption>
                             <commonOption @click="openColorTemplate(item, 1)">修改顏色</commonOption>
                             <commonOption @click="openColorTemplate(item, 2)">文字樣式</commonOption>
                             <commonOption @click="show_comment(item.getId())">查看評價</commonOption>
@@ -101,8 +101,9 @@
         // if(color != )
     }
 
-    let delete_course_card = function(item){
-        console.log(item);
+    let delete_course_card = async function(item){
+        await setConflictState(1)
+        await setConflictState(2)
         if(item.getCredit() != null){
             decreaseCredit(item.getCredit())
         }

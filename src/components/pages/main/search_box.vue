@@ -87,7 +87,7 @@ const setConflictState = (state) => store.dispatch("setrunConflictState", state)
 
 
 watch(runConflictState, async (state) => {
-    if(state){
+    if(state == 2){
         data.value = data.value.map(temp => {
             temp['conflict'] = classconflict(temp);
             return temp;

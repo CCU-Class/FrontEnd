@@ -86,7 +86,7 @@ const classClick = (item) => {
 };
 
 watch(runConflictState, async (state) => {
-    if(state){
+    if(state == 1){
         courseList.value = courseList.value.map(temp => {
             temp['conflict'] = classconflict(temp);
             temp['click'] = false;
@@ -123,7 +123,8 @@ async function clickDepartment()
     });
     let coursedata = await getCourseByDepartment(departmentInput.value);
     courseList.value = coursedata;
-    setConflictState(true);
+    // department 給 1
+    setConflictState(1)
     show_search_list.value = true;
 }
 
