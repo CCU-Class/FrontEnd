@@ -148,8 +148,7 @@ export function push_to_table(mode : Number, item : any)
     }
     else if(mode == 2)
     {   
-        recordcourse(item)
-        console.log(item);
+        recordcourse(item);
         let time = splittime(item.class_time);
         let data = [];
         let Uuid = uuidv4();

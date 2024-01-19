@@ -124,13 +124,14 @@ const toggleActive2 = ref(false);
 const showListOption = [
     {'text' : '課程教室', 'value': item => item.getClassroom(), 'id': 0},
     {'text' : '課程教師', 'value': item => item.getTeacher(), 'id': 1},
-    {'text' : '課程編號', 'value': item => item.getCourseID(), 'id': 2},
-    {'text' : '課程時間', 'value': item => item.getStartTime(), 'id': 3},
+    {'text' : '課程時間', 'value': item => item.getStartTime(), 'id': 2},
+    {'text' : '年級 / 向度', 'value': item => item.getGrade(), 'id': 3},
     {'text' : '課程系所', 'value': item => item.getDepartment(), 'id': 4},
-    {'text' : '學分', 'value': item => item.getCredit(), 'id': 5}
+    {'text' : '課程編號', 'value': item => item.getCourseID(), 'id': 5},
+    {'text' : '學分', 'value': item => item.getCredit(), 'id': 6}
 ]
 const showListOptionDefault1 = ref(0);
-const showListOptionDefault2 = ref(3);
+const showListOptionDefault2 = ref(2);
 
 const getDisplayField = (item, optionId) => {
     return showListOption.find(option => option.id === optionId).value(item);
