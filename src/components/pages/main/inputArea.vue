@@ -126,7 +126,7 @@ const showListOption = [
     {'text' : '課程教師', 'value': item => item.getTeacher(), 'id': 1},
     {'text' : '課程編號', 'value': item => item.getCourseID(), 'id': 2},
     {'text' : '課程時間', 'value': item => item.getStartTime(), 'id': 3},
-    {'text' : '系所 / 向度', 'value': item => item.getDepartment(), 'id': 4},
+    {'text' : '課程系所', 'value': item => item.getDepartment(), 'id': 4},
     {'text' : '學分', 'value': item => item.getCredit(), 'id': 5}
 ]
 const showListOptionDefault1 = ref(0);
