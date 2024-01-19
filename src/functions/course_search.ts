@@ -179,3 +179,54 @@ export async function getCourseByDepartment(Department: string) {
     });
 }
 
+export async function searchDepartmentByOther(id : number, class_name : string,
+    teacher : string, class_room : string, credit : number) {
+    
+    const apiUrl = apiSite + "searchCourse/searchDepartmentByOther";
+    
+    return new Promise((resolve, reject) => {
+        axios.get(apiUrl, {
+            params:{
+                id: id,
+                class_name: class_name,
+                teacher: teacher,
+                class_room: class_room,
+                credit: credit
+            }
+        })
+        .then((response) => {
+            resolve(response.data);
+        })
+        .catch((error) => {
+            // 在這裡處理錯誤
+            console.error(error);
+            reject(error);
+        });
+    });
+}
+
+export async function searchGradeByOther(id : number, class_name : string,
+    teacher : string, class_room : string, credit : number) {
+    
+    const apiUrl = apiSite + "searchCourse/searchGradeByOther";
+    
+    return new Promise((resolve, reject) => {
+        axios.get(apiUrl, {
+            params:{
+                id: id,
+                class_name: class_name,
+                teacher: teacher,
+                class_room: class_room,
+                credit: credit
+            }
+        })
+        .then((response) => {
+            resolve(response.data);
+        })
+        .catch((error) => {
+            // 在這裡處理錯誤
+            console.error(error);
+            reject(error);
+        });
+    });
+}
