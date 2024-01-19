@@ -1,7 +1,7 @@
 import { Course} from "./general";
 import store from "../store";
 import { rowspanize } from "./rowspanizer";
-export function courseDelete(item: Course)
+export async function courseDelete(item: Course)
 {   
     // 比對名子 課程編號 教室 其他不管
     // console.log(item)
@@ -59,7 +59,7 @@ export function courseDelete(item: Course)
         table.push(row)
     }
     // 不要在這邊儲存localstorage，使用store
-    store.dispatch('deleteCourseList', item);
+    await store.dispatch('deleteCourseList', item);
     rowspanize(table);
     return true;
 }

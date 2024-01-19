@@ -102,13 +102,13 @@
     }
 
     let delete_course_card = async function(item){
-        await setConflictState(1)
-        await setConflictState(2)
         if(item.getCredit() != null){
             decreaseCredit(item.getCredit())
         }
         // 再刪除函式裡面去更改store狀態
-        courseDelete(item);
+        await courseDelete(item);
+        await setConflictState(1)
+        await setConflictState(2)
         // course_data.value = GetCourseTable();
     }
 </script>
