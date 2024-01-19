@@ -3,10 +3,8 @@ import store from "../store";
 import { rowspanize } from "./rowspanizer";
 export function courseDelete(item: Course)
 {   
-    // 比對名子 課程編號 教室 其他不管
-    // console.log(item)
+    // 比對 uuid 其他不管
     let data = JSON.parse(localStorage.getItem("courseTable")!)
-    // console.log(data);
     let table: Course[][] = []
     for(let i = 0; i < data.length; i++)
     {
@@ -31,7 +29,9 @@ export function courseDelete(item: Course)
                         textColor: "",
                         textStyle: "",
                         uuid: "",
-                        length: 0
+                        length: 0,
+                        department: "",
+                        grade: ""
                     }
                 ))
             }
@@ -52,7 +52,9 @@ export function courseDelete(item: Course)
                     textColor: data[i][j].courseData.textColor,
                     textStyle: data[i][j].courseData.textStyle,
                     uuid: data[i][j].courseData.uuid,
-                    length: 0
+                    length: 0,
+                    department: data[i][j].courseData.department,
+                    grade: data[i][j].courseData.grade
                 }))
             }
         }

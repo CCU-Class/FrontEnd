@@ -55,16 +55,13 @@
                                     課程名稱
                                 </th>
                                 <th class = "text-center py-2 px-2 border-collapse bg-gray-200">
-                                    <select class = "custom">
-                                        <option selected>課程教室</option>
-                                        <option>課程教師</option>
-                                        <option>課程編號</option>
+                                    <select class = "custom" v-model="showListOptionDefault1">
+                                        <option v-for="item in showListOption" :key="item.id" :value="item.id">{{ item.text }}</option>
                                     </select>
                                 </th>
                                 <th class = "text-center py-2 px-2 border-collapse bg-gray-200">
-                                    <select class = "custom">
-                                        <option selected>課程時間</option>
-                                        <option>系所 / 向度</option>
+                                    <select class = "custom" v-model="showListOptionDefault2">
+                                        <option v-for="item in showListOption" :key="item.id" :value="item.id">{{ item.text }}</option>
                                     </select>
                                 </th>
                                 <th class = "text-center py-2 px-2 border-collapse bg-gray-200">
@@ -73,10 +70,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for = "item in courseList" class = "text-center py-2 px-2 border-collapse">
+                            <tr v-for = "item in filteredCourseList" class = "text-center py-2 px-2 border-collapse">
                                 <td> {{ item.getCourseName() }} </td>
-                                <td> {{ item.getClassroom() }} </td>
-                                <td> {{ item.getStartTime() }} </td>
+                                <td> {{ item.displayField1 }} </td>
+                                <td> {{ item.displayField2 }} </td>
                                 <td>
                                     <button class = "bg-gray-700 py-2 my-1 px-6 rounded-lg text-white hover:bg-gray-500"
                                         v-on:click="delete_course(item)">
@@ -124,6 +121,28 @@ let credit = computed(() => store.state.course.credit);
 
 const toggleActive1 = ref(false);
 const toggleActive2 = ref(false);
+const showListOption = [
+    {'text' : '課程教室', 'value': item => item.getClassroom(), 'id': 0},
+    {'text' : '課程教師', 'value': item => item.getTeacher(), 'id': 1},
+    {'text' : '課程編號', 'value': item => item.getCourseID(), 'id': 2},
+    {'text' : '課程時間', 'value': item => item.getStartTime(), 'id': 3},
+    {'text' : '系所 / 向度', 'value': item => item.getDepartment(), 'id': 4},
+    {'text' : '學分', 'value': item => item.getCredit(), 'id': 5}
+]
+const showListOptionDefault1 = ref(0);
+const showListOptionDefault2 = ref(3);
+
+const getDisplayField = (item, optionId) => {
+    return showListOption.find(option => option.id === optionId).value(item);
+}
+
+const filteredCourseList = computed(() => {
+    return courseList.value.map((item) => {
+        item['displayField1'] = getDisplayField(item, showListOptionDefault1.value);
+        item['displayField2'] = getDisplayField(item, showListOptionDefault2.value);
+        return item;
+    });
+});
 
 // 控制以系所查詢那邊的衝堂顯示要不要重新渲染
 const setConflictState = (state) => store.dispatch("setrunConflictState", state);

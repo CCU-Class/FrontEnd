@@ -60,7 +60,9 @@ function courseAdd(courseName: string, classRoom: string, weekDay: string, start
         textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
         textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
         uuid: Uuid,
-        length: 0
+        length: 0,
+        department: "",
+        grade: ""
     })
     let weekDayIndex = WeekDayToInt[weekDay]; // 2 is the offset of the first two columns
     let startHour = courseToStartIndex[start];
@@ -147,6 +149,7 @@ export function push_to_table(mode : Number, item : any)
     else if(mode == 2)
     {   
         recordcourse(item)
+        console.log(item);
         let time = splittime(item.class_time);
         let data = [];
         let Uuid = uuidv4();
@@ -168,7 +171,9 @@ export function push_to_table(mode : Number, item : any)
                 textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
                 textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
                 uuid: Uuid,
-                length: 0
+                length: 0,
+                department: item.department,
+                grade: item.grade
             }));
         }
         // 成功插入會回傳課程陣列，反之回傳false
@@ -196,7 +201,9 @@ export function push_to_table(mode : Number, item : any)
             textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
             textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
             uuid: Uuid,
-            length: 0
+            length: 0,
+            department: item.department,
+            grade: item.grade
         }));
         store.dispatch('addCredit', Number(item.credit));
     }

@@ -113,6 +113,8 @@ interface CourseData
     textStyle: string;
     uuid: string;
     length: number;
+    department: string;
+    grade: string;
 }
 
 export class Course
@@ -139,7 +141,9 @@ export class Course
                 textColor: "",
                 textStyle: "",
                 uuid: "",
-                length: 0
+                length: 0,
+                department: "",
+                grade: ""
             };
         }
         else if (typeof courseData === "string") {
@@ -158,7 +162,9 @@ export class Course
                 textColor: "",
                 textStyle: "",
                 uuid: courseData,
-                length: 0
+                length: 0,
+                department: "",
+                grade: ""
             };
             if(start_time) this.courseData.start_time = start_time;
         } else if(typeof courseData === "object"){
@@ -269,6 +275,18 @@ export class Course
     public setLength(length : number) : void
     {
         this.courseData.length = length;
+    }
+    public getDepartment() : string
+    {
+        return this.courseData.department;
+    }
+    public getGrade() : string
+    {
+        return this.courseData.grade;
+    }
+    public getCourseID() : string
+    {
+        return this.courseData.ID!;
     }
 }
 
