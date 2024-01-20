@@ -85,7 +85,7 @@ const store: Module<State, any> = {
             state.classStorage = Transfer(data);
             rowspanize(state.classStorage);
         },
-        addCourse(state: State, data : any){
+        addCourse(state: State, data : Array<Array<Course>>){
             // console.log(state.classStorage);
             state.classStorage = data;
             // console.log(state.classStorage);
@@ -121,7 +121,7 @@ const store: Module<State, any> = {
             let List = state.classListStorage;
             let temp :Array<Course> = [];
             for(let i = 0; i < List.length; i++){
-                if(List[i].getCourseName() == Class.getCourseName() && List[i].getId() == Class.getId() && List[i].getClassroom() == Class.getClassroom()){
+                if(List[i].getUuid() == Class.getUuid()){
                     continue;
                 }
                 else{
@@ -174,6 +174,10 @@ const store: Module<State, any> = {
         },
         setrunConflictState(state: State, arg: number){
             state.runConflict = arg;
+        },
+        updateCourseList(state: State, data: Array<Course>){
+            state.classListStorage = data;
+            localStorage.setItem("courseList", JSON.stringify(state.classListStorage));
         }
     },
     actions: {
@@ -253,6 +257,9 @@ const store: Module<State, any> = {
         },
         setrunConflictState(context: any, arg: number){
             context.commit("setrunConflictState", arg);
+        },
+        updateCourseList(context: any, data: any){
+            context.commit("updateCourseList", data);
         }
     }
 };
