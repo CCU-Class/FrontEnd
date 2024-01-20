@@ -130,19 +130,8 @@ const showListOption = [
     { 'text': '課程教室', 'value': item => item.getClassroom(), 'id': 0 },
     { 'text': '課程教師', 'value': item => item.getTeacher(), 'id': 1 },
     { 'text': '課程時間', 'value': item => item.getStartTime(), 'id': 2 },
-    {
-        'text': '年級 / 向度',
-        'value': item => item.getGrade() && item.getGrade().trim() !== '' ? item.getGrade() :
-            searchGradeByOther(item.getId(), item.getCourseName(), item.getTeacher(), item.getClassroom(), item.getCredit())
-        , 'id': 3
-    },
-    {
-        'text': '課程系所',
-        'value': item => item.getDepartment() && item.getDepartment().trim() !== '' ? item.getDepartment() : searchDepartmentByOther(
-            item.getId(), item.getCourseName(), item.getTeacher(), item.getClassroom(), item.getCredit()
-        ),
-        'id': 4
-    },
+    { 'text': '年級 / 向度', 'value': item => item.getGrade(), 'id': 3 },
+    { 'text': '課程系所', 'value': item => item.getDepartment(), 'id': 4},
     { 'text': '課程編號', 'value': item => item.getCourseID(), 'id': 5 },
     { 'text': '學分', 'value': item => item.getCredit(), 'id': 6 }
 ]
@@ -178,6 +167,41 @@ let show = computed(() => store.state.course.showTable);
 
 // 這個是打開用時間搜尋的模式的
 let opened = computed(() => store.state.course.timeSearchMode);
+
+onMounted(async () => {
+    let temp_list = [];
+    for(let i = 0; i < courseList.value.length; i++){
+        temp_list.push(courseList.value[i]);
+    }
+    let update = false;
+    for(let i = 0; i < temp_list.length; i++){
+        if(temp_list[i]["courseData"]["department"] == null){
+            let result = await searchDepartmentByOther(temp_list[i]["courseData"]["ID"], temp_list[i]["courseData"]["course_name"], temp_list[i]["courseData"]["Teacher"], temp_list[i]["courseData"]["classroom"], temp_list[i]["courseData"]["Credit"]);
+            if(result.length > 0){
+                temp_list[i]["courseData"]["department"] = result[0].department;
+            }
+            else{
+                temp_list[i]["courseData"]["department"] = "";
+            }
+            update = true;
+        }
+        if(temp_list[i]["courseData"]["grade"] == null){
+            let result = await searchGradeByOther(temp_list[i]["courseData"]["ID"], temp_list[i]["courseData"]["course_name"], temp_list[i]["courseData"]["Teacher"], temp_list[i]["courseData"]["classroom"], temp_list[i]["courseData"]["Credit"]);
+            if(result.length > 0){
+                temp_list[i]["courseData"]["grade"] = result[0].grade;
+            }
+            else{
+                temp_list[i]["courseData"]["grade"] = "";
+            }
+            update = true;
+        }
+    }
+    if(update){
+        // 更新store，但是會有bug，
+        //store.dispatch("updateCourseList", temp_list);
+    }
+    console.log(courseList.value);
+})
 
 watch(searchType, async (inputValue) => {
     if (inputValue == "以時間區間搜尋") {

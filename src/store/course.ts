@@ -1,6 +1,7 @@
 import { Module } from 'vuex';
 import { Course, InitTable } from '../functions/general'
 import { rowspanize  } from '../functions/rowspanizer';
+import { update } from 'lodash';
 
 const env = import.meta.env;
 
@@ -174,6 +175,14 @@ const store: Module<State, any> = {
         },
         setrunConflictState(state: State, arg: number){
             state.runConflict = arg;
+        },
+        updateCourseList(state: State, data: any){
+            let temp: Array<Course> = [];
+            for(let i = 0; i < data.length; i++){
+                temp.push(new Course(data[i]['courseData']));
+            }
+            state.classListStorage = temp;
+            localStorage.setItem("courseList", JSON.stringify(state.classListStorage));
         }
     },
     actions: {
@@ -253,6 +262,9 @@ const store: Module<State, any> = {
         },
         setrunConflictState(context: any, arg: number){
             context.commit("setrunConflictState", arg);
+        },
+        updateCourseList(context: any, data: any){
+            context.commit("updateCourseList", data);
         }
     }
 };
