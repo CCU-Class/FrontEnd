@@ -52,17 +52,17 @@ function courseAdd(courseName: string, classRoom: string, weekDay: string, start
         is_title: false,
         is_course: true,
         color: env.VITE_CARD_DEFAULT_COLOR,
-        ID: null,
+        ID: "此為自定義課程",
         Credit: 0,
         is_custom: true,
-        Teacher: null,
+        Teacher: "此為自定義課程",
         Memo: null,
         textColor: env.VITE_CARDTEXT_DEFAULT_COLOR,
         textStyle: env.VITE_CARDTEXT_DEFAULT_STYLE,
         uuid: Uuid,
         length: 0,
-        department: "",
-        grade: ""
+        department: "此為自定義課程",
+        grade: "此為自定義課程"
     })
     let weekDayIndex = WeekDayToInt[weekDay]; // 2 is the offset of the first two columns
     let startHour = courseToStartIndex[start];
