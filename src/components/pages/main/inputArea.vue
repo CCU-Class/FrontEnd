@@ -111,7 +111,7 @@ import { Course, InitTable, GetCourseTable } from '@functions/general';
 import { courseDelete, decreaseCredit } from '@functions/course_delete.ts';
 import { searchDepartmentByOther, searchGradeByOther } from '@functions/course_search'
 import renderImage from '@functions/image_render.ts';
-
+import _ from 'lodash';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -169,38 +169,37 @@ let show = computed(() => store.state.course.showTable);
 let opened = computed(() => store.state.course.timeSearchMode);
 
 onMounted(async () => {
-    let temp_list = [];
-    for(let i = 0; i < courseList.value.length; i++){
-        temp_list.push(courseList.value[i]);
-    }
+    let temp_list = _.cloneDeep(courseList.value);
     let update = false;
     for(let i = 0; i < temp_list.length; i++){
-        if(temp_list[i]["courseData"]["department"] == null){
-            let result = await searchDepartmentByOther(temp_list[i]["courseData"]["ID"], temp_list[i]["courseData"]["course_name"], temp_list[i]["courseData"]["Teacher"], temp_list[i]["courseData"]["classroom"], temp_list[i]["courseData"]["Credit"]);
-            if(result.length > 0){
-                temp_list[i]["courseData"]["department"] = result[0].department;
-            }
-            else{
-                temp_list[i]["courseData"]["department"] = "";
-            }
-            update = true;
+        let obj = temp_list[i].courseData;
+        if(obj.is_custom == true)
+        {      
+            if(obj.Teacher == null){ obj.Teacher = "此為自定義課程"; update = true;}
+            if(obj.Credit == null){obj.Credit = 0; update = true;}
+            if(obj.department == "" || obj.department == null){obj.department = "此為自定義課程"; update = true;}
+            if(obj.grade == "" || obj.grade == null){obj.grade = "此為自定義課程"; update = true;}
+            if(obj.ID == null){obj.ID = "此為自定義課程"; update = true;}
         }
-        if(temp_list[i]["courseData"]["grade"] == null){
-            let result = await searchGradeByOther(temp_list[i]["courseData"]["ID"], temp_list[i]["courseData"]["course_name"], temp_list[i]["courseData"]["Teacher"], temp_list[i]["courseData"]["classroom"], temp_list[i]["courseData"]["Credit"]);
-            if(result.length > 0){
-                temp_list[i]["courseData"]["grade"] = result[0].grade;
+        else
+        {   
+            if(obj["department"] == null){
+                let result = await searchDepartmentByOther(obj["ID"], obj["course_name"], obj["Teacher"], obj["classroom"], obj["Credit"]);
+                obj["department"] = result[0].department;
+                update = true;
             }
-            else{
-                temp_list[i]["courseData"]["grade"] = "";
+            if(obj["grade"] == null){
+                let result = await searchGradeByOther(obj["ID"], obj["course_name"], obj["Teacher"], obj["classroom"], obj["Credit"]);
+                obj["grade"] = result[0].grade;
+                update = true;
             }
-            update = true;
         }
     }
-    if(update){
-        // 更新store，但是會有bug，
-        //store.dispatch("updateCourseList", temp_list);
+    if(update)
+    {   
+        console.log("update", temp_list);
+        store.dispatch("updateCourseList", temp_list);
     }
-    console.log(courseList.value);
 })
 
 watch(searchType, async (inputValue) => {

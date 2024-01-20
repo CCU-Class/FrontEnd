@@ -53,7 +53,7 @@ function courseAdd(courseName: string, classRoom: string, weekDay: string, start
         is_course: true,
         color: env.VITE_CARD_DEFAULT_COLOR,
         ID: null,
-        Credit: null,
+        Credit: 0,
         is_custom: true,
         Teacher: null,
         Memo: null,
