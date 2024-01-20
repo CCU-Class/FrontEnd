@@ -48,6 +48,7 @@ watch(searchInput, async (inputValue) => {
         isLoading.value = true;
         show_search_box.value = true;
         data.value = await searchCourse(inputValue)
+        // console.log(data.value);
         data.value = data.value.map(temp => {
             temp['conflict'] = classconflict(temp);
             return temp;
