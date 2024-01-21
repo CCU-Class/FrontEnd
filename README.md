@@ -25,6 +25,8 @@ npm run dev
 npm run build
 ```
 
+If you encounter the error "Could not find a declaration file for module 'vuex' during the build process, please refer to this article: https://github.com/vuejs/vuex/issues/2223 .
+
 ### Preview
 
 ```bash
