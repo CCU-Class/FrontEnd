@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=8080 && npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify",
-    "build": "vue-tsc && vite build",
+    "build": "npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify && vue-tsc && vite build",
     "preview": "vite preview",
     "hotfix": "npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify --watch"
   },
