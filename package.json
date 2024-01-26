@@ -8,7 +8,7 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "hotfix": "npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify --watch",
-    "format": "prettier -ignore-path .gitignore --write \"src/**/*.{js,vue,ts}\""
+    "format": "prettier --ignore-path .gitignore --write \"src/**/*.{js,vue,ts}\""
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.5",

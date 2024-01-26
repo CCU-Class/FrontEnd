@@ -35,16 +35,14 @@ onMounted(async () => {
   resizeObserver.observe(left.value);
 });
 
-// onUnmounted(() => {
-//     resizeObserver.unobserve(left.value);
-// });
+onUnmounted(() => {
+  document.body.style.overflow = "auto";
+});
 
 const left = ref();
 const wid = ref();
 const resizeObserver = new ResizeObserver((entries) => {
   wid.value = entries.slice(-1)[0].target.clientWidth;
-
-  // console.log(wid.value);
 });
 </script>
 
