@@ -1,5 +1,8 @@
 <template>
-  <button type="button" class="optionButtion" v-on:click="showOption()">
+  <button
+    type="button"
+    class="optionButtion"
+    v-on:click="showOption()">
     &#xFE19;
   </button>
   <div>
@@ -7,8 +10,7 @@
       id="content-list"
       v-if="isShowOption"
       class="mx-auto option-list bg-white"
-      @mouseleave="isShowOption = false"
-    >
+      @mouseleave="isShowOption = false">
       <div>
         <slot> </slot>
       </div>
@@ -41,7 +43,14 @@
 </style>
 
 <script setup>
-import { onMounted, onUpdated, ref, watch, reactive, computed } from "vue";
+import {
+  onMounted,
+  onUpdated,
+  ref,
+  watch,
+  reactive,
+  computed,
+} from "vue";
 let isShowOption = ref(false);
 function showOption() {
   isShowOption.value = true;

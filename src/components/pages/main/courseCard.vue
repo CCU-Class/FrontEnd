@@ -12,8 +12,7 @@
     }"
     :rowspan="item.getLength()"
     @mouseenter="showButton = true"
-    @mouseleave="showButton = false"
-  >
+    @mouseleave="showButton = false">
     <div class="card-content" @click="flip">
       <transition name="fliping">
         <!-- 正面 -->
@@ -55,10 +54,12 @@
     :class="{ title: item.getIsTitle(), course: item.getIsCourse() }"
     style="height: 50px"
     :rowspan="item.getLength()"
-    :style="{ backgroundColor: item.getColor(), color: item.getTextColor() }"
+    :style="{
+      backgroundColor: item.getColor(),
+      color: item.getTextColor(),
+    }"
     @mouseenter="showButton = true"
-    @mouseleave="showButton = false"
-  >
+    @mouseleave="showButton = false">
     <div>{{ item.getStartTime() }}</div>
     <div>{{ item.getCourseName() }}</div>
     <div>{{ item.getClassroom() }}</div>
@@ -71,7 +72,10 @@ import kebabButton from "@components/common/optionButton/kebabButton.vue";
 import commonOption from "@components/common/option/commonOption.vue";
 import colorTemplate from "@components/pages/main/colorTemplate.vue";
 import { Course } from "@functions/general.ts";
-import { courseDelete, decreaseCredit } from "@functions/course_delete.ts";
+import {
+  courseDelete,
+  decreaseCredit,
+} from "@functions/course_delete.ts";
 import store from "../../../store";
 import { show_comment } from "@functions/ccuplus";
 const env = import.meta.env;
@@ -102,7 +106,10 @@ function openColorTemplate(item, mode) {
   if (mode == 1) {
     store.dispatch("setDefaultColor", env.VITE_CARD_DEFAULT_COLOR);
   } else if (mode == 2) {
-    store.dispatch("setDefaultColor", env.VITE_CARDTEXT_DEFAULT_COLOR);
+    store.dispatch(
+      "setDefaultColor",
+      env.VITE_CARDTEXT_DEFAULT_COLOR,
+    );
   }
   store.dispatch("setCardMode", mode);
   store.dispatch("changeShowColorPick", true);

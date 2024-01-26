@@ -1,13 +1,11 @@
 <template>
   <div
     class="z-10 top-0 left-0 w-screen h-screen fixed flex items-center backdrop-blur-sm"
-    v-show="showModal"
-  >
+    v-show="showModal">
     <div
       id="modal-container"
       class="fixed inset-0 flex justify-center h-full md:h-6/12 w-full md:w-7/12 mx-auto"
-      v-show="showModal"
-    >
+      v-show="showModal">
       <div class="bg-white p-8 rounded-3xl shadow-lg my-auto">
         <h2 class="text-xl font-semibold mb-4 text-center">提醒</h2>
         <hr class="py-2" />
@@ -30,8 +28,7 @@
           <button
             id="close-modal"
             class="bg-orange-300 px-3 py-1 rounded hover:bg-orange-400"
-            @click="closeModal"
-          >
+            @click="closeModal">
             Close
           </button>
         </div>

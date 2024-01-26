@@ -1,8 +1,7 @@
 <template>
   <div class="w-full">
     <div
-      class="w-10/12 md:w-5/12 bg-gray-100 rounded-3xl shadow-lg mx-auto my-36 py-16"
-    >
+      class="w-10/12 md:w-5/12 bg-gray-100 rounded-3xl shadow-lg mx-auto my-36 py-16">
       <div class="text-center text-2xl font-bold">後台登入</div>
       <hr class="w-10/12 mx-auto mt-3" />
       <form class="text-center py-6" @submit.prevent="login">
@@ -14,8 +13,7 @@
                 type="text"
                 placeholder="在此輸入帳號"
                 class="rounded-lg py-1 px-3"
-                v-model="username"
-              />
+                v-model="username" />
             </td>
           </tr>
           <tr>
@@ -26,15 +24,13 @@
                 placeholder="在此輸入密碼"
                 class="rounded-lg py-1 px-3"
                 autocomplete="on"
-                v-model="password"
-              />
+                v-model="password" />
             </td>
           </tr>
         </table>
         <button
           type="submit"
-          class="mt-3 bg-orange-200 py-2 px-10 rounded-2xl hover:bg-orange-300"
-        >
+          class="mt-3 bg-orange-200 py-2 px-10 rounded-2xl hover:bg-orange-300">
           登入
         </button>
       </form>

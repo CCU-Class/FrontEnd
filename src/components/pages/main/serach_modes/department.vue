@@ -1,8 +1,7 @@
 <template>
   <div class="flex flex-col w-full">
     <div
-      class="w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-red-500"
-    >
+      class="w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-red-500">
       以系所年級進行搜尋
     </div>
     <div class="">
@@ -12,13 +11,11 @@
             class="w-full py-1 text-center"
             type="search"
             placeholder="系所"
-            v-model="departmentInput"
-          />
+            v-model="departmentInput" />
           <ul
             class="mx-auto result-show overflow-y-auto overflow-x-hidden z-10"
             ref="department_search_list"
-            v-show="show_department"
-          >
+            v-show="show_department">
             <li
               v-for="item in department_data"
               class="w-full bg-white/70 px-3 py-1 hover:bg-orange-300 hover:text-white"
@@ -26,20 +23,20 @@
                 (departmentInput = item),
                   (departmentflag = false),
                   clickDepartment()
-              "
-            >
+              ">
               {{ item }}
             </li>
           </ul>
         </div>
         <div class="mx-12 w-4/12 inline-grid grid-cols-2">
           <div class="text-center leading-8">年級 / 向度</div>
-          <select class="w-full h-8 text-center" v-model="gradeSelection">
+          <select
+            class="w-full h-8 text-center"
+            v-model="gradeSelection">
             <option
               v-for="(option, index) in gradeList"
               :key="index"
-              :value="option.grade"
-            >
+              :value="option.grade">
               {{ option.grade }}
             </option>
           </select>
@@ -49,8 +46,7 @@
         <ul
           class="mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden"
           ref="searchList"
-          v-show="show_search_list"
-        >
+          v-show="show_search_list">
           <li
             v-for="item in filteredClassList"
             class="w-full bg-white/70 px-6 py-1 hover:bg-orange-300 hover:text-white animate__animated"
@@ -59,16 +55,14 @@
               animate__rubberBand: item.click,
             }"
             :key="`${item.id}-${item.teacher}-${item.class_time}`"
-            @click="classClick(item)"
-          >
+            @click="classClick(item)">
             [{{ item.id }}] {{ item.class_name }} {{ item.teacher }}
             {{ item.class_time }} {{ item.class_room }}
           </li>
         </ul>
         <div class="mx-auto w-11/12 h-36" v-show="!show_search_list">
           <div
-            class="w-full h-full flex justify-center items-center text-2xl bg-white text-slate-300"
-          >
+            class="w-full h-full flex justify-center items-center text-2xl bg-white text-slate-300">
             請選擇系所
           </div>
         </div>
@@ -78,13 +72,20 @@
 </template>
 
 <script setup>
-import { Course, InitTable, GetCourseTable } from "@functions/general";
+import {
+  Course,
+  InitTable,
+  GetCourseTable,
+} from "@functions/general";
 import {
   getDepartment,
   getGradeByDepartment,
   getCourseByDepartment,
 } from "@functions/course_search.ts";
-import { classconflict, push_to_table } from "@functions/course_add.ts";
+import {
+  classconflict,
+  push_to_table,
+} from "@functions/course_add.ts";
 import "animate.css";
 import { onMounted, ref, watch, computed } from "vue";
 import { useStore } from "vuex";
@@ -92,7 +93,8 @@ import { useStore } from "vuex";
 const env = import.meta.env;
 
 const store = useStore();
-const setSearchTimeMode = (flag) => store.dispatch("setTimeSearchMode", flag);
+const setSearchTimeMode = (flag) =>
+  store.dispatch("setTimeSearchMode", flag);
 const isLoading = ref(false);
 const isInputEmpty = ref(false);
 const show_search_list = ref(false);
@@ -111,10 +113,14 @@ const gradeSelection = ref();
 const filteredClassList = computed(() => {
   if (departmentInput.value == "") return [];
   if (gradeSelection.value == "all") return courseList.value;
-  return courseList.value.filter((item) => item.grade == gradeSelection.value);
+  return courseList.value.filter(
+    (item) => item.grade == gradeSelection.value,
+  );
 });
 
-const runConflictState = computed(() => store.state.course.runConflict);
+const runConflictState = computed(
+  () => store.state.course.runConflict,
+);
 const setConflictState = (state) =>
   store.dispatch("setrunConflictState", state);
 
@@ -170,7 +176,8 @@ async function clickDepartment() {
 onMounted(async () => {
   if (searchList != null) {
     // ul's max-height is 2rem x env.VITE_UL_ROW
-    searchList.value.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
+    searchList.value.style.maxHeight =
+      (2 * env.VITE_UL_ROW).toString() + "rem";
     department_search_list.value.style.maxHeight =
       (2 * env.VITE_UL_ROW).toString() + "rem";
   }

@@ -2,20 +2,16 @@
   <div
     class="text-center"
     v-show="loading"
-    style="text-align: center; margin-top: 1%"
-  >
+    style="text-align: center; margin-top: 1%">
     <div
       class="v-sync v-sync1"
-      v-bind:style="[spinnerStyle, spinnerDelay1]"
-    ></div>
+      v-bind:style="[spinnerStyle, spinnerDelay1]"></div>
     <div
       class="v-sync v-sync2"
-      v-bind:style="[spinnerStyle, spinnerDelay2]"
-    ></div>
+      v-bind:style="[spinnerStyle, spinnerDelay2]"></div>
     <div
       class="v-sync v-sync3"
-      v-bind:style="[spinnerStyle, spinnerDelay3]"
-    ></div>
+      v-bind:style="[spinnerStyle, spinnerDelay3]"></div>
   </div>
 </template>
 

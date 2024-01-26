@@ -1,7 +1,6 @@
 <template>
   <div
-    class="w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-pink-500"
-  >
+    class="w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-pink-500">
     自定義新增課程
   </div>
   <div class="flex flex-row mx-auto w-full">
@@ -10,15 +9,15 @@
       class="mx-2 w-full md:w-5/12 py-1 rounded-md text-center"
       type="text"
       placeholder="課程名稱"
-      v-model="className"
-    />
+      v-model="className" />
     <input
       class="mx-2 w-full md:w-3/12 py-1 rounded-md text-center"
       type="text"
       placeholder="課程教室"
-      v-model="classRoom"
-    />
-    <select class="mx-1 py-1 rounded-md text-center" v-model="weekDay">
+      v-model="classRoom" />
+    <select
+      class="mx-1 py-1 rounded-md text-center"
+      v-model="weekDay">
       <option selected>星期</option>
       <option v-for="day in week" :value="day">{{ day }}</option>
     </select>
@@ -40,8 +39,7 @@
           start: start,
           end: end,
         })
-      "
-    >
+      ">
       +
     </button>
   </div>

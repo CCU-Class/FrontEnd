@@ -1,31 +1,29 @@
 <template>
   <div class="flex flex-col w-full">
     <div
-      class="w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-orange-500"
-    >
+      class="w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-orange-500">
       以課程名稱進行搜尋
     </div>
     <input
       class="w-11/12 mx-auto py-1 text-center course_search"
       type="search"
       placeholder="使用課程名稱進行課程搜尋"
-      v-model="searchInput"
-    />
+      v-model="searchInput" />
 
     <ul
       class="mx-auto w-11/12 result-show overflow-y-auto overflow-x-hidden"
       ref="searchList"
-      v-show="show_search_box"
-    >
-      <loadingSpinner v-if="isLoading" style="height: auto"></loadingSpinner>
+      v-show="show_search_box">
+      <loadingSpinner
+        v-if="isLoading"
+        style="height: auto"></loadingSpinner>
       <li
         v-else
         v-for="item in data"
         class="w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white"
         :key="`${item.id}-${item.teacher}-${item.class_time}`"
         :class="{ conflict: item.conflict }"
-        @click="push_to_table(2, item), cleanInputArea()"
-      >
+        @click="push_to_table(2, item), cleanInputArea()">
         [{{ item.id }}] {{ item.class_name }} {{ item.teacher }}
         {{ item.class_time }} {{ item.class_room }}
       </li>
@@ -34,19 +32,37 @@
 </template>
 
 <script setup>
-import { Course, InitTable, GetCourseTable } from "@functions/general";
-import { recordcourse, searchCourse } from "@functions/course_search.ts";
+import {
+  Course,
+  InitTable,
+  GetCourseTable,
+} from "@functions/general";
+import {
+  recordcourse,
+  searchCourse,
+} from "@functions/course_search.ts";
 import { splittime } from "@functions/tool.ts";
-import { classconflict, push_to_table } from "@functions/course_add.ts";
+import {
+  classconflict,
+  push_to_table,
+} from "@functions/course_add.ts";
 
-import { onMounted, onUpdated, ref, watch, reactive, computed } from "vue";
+import {
+  onMounted,
+  onUpdated,
+  ref,
+  watch,
+  reactive,
+  computed,
+} from "vue";
 import { useStore } from "vuex";
 import { v4 as uuidv4 } from "uuid";
 
 const env = import.meta.env;
 
 const store = useStore();
-const setSearchTimeMode = (flag) => store.dispatch("setTimeSearchMode", flag);
+const setSearchTimeMode = (flag) =>
+  store.dispatch("setTimeSearchMode", flag);
 const searchInput = ref("");
 const isLoading = ref(false);
 const isInputEmpty = ref(false);
@@ -87,7 +103,8 @@ onMounted(() => {
   // using env to control <ul> display
   if (searchList != null) {
     // ul's max-height is 2rem x env.VITE_UL_ROW
-    searchList.value.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
+    searchList.value.style.maxHeight =
+      (2 * env.VITE_UL_ROW).toString() + "rem";
   }
   setSearchTimeMode(false);
 });

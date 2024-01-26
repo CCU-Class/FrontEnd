@@ -1,7 +1,6 @@
 <template>
   <div
-    class="w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-purple-500"
-  >
+    class="w-2/12 mx-3 py-2 font-semibold min-w-[4rem] -order-1 text-purple-500">
     以時間區間進行搜尋
   </div>
   <div class="mx-3">

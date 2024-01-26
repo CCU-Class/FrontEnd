@@ -72,11 +72,15 @@ const store: Module<State, any> = {
       state.show_credit = false;
     },
     initCourseFromLocalstorage(state: State) {
-      let courseTable: string | null = localStorage.getItem("courseTable");
+      let courseTable: string | null =
+        localStorage.getItem("courseTable");
       if (courseTable == null || courseTable == "") {
         state.classStorage = InitTable();
         rowspanize(state.classStorage);
-        localStorage.setItem("courseTable", JSON.stringify(state.classStorage));
+        localStorage.setItem(
+          "courseTable",
+          JSON.stringify(state.classStorage),
+        );
         return;
       }
       let data = JSON.parse(courseTable!);
@@ -87,7 +91,10 @@ const store: Module<State, any> = {
       // console.log(state.classStorage);
       state.classStorage = data;
       // console.log(state.classStorage);
-      localStorage.setItem("courseTable", JSON.stringify(state.classStorage));
+      localStorage.setItem(
+        "courseTable",
+        JSON.stringify(state.classStorage),
+      );
     },
     clearCourse(state: State) {
       // console.log("clear")
@@ -97,7 +104,10 @@ const store: Module<State, any> = {
       state.classListStorage = [];
       state.credit = 0;
       state.chooseCard = null;
-      localStorage.setItem("courseTable", JSON.stringify(state.classStorage));
+      localStorage.setItem(
+        "courseTable",
+        JSON.stringify(state.classStorage),
+      );
       localStorage.setItem(
         "courseList",
         JSON.stringify(state.classListStorage),
@@ -105,7 +115,8 @@ const store: Module<State, any> = {
       localStorage.setItem("credit", state.credit.toString());
     },
     initCourseListFromLocalstorage(state: State) {
-      let courseList: string | null = localStorage.getItem("courseList");
+      let courseList: string | null =
+        localStorage.getItem("courseList");
       if (courseList == null) {
         state.classListStorage = [];
         localStorage.setItem(

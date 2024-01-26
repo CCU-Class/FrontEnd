@@ -1,14 +1,14 @@
 {
   "name": "pineappleschdedule",
   "private": true,
-  "version": "4.0.0",
+  "version": "1.0.6",
   "type": "module",
   "scripts": {
     "dev": "vite --port=8080 && npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "hotfix": "npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify --watch",
-    "format": "prettier --write \"src/**/*.{js,vue,ts}\""
+    "format": "prettier -ignore-path .gitignore --write \"src/**/*.{js,vue,ts}\""
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.5",

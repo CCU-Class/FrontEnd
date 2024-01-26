@@ -10,8 +10,12 @@ import Colorpick from "@components/pages/main/colorTemplate.vue";
 import timeSelection from "@components/pages/main/timeSelection.vue";
 import store from "../store";
 
-const show_colorpick = computed(() => store.state.course.show_ColorPick);
-const show_search_mode = computed(() => store.state.course.timeSearchMode);
+const show_colorpick = computed(
+  () => store.state.course.show_ColorPick,
+);
+const show_search_mode = computed(
+  () => store.state.course.timeSearchMode,
+);
 import { Splitpanes, Pane } from "splitpanes";
 import "splitpanes/dist/splitpanes.css";
 
@@ -51,7 +55,10 @@ const resizeObserver = new ResizeObserver((entries) => {
       <Box />
       <splitpanes class="bg-white">
         <pane class="w-full" min-size="50" size="70">
-          <div class="h-full" :class="{ main_page_left: status }" ref="left">
+          <div
+            class="h-full"
+            :class="{ main_page_left: status }"
+            ref="left">
             <inputArea />
             <Colorpick v-show="show_colorpick" />
             <timeSelection :message="wid" />

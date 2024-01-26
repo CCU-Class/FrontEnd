@@ -4,58 +4,52 @@
     :resizable="false"
     @dragging="handle_drag"
     @drag-end="drag_end"
-    id="drag"
-  >
+    id="drag">
     <div class="w-full top-8 h-8 flex sticky z-10">
       <div
         class="mr-1 ml-auto w-8 text-lg relative small transition-all ease-in-out duration-500"
         :class="{ 'large mr-2 border': !show }"
-        @transitionend="transitionComplete"
-      >
+        @transitionend="transitionComplete">
         <div v-if="show" @click="search_button">
           <SearchOutlined
             class="absolute left-0 top-0 text-orange-400 text-3xl"
-            v-if="show_icon"
-          />
+            v-if="show_icon" />
         </div>
         <div class="block large border ml-auto mr-2" v-if="!show">
           <div class="m-2">
             <div class="flex w-full">
               <div class="text-black font-bold text-xl">課程搜尋</div>
-              <CloseCircleOutlined class="ml-auto" @click="search_button" />
+              <CloseCircleOutlined
+                class="ml-auto"
+                @click="search_button" />
             </div>
             <input
               class="w-full mx-auto py-1 px-3 text-center course_search rounded-lg"
               type="search"
               placeholder="在此搜尋課程"
-              v-model="searchInput"
-            />
+              v-model="searchInput" />
             <ul
               class="mx-auto w-full result-show overflow-hidden overflow-y-auto overflow-x-hidden search_list"
               style="max-height: 10rem"
               id="result"
-              v-show="show_search"
-            >
+              v-show="show_search">
               <loadingSpinner
                 v-if="isLoading"
-                style="height: auto"
-              ></loadingSpinner>
+                style="height: auto"></loadingSpinner>
               <li
                 v-else
                 v-for="item in data"
                 class="w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white cursor-pointer border-2"
                 :class="{ conflict: item.conflict }"
                 style="font-size: smaller"
-                @click="selectCourse(item)"
-              >
+                @click="selectCourse(item)">
                 {{ item.class_name }}
                 {{ item.teacher }}
               </li>
             </ul>
             <div v-show="show_content">
               <div
-                class="bg-green-100/60 w-full h-40 border-green-200 py-5 px-3 border-2 font-mono"
-              >
+                class="bg-green-100/60 w-full h-40 border-green-200 py-5 px-3 border-2 font-mono">
                 <!-- 使用到selectedCourse -->
                 <div v-if="!selectedNull" class="text-sm">
                   <p>課程ID: {{ selectedCourse.id }}</p>
@@ -69,14 +63,12 @@
               <div class="flex w-full h-8 p-2">
                 <div
                   class="m-auto text-base rounded-2xl bg-green-200 px-3 py-1 hover:bg-green-300"
-                  @click="show_comment(selectedCourse.id)"
-                >
+                  @click="show_comment(selectedCourse.id)">
                   查看評價
                 </div>
                 <div
                   class="m-auto text-base rounded-2xl bg-green-200 px-3 py-1 hover:bg-green-300"
-                  @click="push_to_table(2, selectedCourse)"
-                >
+                  @click="push_to_table(2, selectedCourse)">
                   加入課表
                 </div>
               </div>
@@ -89,9 +81,19 @@
 </template>
 
 <script setup>
-import { onMounted, onUpdated, ref, watch, reactive, computed } from "vue";
+import {
+  onMounted,
+  onUpdated,
+  ref,
+  watch,
+  reactive,
+  computed,
+} from "vue";
 import { useStore } from "vuex";
-import { searchCourse, recordcourse } from "@functions/course_search.ts";
+import {
+  searchCourse,
+  recordcourse,
+} from "@functions/course_search.ts";
 import { Course } from "@functions/general.ts";
 import { v4 as uuidv4 } from "uuid";
 import { splittime } from "@functions/tool.ts";
@@ -120,7 +122,9 @@ let show_content = ref(true);
 
 let opened = computed(() => store.state.course.timeSearchMode);
 
-const runConflictState = computed(() => store.state.course.runConflict);
+const runConflictState = computed(
+  () => store.state.course.runConflict,
+);
 const setConflictState = (state) =>
   store.dispatch("setrunConflictState", state);
 

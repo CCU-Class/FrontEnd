@@ -2,8 +2,7 @@
   <div class="overflow-x-auto select-none">
     <div
       class="bg-orange-100 rounded-lg px-2 my-3 py-2 mx-auto md:w-6/12 min-w-[60rem]"
-      id="WholeTable"
-    >
+      id="WholeTable">
       <p class="text-right py-2 mx-3" v-show="show_credit">
         目前學分: {{ credit }}
       </p>
@@ -11,29 +10,25 @@
         <div
           v-if="TimeMode"
           class="absolute w-full h-full left-0 top-0 z-20 bg-opacity-1 flex"
-          @contextmenu.prevent="showsearchclass"
-        >
+          @contextmenu.prevent="showsearchclass">
           <div class="w-[11px]">
             <div class="h-10"></div>
             <div
               v-for="item in selectDisplay"
               class="h-[52px]"
-              :class="{ selectDisplayColor: item.display }"
-            ></div>
+              :class="{ selectDisplayColor: item.display }"></div>
           </div>
           <div class="table-head w-[9.5rem]"></div>
           <div class="virtualtable">
             <div class="virtualtablehead"></div>
             <drag-select
               v-model="selection"
-              background="rgba(254, 255, 166, 0.1)"
-            >
+              background="rgba(254, 255, 166, 0.1)">
               <drag-select-option
                 v-for="item in selectClassTable[0]"
                 style="height: 52px"
                 :value="item.val"
-                :key="item.id"
-              >
+                :key="item.id">
                 {{}}
               </drag-select-option>
             </drag-select>
@@ -42,14 +37,12 @@
             <div class="virtualtablehead"></div>
             <drag-select
               v-model="selection"
-              background="rgba(254, 255, 166, 0.1)"
-            >
+              background="rgba(254, 255, 166, 0.1)">
               <drag-select-option
                 v-for="item in selectClassTable[1]"
                 style="height: 52px"
                 :value="item.val"
-                :key="item.id"
-              >
+                :key="item.id">
                 {{}}
               </drag-select-option>
             </drag-select>
@@ -58,14 +51,12 @@
             <div class="virtualtablehead"></div>
             <drag-select
               v-model="selection"
-              background="rgba(254, 255, 166, 0.1)"
-            >
+              background="rgba(254, 255, 166, 0.1)">
               <drag-select-option
                 v-for="item in selectClassTable[2]"
                 style="height: 52px"
                 :value="item.val"
-                :key="item.id"
-              >
+                :key="item.id">
                 {{}}
               </drag-select-option>
             </drag-select>
@@ -74,14 +65,12 @@
             <div class="virtualtablehead"></div>
             <drag-select
               v-model="selection"
-              background="rgba(254, 255, 166, 0.1)"
-            >
+              background="rgba(254, 255, 166, 0.1)">
               <drag-select-option
                 v-for="item in selectClassTable[3]"
                 style="height: 52px"
                 :value="item.val"
-                :key="item.id"
-              >
+                :key="item.id">
                 {{}}
               </drag-select-option>
             </drag-select>
@@ -90,14 +79,12 @@
             <div class="virtualtablehead"></div>
             <drag-select
               v-model="selection"
-              background="rgba(254, 255, 166, 0.1)"
-            >
+              background="rgba(254, 255, 166, 0.1)">
               <drag-select-option
                 v-for="item in selectClassTable[4]"
                 style="height: 52px"
                 :value="item.val"
-                :key="item.id"
-              >
+                :key="item.id">
                 {{}}
               </drag-select-option>
             </drag-select>
@@ -106,21 +93,21 @@
             <div class="virtualtablehead"></div>
             <drag-select
               v-model="selection"
-              background="rgba(254, 255, 166, 0.1)"
-            >
+              background="rgba(254, 255, 166, 0.1)">
               <drag-select-option
                 v-for="item in selectClassTable[5]"
                 style="height: 52px"
                 :value="item.val"
-                :key="item.id"
-              >
+                :key="item.id">
                 {{}}
               </drag-select-option>
             </drag-select>
           </div>
         </div>
         <div class="z-10">
-          <table class="bg-orange-100 w-full border-separate" id="class_table">
+          <table
+            class="bg-orange-100 w-full border-separate"
+            id="class_table">
             <thead>
               <tr>
                 <th class="w-[10px] m-1">⠀</th>
@@ -135,7 +122,10 @@
             </thead>
             <tbody v-if="show">
               <tr v-for="row in course_data" :key="row.id">
-                <courseCard v-for="item in row" :key="item.id" :item="item" />
+                <courseCard
+                  v-for="item in row"
+                  :key="item.id"
+                  :item="item" />
               </tr>
             </tbody>
           </table>
@@ -146,11 +136,22 @@
 </template>
 
 <script setup>
-import { onMounted, onUpdated, ref, watch, reactive, computed } from "vue";
+import {
+  onMounted,
+  onUpdated,
+  ref,
+  watch,
+  reactive,
+  computed,
+} from "vue";
 import { Switch } from "ant-design-vue";
 
 import { rowspanize } from "@functions/rowspanizer";
-import { Course, InitTable, GetCourseTable } from "@functions/general";
+import {
+  Course,
+  InitTable,
+  GetCourseTable,
+} from "@functions/general";
 import renderImage from "@functions/image_render.ts";
 import {
   searchCourse,
@@ -158,7 +159,10 @@ import {
   searchCourseByTime,
 } from "@functions/course_search.ts";
 import { splittime } from "@functions/tool.ts";
-import { courseDelete, decreaseCredit } from "@functions/course_delete.ts";
+import {
+  courseDelete,
+  decreaseCredit,
+} from "@functions/course_delete.ts";
 
 import { Splitpanes, Pane } from "splitpanes";
 import "splitpanes/dist/splitpanes.css";

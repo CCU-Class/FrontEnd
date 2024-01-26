@@ -51,7 +51,9 @@ function courseAdd(
   // push the course object to the local storage
   // store information in the database
   // return the status of the operation
-  let table: Course[][] = _.cloneDeep(store.state.course.classStorage);
+  let table: Course[][] = _.cloneDeep(
+    store.state.course.classStorage,
+  );
   let Uuid = uuidv4();
   let course = new Course({
     start_time: courseToTime[start],
