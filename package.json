@@ -1,13 +1,14 @@
 {
   "name": "pineappleschdedule",
   "private": true,
-  "version": "4.0.0",
+  "version": "1.0.6",
   "type": "module",
   "scripts": {
-    "dev": "npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify && vite --port=8080",
-    "build": "npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify && vue-tsc && vite build",
+    "dev": "vite --port=8080 && npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify",
+    "build": "vue-tsc && vite build",
     "preview": "vite preview",
-    "hotfix": "npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify --watch"
+    "hotfix": "npx tailwindcss -i ./src/css/style.css -o ./src/css/tailwind.css --minify --watch",
+    "format": "prettier --ignore-path .gitignore --write \"src/**/*.{js,vue,ts}\""
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.5",
@@ -26,6 +27,7 @@
     "dotenv-cli": "^7.2.1",
     "fund": "^1.0.0",
     "jquery": "^3.7.0",
+    "prettier": "^3.2.4",
     "splitpanes": "^3.1.5",
     "update": "^0.7.4",
     "uuid": "^9.0.0",
