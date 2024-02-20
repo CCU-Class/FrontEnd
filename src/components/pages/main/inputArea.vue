@@ -32,7 +32,7 @@
               :class="{ 'bg-orange-300': toggleActive1 }">
               <div
                 class="bg-white w-5 h-5 rounded-full shadow-md transform duration-300 ease-in-out"
-                :class="{ 'translate-x-6': toggleActive1 }"></div>
+                :class="{ 'translate-x-7': toggleActive1 }"></div>
             </div>
             <span class="mx-3 py-1 min-w-[4rem]"> 顯示學分 </span>
           </div>

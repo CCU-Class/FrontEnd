@@ -171,16 +171,16 @@ let link = computed(
 );
 
 const hidden = () => {
-  console.log(course_id.value);
+  // console.log(course_id.value);
   store.dispatch("hidden");
   store.dispatch("purge");
 };
 
 watch(course_id, async (newId, oldId) => {
-  console.log(newId, oldId);
+  // console.log(newId, oldId);
   isLoading.value = true;
   let data = await searchCommentsOnCcuplus(course_id.value);
-  console.log(data.data);
+  // console.log(data.data);
   isLoading.value = false;
   if (data.data.length == 0) comment_status.value = false;
   else comment_status.value = true;
