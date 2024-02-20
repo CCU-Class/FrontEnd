@@ -20,16 +20,22 @@
           v-if="search_class_list_in_timemode.length && !isLoading">
           <div
             class="flex items-center"
-            @click="toggleActive = !toggleActive">
+            @click="clickState()">
             <div
-              class="w-12 h-6 flex items-center bg-gray-300 rounded-full duration-300 ease-in-out"
-              :class="{ 'bg-orange-300': toggleActive }">
+              class="w-[4.2em] h-6 flex items-center bg-gray-300 rounded-full duration-300 ease-in-out"
+              :class="{ 'bg-orange-300': toggle == 1, 'bg-purple-300': toggle == 2 }">
               <div
                 class="bg-white w-5 h-5 rounded-full shadow-md transform duration-300 ease-in-out"
-                :class="{ 'translate-x-6': toggleActive }"></div>
+                :class="{ 'translate-x-6': toggle == 1, 'translate-x-12': toggle == 2 }"></div>
             </div>
-            <span class="mx-3 py-1 min-w-[4rem]">
+            <span class="mx-3 py-1 min-w-[4rem]" v-if="toggle == 0">
+              顯示所有課程
+            </span>
+            <span class="mx-3 py-1 min-w-[4rem]" v-if="toggle == 1">
               僅顯示通識課程
+            </span>
+            <span class="mx-3 py-1 min-w-[4rem]" v-if="toggle == 2">
+              僅顯示非通識課程
             </span>
           </div>
         </div>
@@ -122,14 +128,19 @@ const show_content_search_by_time = ref(false);
 const search_inform = ref(true);
 const selectedCoursesearchtime = ref({});
 const out = ref();
-const toggleActive = ref(false);
+const toggle = ref(0);
 
 const filteredClassList = computed(() => {
-  return toggleActive.value
-    ? search_class_list_in_timemode.value.filter(
-        (item) => item.department && item.department.includes("通識"),
-      )
-    : search_class_list_in_timemode.value;
+  if(toggle.value == 0) // 顯示全部課程
+    return search_class_list_in_timemode.value;
+  else if(toggle.value == 1) // 顯示通識課程
+    return search_class_list_in_timemode.value.filter(
+      (item) => item.department && item.department.includes("通識"),
+    );
+  else // 顯示非通識課程
+    return search_class_list_in_timemode.value.filter(
+      (item) => item.department && !item.department.includes("通識"),
+    );
 });
 
 // 使用defineProps来访问prop
@@ -171,11 +182,22 @@ watch(searchTimeArgument, async () => {
   isLoading.value = false;
 });
 
+const clickState = () => {
+  if (toggle.value == 0) {
+    toggle.value = 1;
+  } else if (toggle.value == 1) {
+    toggle.value = 2;
+  } else {
+    toggle.value = 0;
+  }
+};
+
 const close = () => {
   store.dispatch("setSearchTimeTable", false);
   selectedCoursesearchtime.value = {};
   show_content_search_by_time.value = false;
   search_inform.value = true;
+  toggle.value = 0;
   store.dispatch("hidden");
   store.dispatch("purge");
 };
