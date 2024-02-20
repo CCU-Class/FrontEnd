@@ -197,6 +197,7 @@ const close = () => {
   selectedCoursesearchtime.value = {};
   show_content_search_by_time.value = false;
   search_inform.value = true;
+  toggle.value = 0;
   store.dispatch("hidden");
   store.dispatch("purge");
 };
