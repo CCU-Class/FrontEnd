@@ -27,10 +27,10 @@ export function classconflict(course: any) {
     let weekDayIndex = WeekDayToInt[time[i][0]]; // 2 is the offset of the first two columns
     let startHour = courseToStartIndex[time[i][1]];
     let endHour = courseToEndIndex[time[i][2]];
-    if(weekDayIndex === undefined) {
+    if (weekDayIndex === undefined) {
       continue;
     }
-    
+
     for (let i = startHour; i < endHour; i++) {
       if (table[i][weekDayIndex].getIsCourse()) {
         // there is a course in the same time slot
