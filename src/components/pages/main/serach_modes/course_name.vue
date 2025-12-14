@@ -96,7 +96,6 @@ watch(searchInput, async (inputValue) => {
       selectedYear.value,
       selectedSemester.value,
     );
-    // console.log(data.value);
     data.value = data.value.map((temp) => {
       temp["conflict"] = classconflict(temp);
       return temp;
