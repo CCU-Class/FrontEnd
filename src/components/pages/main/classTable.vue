@@ -106,7 +106,7 @@
             </drag-select>
           </div>
         </div>
-        
+
         <div class="z-10 w-full flex">
           <table
             class="bg-orange-100 w-full border-separate"
@@ -185,12 +185,9 @@ const show_credit = computed(() => store.state.course.show_credit);
 const open_credit = () => store.dispatch("show_credit");
 const close_credit = () => store.dispatch("hidden_credit");
 let TotalCourseData = computed(
-  () => store.state.course.TotalCourseData
+  () => store.state.course.TotalCourseData,
 );
-const doubleCount = computed(
-  () => count.value * 2,
-  
-);
+const doubleCount = computed(() => count.value * 2);
 let activeIndex = computed(() => store.state.course.activeIndex);
 const hidden = () => {
   store.dispatch("hidden");
@@ -204,8 +201,31 @@ const env = import.meta.env;
 
 const week = ["一", "二", "三", "四", "五", "六"];
 const classes = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-  "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
 ];
 const className = ref();
 const classRoom = ref();

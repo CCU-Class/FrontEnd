@@ -3,51 +3,58 @@
     <Transition name="fade">
       <div
         v-if="showModal"
-        class="fixed inset-0 z-50 flex items-center justify-center p-4"
-      >
-        <div 
+        class="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div
           class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
-          @click="closeModal"
-        ></div>
+          @click="closeModal"></div>
 
         <div
-          class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]"
-        >
-          <div class="bg-orange-50 px-6 py-4 border-b border-orange-100 flex justify-between items-center">
-            <h2 class="text-xl font-bold text-orange-600 tracking-wide">
+          class="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
+          <div
+            class="bg-orange-50 px-6 py-4 border-b border-orange-100 flex justify-between items-center">
+            <h2
+              class="text-xl font-bold text-orange-600 tracking-wide">
               系統公告
             </h2>
-            <button 
-              @click="closeModal" 
-              class="text-gray-400 hover:text-gray-600 transition"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            <button
+              @click="closeModal"
+              class="text-gray-400 hover:text-gray-600 transition">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
 
           <div class="p-6 overflow-y-auto custom-scrollbar">
-            <div 
-              v-if="!modify" 
+            <div
+              v-if="!modify"
               class="text-gray-600 leading-relaxed space-y-2 text-justify"
-              v-html="content"
-            ></div>
+              v-html="content"></div>
 
             <div v-else class="w-full">
-              <label class="block text-sm font-bold text-gray-700 mb-2">編輯公告內容 (支援 HTML)</label>
+              <label
+                class="block text-sm font-bold text-gray-700 mb-2"
+                >編輯公告內容 (支援 HTML)</label
+              >
               <textarea
                 v-model="content"
-                class="w-full h-64 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-300 focus:border-orange-300 outline-none transition resize-none text-sm"
-              ></textarea>
+                class="w-full h-64 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-300 focus:border-orange-300 outline-none transition resize-none text-sm"></textarea>
             </div>
           </div>
 
           <div class="px-6 py-4 bg-gray-50 flex justify-end">
             <button
               @click="closeModal"
-              class="bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white font-medium py-2 px-6 rounded-full shadow-md transform active:scale-95 transition duration-200"
-            >
+              class="bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white font-medium py-2 px-6 rounded-full shadow-md transform active:scale-95 transition duration-200">
               我知道了
             </button>
           </div>
@@ -95,7 +102,7 @@ onMounted(() => {
     showModal.value = true;
     localStorage.setItem("notify", "true");
   } else {
-    showModal.value = true; 
+    showModal.value = true;
   }
 });
 </script>

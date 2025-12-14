@@ -1,16 +1,16 @@
 <template>
   <div class="w-full min-h-screen bg-gray-50/50">
     <div class="max-w-5xl mx-auto px-4 py-8">
-      
       <section class="max-w-3xl mx-auto mb-12 text-center">
         <div class="py-6">
-          <router-link 
-            to="/main" 
+          <router-link
+            to="/main"
             class="inline-block px-6 py-2 bg-orange-400 text-white rounded-full hover:bg-orange-600 transition duration-300 shadow-md">
             > 開始使用
           </router-link>
         </div>
-        <h1 class="text-4xl font-bold text-orange-500 mb-4 tracking-wider">
+        <h1
+          class="text-4xl font-bold text-orange-500 mb-4 tracking-wider">
           初次見面?
         </h1>
         <div class="text-lg text-gray-600 leading-relaxed">
@@ -18,8 +18,12 @@
             我們是曾就讀於中正大學的學生，為了改善中正學生的排課選課體驗而建立了中正課表團隊，
             希望能透過我們所學和自身經驗打造一個更加舒適且符合中正學生所需的服務。
           </p>
-          <div class="mt-6 text-left bg-white p-6 rounded-xl shadow-sm border border-orange-100">
-            <h3 class="font-bold text-2xl text-gray-700 mb-2 border-l-4 border-orange-400 pl-2">目前功能</h3>
+          <div
+            class="mt-6 text-left bg-white p-6 rounded-xl shadow-sm border border-orange-100">
+            <h3
+              class="font-bold text-2xl text-gray-700 mb-2 border-l-4 border-orange-400 pl-2">
+              目前功能
+            </h3>
             <textarea
               v-if="modify"
               class="w-full h-48 bg-gray-50 border rounded p-3 text-gray-600 focus:outline-orange-300"
@@ -28,46 +32,49 @@
             <ol
               v-else
               class="list-decimal list-inside space-y-1 text-gray-600 ml-2"
-              v-html="feature">
-            </ol>
+              v-html="feature"></ol>
           </div>
         </div>
       </section>
 
       <section class="mb-16">
         <div class="text-center mb-8">
-          <h2 class="inline-block text-3xl font-bold bg-gradient-to-r from-orange-400 to-red-600 text-transparent bg-clip-text pb-2 border-b-2 border-orange-200">
+          <h2
+            class="inline-block text-3xl font-bold bg-gradient-to-r from-orange-400 to-red-600 text-transparent bg-clip-text pb-2 border-b-2 border-orange-200">
             成員介紹
           </h2>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div 
-            v-for="(member, index) in members" 
+          <div
+            v-for="(member, index) in members"
             :key="index"
-            class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row items-center border border-orange-50"
-          >
-            <div class="flex-shrink-0 mb-4 md:mb-0 md:mr-6" v-lazy-container="{ selector: 'img' }">
-              <div class="w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-orange-100 shadow-inner mx-auto">
+            class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row items-center border border-orange-50">
+            <div
+              class="flex-shrink-0 mb-4 md:mb-0 md:mr-6"
+              v-lazy-container="{ selector: 'img' }">
+              <div
+                class="w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-orange-100 shadow-inner mx-auto">
                 <img
                   :data-src="member.img"
                   alt="Member Photo"
-                  class="w-full h-full object-cover" 
-                />
+                  class="w-full h-full object-cover" />
               </div>
             </div>
-            
+
             <div class="flex-1 text-center md:text-left">
               <h3 class="text-xl font-bold text-orange-700 mb-2">
                 {{ member.name }}
               </h3>
-              
+
               <textarea
                 v-if="modify"
                 class="w-full h-32 p-2 text-sm bg-gray-50 border rounded focus:outline-none focus:border-orange-300"
                 v-model="member.intro">
               </textarea>
-              <p v-else class="text-gray-600 text-sm leading-relaxed text-justify">
+              <p
+                v-else
+                class="text-gray-600 text-sm leading-relaxed text-justify">
                 {{ member.intro }}
               </p>
             </div>
@@ -77,12 +84,17 @@
 
       <section class="max-w-3xl mx-auto mb-16">
         <div class="text-center mb-6">
-          <h2 class="inline-block text-3xl font-bold bg-gradient-to-r from-orange-400 to-red-600 text-transparent bg-clip-text pb-2 border-b-2 border-orange-200">
+          <h2
+            class="inline-block text-3xl font-bold bg-gradient-to-r from-orange-400 to-red-600 text-transparent bg-clip-text pb-2 border-b-2 border-orange-200">
             版本紀錄
           </h2>
         </div>
-        <div class="bg-white rounded-xl shadow-sm p-6 border border-orange-100">
-          <div v-if="!modify" v-html="version" class="text-gray-600 leading-7"></div>
+        <div
+          class="bg-white rounded-xl shadow-sm p-6 border border-orange-100">
+          <div
+            v-if="!modify"
+            v-html="version"
+            class="text-gray-600 leading-7"></div>
           <textarea
             v-else
             class="w-full h-64 bg-gray-50 border rounded p-3 text-gray-600 focus:outline-orange-300"
@@ -93,17 +105,21 @@
 
       <section class="text-center space-y-8">
         <div>
-          <h2 class="text-2xl font-bold text-gray-700 mb-4">聯絡我們</h2>
-          <a 
+          <h2 class="text-2xl font-bold text-gray-700 mb-4">
+            聯絡我們
+          </h2>
+          <a
             href="mailto:pineappleschedule2023@gmail.com"
-            class="text-orange-600 hover:text-orange-800 hover:underline text-lg transition"
-          >
+            class="text-orange-600 hover:text-orange-800 hover:underline text-lg transition">
             pineappleschedule2023@gmail.com
           </a>
         </div>
 
-        <div class="border-t border-gray-200 pt-8 w-full md:w-8/12 mx-auto">
-          <h2 class="text-xl font-bold text-gray-700 mb-6">相關連結</h2>
+        <div
+          class="border-t border-gray-200 pt-8 w-full md:w-8/12 mx-auto">
+          <h2 class="text-xl font-bold text-gray-700 mb-6">
+            相關連結
+          </h2>
           <div class="flex flex-col sm:flex-row justify-center gap-4">
             <a
               class="px-6 py-2 border-2 border-gray-300 text-gray-600 rounded-lg hover:border-orange-500 hover:text-orange-500 transition font-medium"
@@ -164,22 +180,26 @@ const members = ref([
   {
     name: "吳翰平",
     img: "/member01.jpg",
-    intro: "曾讀於中正大學資訊工程學系，目前為成功大學資訊工程研究所學生，負責本網站的前端工程，是一位 Vue 新手。",
+    intro:
+      "曾讀於中正大學資訊工程學系，目前為成功大學資訊工程研究所學生，負責本網站的前端工程，是一位 Vue 新手。",
   },
   {
     name: "王子銜",
     img: "/member02.jpg",
-    intro: "中正大學通訊工程學系四年級，主要研究網頁前後端與演算法競賽。 2023 中研院 Summer intern",
+    intro:
+      "中正大學通訊工程學系四年級，主要研究網頁前後端與演算法競賽。 2023 中研院 Summer intern",
   },
   {
     name: "楊其龍",
     img: "/member03.jpg",
-    intro: "中正大學資訊工程學系四年級 主要研究軟體工程、網頁前後端、競程， 目前主要學習ML， 此專案主要負責後端伺服器、資料庫、API。",
+    intro:
+      "中正大學資訊工程學系四年級 主要研究軟體工程、網頁前後端、競程， 目前主要學習ML， 此專案主要負責後端伺服器、資料庫、API。",
   },
   {
     name: "凃昀辰",
     img: "/member04.png",
-    intro: "現在就讀於資訊工程學系四年級，主要研究跨域資訊安全與CTF， 目前主要為學習ML相關知識。",
+    intro:
+      "現在就讀於資訊工程學系四年級，主要研究跨域資訊安全與CTF， 目前主要為學習ML相關知識。",
   },
 ]);
 

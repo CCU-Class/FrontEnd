@@ -3,18 +3,17 @@
     <Transition name="fade">
       <div
         v-if="showModal"
-        class="fixed inset-0 z-50 flex items-center justify-center p-4"
-      >
+        class="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div
           class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
-          @click="closeModal"
-        ></div>
+          @click="closeModal"></div>
 
         <div
-          class="relative bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden transform transition-all"
-        >
-          <div class="bg-orange-50 px-6 py-4 border-b border-orange-100">
-            <h2 class="text-xl font-bold text-orange-600 tracking-wide text-center">
+          class="relative bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden transform transition-all">
+          <div
+            class="bg-orange-50 px-6 py-4 border-b border-orange-100">
+            <h2
+              class="text-xl font-bold text-orange-600 tracking-wide text-center">
               新增課表
             </h2>
           </div>
@@ -27,37 +26,39 @@
             <div class="relative">
               <select
                 v-model="ret"
-                class="w-full appearance-none bg-gray-50 border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition cursor-pointer"
-              >
+                class="w-full appearance-none bg-gray-50 border border-gray-300 text-gray-700 py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500 transition cursor-pointer">
                 <option value="0">➕ 新增空白課表</option>
                 <option disabled>──────────</option>
                 <option
                   v-for="(tab, index) in tabs"
                   :key="index"
-                  :value="index + 1"
-                >
+                  :value="index + 1">
                   📄 複製：{{ tab.name }}
                 </option>
               </select>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                  <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+              <div
+                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg
+                  class="fill-current h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20">
+                  <path
+                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                 </svg>
               </div>
             </div>
           </div>
 
-          <div class="bg-gray-50 px-6 py-4 flex justify-between items-center gap-4">
+          <div
+            class="bg-gray-50 px-6 py-4 flex justify-between items-center gap-4">
             <button
               class="flex-1 px-4 py-2 bg-white text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 transition font-medium"
-              @click="closeModal"
-            >
+              @click="closeModal">
               取消
             </button>
             <button
               class="flex-1 px-4 py-2 bg-gradient-to-r from-orange-400 to-orange-600 text-white rounded-lg shadow-md hover:from-orange-500 hover:to-orange-700 transform active:scale-95 transition font-medium"
-              @click="SubmitModal"
-            >
+              @click="SubmitModal">
               確認新增
             </button>
           </div>
@@ -90,7 +91,7 @@ const closeModal = () => {
 
 const SubmitModal = () => {
   const copy = parseInt(ret.value);
-  
+
   if (copy === 0) {
     // 新增空白課表
     store.dispatch("addTabs", null);
@@ -101,7 +102,7 @@ const SubmitModal = () => {
     alert("輸入錯誤!");
     return;
   }
-  
+
   closeModal();
 };
 </script>
