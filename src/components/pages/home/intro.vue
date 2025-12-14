@@ -1,178 +1,125 @@
 <template>
-  <div class="w-full mx-auto">
-    <div>
-      <div class="w-full px-3 md:w-8/12 mx-auto pb-9">
-        <div class="py-6 text-center">
-          <router-link to="/main" class="btn-link">
+  <div class="w-full min-h-screen bg-gray-50/50">
+    <div class="max-w-5xl mx-auto px-4 py-8">
+      
+      <section class="max-w-3xl mx-auto mb-12 text-center">
+        <div class="py-6">
+          <router-link 
+            to="/main" 
+            class="inline-block px-6 py-2 bg-orange-400 text-white rounded-full hover:bg-orange-600 transition duration-300 shadow-md">
             > 開始使用
           </router-link>
         </div>
-        <div class="text-orange-300 font-semibold text-3xl">
+        <h1 class="text-4xl font-bold text-orange-500 mb-4 tracking-wider">
           初次見面?
-        </div>
-        <div class="text-xl text-gray-500 my-1">
-          我們是現在就讀於中正大學的學生，為了改善中正學生的排課選課體驗而建立了中正課表團隊，<br />
-          希望能透過我們所學和自身經驗打造一個更加舒適且符合中正學生所需的服務。<br /><br />
-          目前本網站提供之功能如下<br />
-          <div>
+        </h1>
+        <div class="text-lg text-gray-600 leading-relaxed">
+          <p class="mb-4">
+            我們是曾就讀於中正大學的學生，為了改善中正學生的排課選課體驗而建立了中正課表團隊，
+            希望能透過我們所學和自身經驗打造一個更加舒適且符合中正學生所需的服務。
+          </p>
+          <div class="mt-6 text-left bg-white p-6 rounded-xl shadow-sm border border-orange-100">
+            <h3 class="font-bold text-2xl text-gray-700 mb-2 border-l-4 border-orange-400 pl-2">目前功能</h3>
             <textarea
-              class="w-full h-32 bg-orange-100/50 text-gray-500 p-3"
-              v-model="feature"
-              v-if="modify"></textarea>
+              v-if="modify"
+              class="w-full h-48 bg-gray-50 border rounded p-3 text-gray-600 focus:outline-orange-300"
+              v-model="feature">
+            </textarea>
             <ol
-              class="list-decimal list-inside my-3"
-              v-html="feature"
-              v-else></ol>
+              v-else
+              class="list-decimal list-inside space-y-1 text-gray-600 ml-2"
+              v-html="feature">
+            </ol>
           </div>
         </div>
-      </div>
-      <div class="w-11/12 md:w-7/12 mx-auto my-3">
-        <div
-          class="text-center text-3xl font-bold border-b-2 mb-3 bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text">
-          成員介紹
-        </div>
-        <div
-          class="bg-orange-100/50 py-6 px-3 flex flex-col md:flex-row items-center md:items-start">
-          <div
-            class="w-[20rem] align-middle flex items-center"
-            v-lazy-container="{ selector: 'img' }">
-            <img
-              data-src="/member01.jpg"
-              class="max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]" />
-          </div>
-          <div class="text-center md:text-left md:ml-6">
-            <p
-              class="text-2xl font-bold px-5 border-b border-white text-orange-700">
-              {{ members[0].name }}
-            </p>
-            <textarea
-              class="px-6 w-[25rem] h-[10rem] py-3 text-xl bg-orange-100/50 text-gray-500"
-              v-model="members[0].intro"
-              v-if="modify">
-            </textarea>
-            <p class="px-6 py-3 text-xl" v-else>
-              {{ members[0].intro }}
-            </p>
-          </div>
-        </div>
-        <div
-          class="bg-orange-100/50 py-6 px-3 flex flex-col md:flex-row items-center md:items-start">
-          <div
-            class="w-[20rem] align-middle flex items-center"
-            v-lazy-container="{ selector: 'img' }">
-            <img
-              data-src="/member02.jpg"
-              class="max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]" />
-          </div>
-          <div class="text-center md:text-left md:ml-6">
-            <p
-              class="text-2xl font-bold px-5 border-b border-white text-orange-700">
-              {{ members[1].name }}
-            </p>
-            <textarea
-              class="px-6 w-[25rem] h-[10rem] py-3 text-xl bg-orange-100/50 text-gray-500"
-              v-model="members[1].intro"
-              v-if="modify">
-            </textarea>
-            <p class="px-6 py-3 text-xl" v-else>
-              {{ members[1].intro }}
-            </p>
-          </div>
-        </div>
-        <div
-          class="bg-orange-100/50 py-6 px-3 flex flex-col md:flex-row items-center md:items-start">
-          <div
-            class="w-[20rem] align-middle flex items-center"
-            v-lazy-container="{ selector: 'img' }">
-            <img
-              data-src="/member03.jpg"
-              class="max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]" />
-          </div>
-          <div class="text-center md:text-left md:ml-6">
-            <p
-              class="text-2xl font-bold px-5 border-b border-white text-orange-700">
-              {{ members[2].name }}
-            </p>
-            <textarea
-              class="px-6 w-[25rem] h-[10rem] py-3 text-xl bg-orange-100/50 text-gray-500"
-              v-model="members[2].intro"
-              v-if="modify">
-            </textarea>
-            <p class="px-6 py-3 text-xl" v-else>
-              {{ members[2].intro }}
-            </p>
-          </div>
-        </div>
-        <div
-          class="bg-orange-100/50 py-6 px-3 flex flex-col md:flex-row items-center md:items-start">
-          <div
-            class="w-[20rem] align-middle flex items-center"
-            v-lazy-container="{ selector: 'img' }">
-            <img
-              data-src="/member04.png"
-              class="max-w-[15rem] mx-auto md:rounded-lg rounded-[100%]" />
-          </div>
-          <div class="text-center md:text-left md:ml-6">
-            <p
-              class="text-2xl font-bold px-5 border-b border-white text-orange-700">
-              {{ members[3].name }}
-            </p>
-            <textarea
-              class="px-6 w-[25rem] h-[10rem] py-3 text-xl bg-orange-100/50 text-gray-500"
-              v-model="members[3].intro"
-              v-if="modify">
-            </textarea>
-            <p class="px-6 py-3 text-xl" v-else>
-              {{ members[3].intro }}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="w-full px-3 md:w-8/12 mx-auto py-9">
-        <div
-          class="text-center text-3xl font-bold border-b-2 mb-3 bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text">
-          版本紀錄
-        </div>
-        <div class="text-xl text-gray-500 my-1">
-          <div v-html="version" v-if="!modify"></div>
-          <textarea
-            class="w-full h-32 bg-orange-100/50 text-gray-500 p-3"
-            v-model="version"
-            v-if="modify"></textarea>
-        </div>
-      </div>
+      </section>
 
-      <div class="w-full text-center px-3 md:w-8/12 mx-auto py-9">
-        <div
-          class="text-center text-3xl font-bold mb-3 bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text">
-          聯絡我們
+      <section class="mb-16">
+        <div class="text-center mb-8">
+          <h2 class="inline-block text-3xl font-bold bg-gradient-to-r from-orange-400 to-red-600 text-transparent bg-clip-text pb-2 border-b-2 border-orange-200">
+            成員介紹
+          </h2>
         </div>
-        <div class="w-full md:w-8/12 mx-auto my-2">
-          <a href="mailto:pineappleschedule2023@gmail.com"
-            >團隊 email: pineappleschedule2023@gmail.com</a
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div 
+            v-for="(member, index) in members" 
+            :key="index"
+            class="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col md:flex-row items-center border border-orange-50"
           >
+            <div class="flex-shrink-0 mb-4 md:mb-0 md:mr-6" v-lazy-container="{ selector: 'img' }">
+              <div class="w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-orange-100 shadow-inner mx-auto">
+                <img
+                  :data-src="member.img"
+                  alt="Member Photo"
+                  class="w-full h-full object-cover" 
+                />
+              </div>
+            </div>
+            
+            <div class="flex-1 text-center md:text-left">
+              <h3 class="text-xl font-bold text-orange-700 mb-2">
+                {{ member.name }}
+              </h3>
+              
+              <textarea
+                v-if="modify"
+                class="w-full h-32 p-2 text-sm bg-gray-50 border rounded focus:outline-none focus:border-orange-300"
+                v-model="member.intro">
+              </textarea>
+              <p v-else class="text-gray-600 text-sm leading-relaxed text-justify">
+                {{ member.intro }}
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="w-full text-center px-3 md:w-8/12 mx-auto pb-2">
-        <div
-          class="text-center text-3xl font-bold mb-3 bg-gradient-to-br from-orange-300 to-red-700 text-transparent bg-clip-text">
-          相關連結
+      </section>
+
+      <section class="max-w-3xl mx-auto mb-16">
+        <div class="text-center mb-6">
+          <h2 class="inline-block text-3xl font-bold bg-gradient-to-r from-orange-400 to-red-600 text-transparent bg-clip-text pb-2 border-b-2 border-orange-200">
+            版本紀錄
+          </h2>
         </div>
-        <div class="w-full md:w-8/12 mx-auto my-5 py-5">
-          <a
-            class="btn-link"
-            href="https://github.com/syzygy608/AhriSchedule"
-            target="_blank"
-            >Github原始碼</a
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-orange-100">
+          <div v-if="!modify" v-html="version" class="text-gray-600 leading-7"></div>
+          <textarea
+            v-else
+            class="w-full h-64 bg-gray-50 border rounded p-3 text-gray-600 focus:outline-orange-300"
+            v-model="version">
+          </textarea>
+        </div>
+      </section>
+
+      <section class="text-center space-y-8">
+        <div>
+          <h2 class="text-2xl font-bold text-gray-700 mb-4">聯絡我們</h2>
+          <a 
+            href="mailto:pineappleschedule2023@gmail.com"
+            class="text-orange-600 hover:text-orange-800 hover:underline text-lg transition"
           >
-          <a
-            class="btn-link"
-            href="https://forms.gle/j9MKseJp9e89SAxJ6"
-            target="_blank"
-            >回饋表單</a
-          >
+            pineappleschedule2023@gmail.com
+          </a>
         </div>
-      </div>
+
+        <div class="border-t border-gray-200 pt-8 w-full md:w-8/12 mx-auto">
+          <h2 class="text-xl font-bold text-gray-700 mb-6">相關連結</h2>
+          <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a
+              class="px-6 py-2 border-2 border-gray-300 text-gray-600 rounded-lg hover:border-orange-500 hover:text-orange-500 transition font-medium"
+              href="https://github.com/syzygy608/AhriSchedule"
+              target="_blank">
+              <i class="fab fa-github mr-2"></i>Github 原始碼
+            </a>
+            <a
+              class="px-6 py-2 border-2 border-gray-300 text-gray-600 rounded-lg hover:border-orange-500 hover:text-orange-500 transition font-medium"
+              href="https://forms.gle/j9MKseJp9e89SAxJ6"
+              target="_blank">
+              回饋表單
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 </template>
@@ -181,8 +128,22 @@
 import { useRouter } from "vue-router";
 import { ref } from "vue";
 import Token from "@functions/token";
-const router = useRouter();
 
+const router = useRouter();
+const modify = ref(false);
+
+// 驗證 Token 邏輯
+if (localStorage.getItem("token")) {
+  const res = Token.verifyToken(localStorage.getItem("token"));
+  if (res) {
+    modify.value = true;
+    console.log("Token verified: Edit mode enabled");
+  } else {
+    console.log("Token expired");
+  }
+}
+
+// 資料區
 const feature = ref(`
   <li>手動輸入或搜尋課程資訊 (可保存於同裝置之同一瀏覽器)</li>
   <li>自動計算學分</li>
@@ -198,64 +159,45 @@ const feature = ref(`
   <li>課表分享功能</li>
 `);
 
-const version = ref(`
-v 0.0.1 第一次公開測試版本開放 <br />
-v 0.0.2 UI大規模重構與優化，準備加入搜尋功能 <br />
-v 0.0.5 UI全面使用Tailwind改寫 <br />
-v 0.0.6 加入搜尋功能，並使用MySQL當作資料庫 <br />
-v 0.0.7 資料庫更改為postgreSQL <br />
-v 0.0.8 增加計算學分之功能 <br />
-v 1.0.0 使用 Vue + Typescript
-來完全重構本網站，並新增數個新功能
-<br />
-v 1.0.1 與 ccu.plus 合作，新增查看 ccu.plus 評價功能<br />
-v 1.0.2 更新課表合併方式，提供更穩定的課表渲染。<br />
-v 1.0.3 新增時間搜尋、教師名稱搜尋功能。<br />
-v 1.0.4 新增系所年級搜尋功能。<br />
-v 1.0.5
-課程列表可以顯示更多課程資訊，新增選擇課程時的衝堂顏色標示。<br />
-v 1.0.6
-新增歷年課程查詢功能，新增建立多組課表功能，新增課表分享功能。<br />
-`);
-
+// 將圖片路徑整合進陣列，方便 v-for 渲染
 const members = ref([
   {
     name: "吳翰平",
-    intro:
-      "現在就讀於中正大學資訊工程學系四年級，目前正在鑽研程式演算法競賽與網頁前後端工程，負責本網站的前端工程，是一位 Vue 新手。",
+    img: "/member01.jpg",
+    intro: "曾讀於中正大學資訊工程學系，目前為成功大學資訊工程研究所學生，負責本網站的前端工程，是一位 Vue 新手。",
   },
   {
     name: "王子銜",
-    intro:
-      "中正大學通訊工程學系四年級，主要研究網頁前後端與演算法競賽。 2023 中研院 Summer intern",
+    img: "/member02.jpg",
+    intro: "中正大學通訊工程學系四年級，主要研究網頁前後端與演算法競賽。 2023 中研院 Summer intern",
   },
   {
     name: "楊其龍",
-    intro:
-      "中正大學資訊工程學系四年級 主要研究軟體工程、網頁前後端、競程， 目前主要學習ML， 此專案主要負責後端伺服器、資料庫、API。",
+    img: "/member03.jpg",
+    intro: "中正大學資訊工程學系四年級 主要研究軟體工程、網頁前後端、競程， 目前主要學習ML， 此專案主要負責後端伺服器、資料庫、API。",
   },
   {
     name: "凃昀辰",
-    intro:
-      "現在就讀於資訊工程學系四年級，主要研究跨域資訊安全與CTF， 目前主要為學習ML相關知識。",
+    img: "/member04.png",
+    intro: "現在就讀於資訊工程學系四年級，主要研究跨域資訊安全與CTF， 目前主要為學習ML相關知識。",
   },
 ]);
 
-const modify = ref(false);
-
-if (localStorage.getItem("token")) {
-  const res = Token.verifyToken(localStorage.getItem("token"));
-  if (res) {
-    modify.value = true;
-    console.log("Token verified");
-  } else {
-    console.log("Token expired");
-  }
-}
+const version = ref(`
+<ul class="list-disc pl-5 space-y-2">
+  <li><strong>v 0.0.1</strong> 第一次公開測試版本開放</li>
+  <li><strong>v 0.0.2</strong> UI大規模重構與優化，準備加入搜尋功能</li>
+  <li><strong>v 0.0.5</strong> UI全面使用Tailwind改寫</li>
+  <li><strong>v 0.0.6</strong> 加入搜尋功能，並使用MySQL當作資料庫</li>
+  <li><strong>v 1.0.0</strong> 使用 Vue + Typescript 完全重構本網站</li>
+  <li><strong>v 1.0.1</strong> 新增 ccu.plus 評價功能</li>
+  <li><strong>v 1.0.3</strong> 新增時間搜尋、教師名稱搜尋功能</li>
+  <li><strong>v 1.0.6</strong> 新增歷年課程查詢、多組課表、分享功能</li>
+  <li><strong>v 1.1.0</strong> 因應中正大學新選課系統上線，微調架構並修正寬螢幕 BUG</li>
+</ul>
+`);
 </script>
 
-<style>
-.vue-carousel__indicator::before {
-  background-color: black;
-}
+<style scoped>
+/* 如果有需要額外的 CSS 可以寫在這，但大部分已使用 Tailwind 處理 */
 </style>

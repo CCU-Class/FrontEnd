@@ -105,7 +105,6 @@ function searchAdd(course_list: Course[]) {
   // push the course object to the local storage
   // store information in the database
   // return the status of the operation
-  // console.log(course_list);
   let activeIndex = store.state.course.activeIndex;
   let TotalCourseData = store.state.course.TotalCourseData;
   let table = _.cloneDeep(
@@ -114,7 +113,6 @@ function searchAdd(course_list: Course[]) {
   // put the list of courses into the table
   for (let i = 0; i < course_list.length; i++) {
     let course = course_list[i];
-    // console.log(course);
     let weekDayIndex = WeekDayToInt[course.getWeekDay()]; // 2 is the offset of the first two columns
     let startHour = courseToStartIndex[course.getStartTime()];
     let endHour = courseToEndIndex[course.getEndTime()];

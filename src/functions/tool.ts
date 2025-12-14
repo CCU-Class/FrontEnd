@@ -1,8 +1,9 @@
 export function splittime(time: string) {
-  // console.log(time)
   // 回傳值為二維陣列，為[][],內部陣列為[星期, 開始節次, 結束節次]
+  // 移除前後空白
+  time = time.trim();
+  // 以空白分割不同的時間區段
   let store = time.split(" ");
-  store.splice(0, 1);
   let arr: [string, string, string][] = [];
   for (let i = 0; i < store.length; i++) {
     let temp = store[i][0];

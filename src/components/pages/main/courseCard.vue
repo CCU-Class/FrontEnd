@@ -2,7 +2,7 @@
   <td
     v-if="item.getIsCourse()"
     v-show="item.getLength()"
-    class="text-center p-0 h-full relative overflow-hidden card"
+    class="text-center p-0 h-full relative overflow-hidden card w-[8.5rem]"
     :class="{ title: item.getIsTitle(), course: item.getIsCourse() }"
     style="height: 50px"
     :style="{

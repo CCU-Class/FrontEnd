@@ -50,7 +50,7 @@ thead > tr > th {
   @apply text-center text-gray-900 py-1.5 font-semibold min-w-[9rem];
 }
 .title {
-  @apply w-16 text-xl text-gray-700 font-serif;
+  @apply w-16 text-xl text-gray-700 font-serif bg-orange-300/25 rounded-md;
 }
 .course {
   @apply rounded-md font-bold text-base;

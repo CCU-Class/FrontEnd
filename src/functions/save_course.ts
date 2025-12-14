@@ -8,7 +8,7 @@ export async function recordsharecourse(data: any) {
   const json_data = JSON.stringify(data);
   return new Promise((resolve, reject) => {
     axios
-      .post(apiUrl, { json_data }) // 直接发送 data 作为请求体
+      .post(apiUrl, { json_data })
       .then((response) => {
         // 在這裡處理回應資料
         let link =

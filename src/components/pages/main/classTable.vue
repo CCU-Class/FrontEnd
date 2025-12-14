@@ -20,7 +20,8 @@
               :class="{ selectDisplayColor: item.display }"></div>
           </div>
           <div class="table-head w-[8.5rem]"></div>
-          <div class="virtualtable">
+
+          <div class="virtualtable flex-1 w-0">
             <div class="virtualtablehead"></div>
             <drag-select
               v-model="selection"
@@ -34,7 +35,7 @@
               </drag-select-option>
             </drag-select>
           </div>
-          <div class="virtualtable">
+          <div class="virtualtable flex-1 w-0">
             <div class="virtualtablehead"></div>
             <drag-select
               v-model="selection"
@@ -48,7 +49,7 @@
               </drag-select-option>
             </drag-select>
           </div>
-          <div class="virtualtable">
+          <div class="virtualtable flex-1 w-0">
             <div class="virtualtablehead"></div>
             <drag-select
               v-model="selection"
@@ -62,7 +63,7 @@
               </drag-select-option>
             </drag-select>
           </div>
-          <div class="virtualtable">
+          <div class="virtualtable flex-1 w-0">
             <div class="virtualtablehead"></div>
             <drag-select
               v-model="selection"
@@ -76,7 +77,7 @@
               </drag-select-option>
             </drag-select>
           </div>
-          <div class="virtualtable">
+          <div class="virtualtable flex-1 w-0">
             <div class="virtualtablehead"></div>
             <drag-select
               v-model="selection"
@@ -90,7 +91,7 @@
               </drag-select-option>
             </drag-select>
           </div>
-          <div class="virtualtable">
+          <div class="virtualtable flex-1 w-0">
             <div class="virtualtablehead"></div>
             <drag-select
               v-model="selection"
@@ -105,6 +106,7 @@
             </drag-select>
           </div>
         </div>
+        
         <div class="z-10 w-full flex">
           <table
             class="bg-orange-100 w-full border-separate"
@@ -182,14 +184,14 @@ const status = computed(() => store.state.course.show);
 const show_credit = computed(() => store.state.course.show_credit);
 const open_credit = () => store.dispatch("show_credit");
 const close_credit = () => store.dispatch("hidden_credit");
-// let course_data = computed(() => store.state.course.classStorage);
-// let courseList = computed(() => store.state.course.classListStorage);
-// let credit = computed(() => store.state.course.credit);
 let TotalCourseData = computed(
-  () => store.state.course.TotalCourseData,
+  () => store.state.course.TotalCourseData
+);
+const doubleCount = computed(
+  () => count.value * 2,
+  
 );
 let activeIndex = computed(() => store.state.course.activeIndex);
-
 const hidden = () => {
   store.dispatch("hidden");
 };
@@ -202,31 +204,8 @@ const env = import.meta.env;
 
 const week = ["一", "二", "三", "四", "五", "六"];
 const classes = [
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  15,
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "G",
-  "H",
-  "I",
-  "J",
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
+  "A", "B", "C", "D", "E", "F", "G", "H", "I", "J",
 ];
 const className = ref();
 const classRoom = ref();
@@ -255,7 +234,6 @@ watch(searchInput, async (inputValue) => {
   if (inputValue != "") {
     isLoading.value = true;
     show_search_box.value = true;
-    // console.log(show_search_box.value)
     data.value = await searchCourse(inputValue);
     isLoading.value = false;
   } else {
@@ -265,7 +243,6 @@ watch(searchInput, async (inputValue) => {
 });
 
 watch(selection, async () => {
-  // console.log(selection.value)
   for (let i = 0; i < 30; i++) {
     selectDisplay.value[i].display = false;
   }
@@ -274,13 +251,9 @@ watch(selection, async () => {
   }
 });
 
-// 測試右鍵監聽
 async function showsearchclass(event) {
-  // console.log('监听右键点击');
   try {
-    // 使用 let 或 const 来声明局部变量
     store.dispatch("setSearchTimeTable", true);
-    // console.log(selection.value[0]['0'] + 1, selection.value[0]['1'], selection.value.slice(-1)[0]['1']);
     store.dispatch("settimeSearchArgument", [
       selection.value[0]["0"] + 1,
       selection.value[0]["1"],
@@ -288,18 +261,14 @@ async function showsearchclass(event) {
     ]);
     selection.value = [];
   } catch (error) {
-    console.error("异步操作出错:", error);
+    console.error("Error in showsearchclass:", error);
   }
 }
 
 onMounted(() => {
   store.dispatch("initAll");
-  // console.log(activeIndex.value);
-  // console.log(TotalCourseData.value[activeIndex.value].classStorage);
-  // using env to control <ul> display
   let ul = document.getElementById("result");
   if (ul != null) {
-    // ul's max-height is 2rem x env.VITE_UL_ROW
     ul.style.maxHeight = (2 * env.VITE_UL_ROW).toString() + "rem";
   }
   for (let index = 0; index <= 5; index++) {
@@ -315,29 +284,19 @@ onMounted(() => {
 });
 
 var delete_course = function (item) {
-  // 刪除課程
-  // console.log(item);
   if (item.getCredit() != null) {
-    // console.log(credit.value);
     decreaseCredit(item.getCredit());
-    // credit.value -= item.getCredit();
-    // console.log(credit.value);
   }
-  // 再刪除函式裡面去更改store狀態
   courseDelete(item);
-  // _2data_to_1d();
 };
 
 var show_popover = function () {
-  // 顯示 popover
   let popover = document.getElementById("popover");
   popover.classList.remove("hidden");
   popover.classList.add("block");
 };
 
 var show_list = function () {
-  // 顯示課程列表
-  // _2data_to_1d();
   class_list_visible.value = !class_list_visible.value;
 };
 
