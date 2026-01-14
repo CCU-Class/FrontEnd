@@ -198,8 +198,7 @@ const members = ref([
   {
     name: "凃昀辰",
     img: "/member04.png",
-    intro:
-      "主要研究跨域資訊安全與CTF， 目前主要為學習ML相關知識。",
+    intro: "主要研究跨域資訊安全與CTF， 目前主要為學習ML相關知識。",
   },
 ]);
 
