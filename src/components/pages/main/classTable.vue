@@ -88,24 +88,14 @@
                   'timeline-course-content--compact':
                     isCompactSession(session),
                 }">
-                <span
-                  v-if="isCompactSession(session)"
-                  class="timeline-course-time timeline-course-time--compact">
-                  {{ formatMinute(session.startMinute) }}–{{
-                    formatMinute(session.endMinute)
-                  }}
-                </span>
-                <template v-else>
-                  <span class="timeline-course-time">
-                    {{ formatMinute(session.startMinute) }}
+                <span class="timeline-course-time-range">
+                  <span class="timeline-course-time-start">
+                    {{ formatMinute(session.startMinute) }} –
                   </span>
-                  <span class="timeline-course-time-separator"
-                    >–</span
-                  >
-                  <span class="timeline-course-time">
+                  <span class="timeline-course-time-end">
                     {{ formatMinute(session.endMinute) }}
                   </span>
-                </template>
+                </span>
                 <span class="timeline-course-period">
                   {{ session.periodLabel }}
                 </span>

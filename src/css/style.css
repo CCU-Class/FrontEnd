@@ -331,8 +331,6 @@ thead > tr > th {
   box-shadow: inset 0 0 0 1px rgb(220 38 38 / 0.35);
 }
 
-.timeline-course-time,
-.timeline-course-time-separator,
 .timeline-course-period,
 .timeline-course-name,
 .timeline-course-room {
@@ -343,18 +341,25 @@ thead > tr > th {
   word-break: break-word;
 }
 
-.timeline-course-time,
-.timeline-course-time-separator {
+.timeline-course-time-range {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.25em;
+  row-gap: 0;
   font-size: clamp(0.42rem, 1.8vw, 0.54rem);
   line-height: 1;
 }
 
-.timeline-course-time-separator {
-  line-height: 0.72;
+.timeline-course-time-start,
+.timeline-course-time-end {
+  white-space: nowrap;
 }
 
-.timeline-course-time--compact {
-  white-space: nowrap;
+.timeline-course-content--compact .timeline-course-time-range {
   font-size: clamp(0.4rem, 1.65vw, 0.52rem);
 }
 
@@ -421,17 +426,12 @@ thead > tr > th {
     gap: 0;
   }
 
-  .timeline-course-time,
-  .timeline-course-time-separator {
+  .timeline-course-time-range {
     font-size: 0.65rem;
     line-height: 0.72rem;
   }
 
-  .timeline-course-time-separator {
-    line-height: 0.55rem;
-  }
-
-  .timeline-course-time--compact {
+  .timeline-course-content--compact .timeline-course-time-range {
     font-size: 0.58rem;
   }
 
