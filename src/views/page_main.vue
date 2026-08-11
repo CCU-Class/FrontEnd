@@ -38,7 +38,7 @@ onMounted(async () => {
 <template>
   <div
     id="main"
-    class="flex w-full min-w-0 max-w-full overflow-x-hidden">
+    class="flex w-full min-w-0 max-w-full overflow-x-clip">
     <div class="w-full min-w-0">
       <Navbar />
       <splitpanes class="w-full min-w-0 bg-white">
