@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full max-w-[60rem] overflow-x-auto rounded-lg bg-orange-100 px-2 py-2 mx-auto flex flex-nowrap md:w-9/12 lg:w-6/12">
+    class="w-full overflow-x-auto rounded-lg bg-orange-100 px-2 py-2 mx-auto flex flex-nowrap md:w-[calc(100%-2rem)] md:max-w-[960px]">
     <div
       v-for="(tab, index) in tabs"
       :key="index"

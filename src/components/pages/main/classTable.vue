@@ -31,7 +31,7 @@
 
     <div
       id="WholeTable"
-      class="mx-auto my-3 w-full min-w-0 overflow-hidden rounded-lg bg-orange-50 px-1 py-2 md:px-2">
+      class="mx-auto my-3 w-full min-w-0 overflow-hidden rounded-lg bg-orange-50 px-1 py-2 md:w-[calc(100%-2rem)] md:max-w-[960px] md:px-2">
       <p class="px-2 pb-2 text-right text-sm" v-show="showCredit">
         目前學分：{{ activeCourseData?.credit ?? 0 }}
       </p>
