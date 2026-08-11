@@ -2,7 +2,7 @@
   <td
     v-if="item.getIsCourse()"
     v-show="item.getLength()"
-    class="text-center p-0 h-full relative overflow-hidden card w-[8.5rem]"
+    class="text-center p-0 h-full relative overflow-hidden card w-auto md:w-[8.5rem]"
     :class="{ title: item.getIsTitle(), course: item.getIsCourse() }"
     style="height: 50px"
     :style="{
@@ -17,10 +17,16 @@
       <transition name="fliping">
         <!-- 正面 -->
         <div :key="isFliped ? 'back' : 'front'">
-          <div v-if="!isFliped" id="front">
-            <div>{{ item.getStartTime() }}</div>
-            <div>{{ item.getCourseName() }}</div>
-            <div>{{ item.getClassroom() }}</div>
+          <div v-if="!isFliped" id="front" class="course-card-front">
+            <div class="course-card-time">
+              {{ item.getStartTime() }}
+            </div>
+            <div class="course-card-name">
+              {{ item.getCourseName() }}
+            </div>
+            <div class="course-card-room">
+              {{ item.getClassroom() }}
+            </div>
           </div>
           <!-- 反面 -->
           <div v-else id="back">
@@ -60,9 +66,9 @@
     }"
     @mouseenter="showButton = true"
     @mouseleave="showButton = false">
-    <div>{{ item.getStartTime() }}</div>
-    <div>{{ item.getCourseName() }}</div>
-    <div>{{ item.getClassroom() }}</div>
+    <div class="course-card-time">{{ item.getStartTime() }}</div>
+    <div class="course-card-name">{{ item.getCourseName() }}</div>
+    <div class="course-card-room">{{ item.getClassroom() }}</div>
   </td>
 </template>
 
