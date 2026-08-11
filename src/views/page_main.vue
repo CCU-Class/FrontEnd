@@ -3,7 +3,6 @@ import { computed, watch, ref, onMounted, onUnmounted } from "vue";
 import Navbar from "@components/layout/navbar.vue";
 import Foot from "@components/layout/footer.vue";
 import ClassTable from "@components/pages/main/classTable.vue";
-import Box from "@components/pages/main/search_box.vue";
 import comment from "@components/pages/main/comment.vue";
 import inputArea from "@components/pages/main/inputArea.vue";
 import Colorpick from "@components/pages/main/colorTemplate.vue";
@@ -12,9 +11,6 @@ import Modal from "@components/pages/main/modal.vue";
 import course_tab from "@components/pages/main/course_tab.vue";
 import store from "../store";
 
-const show_colorpick = computed(
-  () => store.state.course.show_ColorPick,
-);
 const show_search_mode = computed(
   () => store.state.course.timeSearchMode,
 );
@@ -52,18 +48,19 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="main" class="flex">
-    <div>
+  <div
+    id="main"
+    class="flex w-full min-w-0 max-w-full overflow-x-hidden">
+    <div class="w-full min-w-0">
       <Navbar />
-      <Box />
-      <splitpanes class="bg-white">
-        <pane class="w-full" min-size="50" size="70">
+      <splitpanes class="w-full min-w-0 bg-white">
+        <pane class="w-full min-w-0" min-size="50" size="70">
           <div
-            class="h-full"
+            class="h-full w-full min-w-0"
             :class="{ main_page_left: status }"
             ref="left">
             <inputArea />
-            <Colorpick v-show="show_colorpick" />
+            <Colorpick />
             <course_tab />
             <timeSelection :message="wid" />
             <classTable />

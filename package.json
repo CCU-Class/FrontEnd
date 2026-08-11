@@ -40,7 +40,6 @@
     "vue-lazyload": "^3.0.0",
     "vue-router": "^4.2.2",
     "vue-spinner": "^1.0.4",
-    "vue3-draggable-resizable": "^1.6.5",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

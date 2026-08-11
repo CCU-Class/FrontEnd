@@ -29,7 +29,6 @@ declare module 'vue' {
     Notify: typeof import('./src/components/pages/home/notify.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Search_box: typeof import('./src/components/pages/main/search_box.vue')['default']
     Teacher: typeof import('./src/components/pages/main/serach_modes/teacher.vue')['default']
     Time: typeof import('./src/components/pages/main/serach_modes/time.vue')['default']
     TimeSelection: typeof import('./src/components/pages/main/timeSelection.vue')['default']

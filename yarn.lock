@@ -10190,9 +10190,6 @@ vue@^3.0.0, vue@^3.2.0, vue@^3.2.25, vue@^3.2.x, vue@^3.3.4, vue@>=3.0.3, vue@>=
     "@vue/server-renderer" "3.3.4"
     "@vue/shared" "3.3.4"
 
-vue3-draggable-resizable@^1.6.5:
-  version "1.6.5"
-
 vuex@^4.0.2:
   version "4.1.0"
   dependencies:
