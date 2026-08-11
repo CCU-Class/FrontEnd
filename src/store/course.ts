@@ -32,6 +32,35 @@ interface CourseData {
   credit: number;
 }
 
+interface CourseAppearanceUpdate {
+  uuid: string;
+  color?: string;
+  textColor?: string;
+}
+
+const DEFAULT_COURSE_COLOR =
+  env.VITE_CARD_DEFAULT_COLOR || "rgb(192 215 193 / 1)";
+
+function isBlankColor(color: string | null | undefined): boolean {
+  return typeof color !== "string" || color.trim() === "";
+}
+
+function normalizeCourseColors(courseData: CourseData): boolean {
+  let changed = false;
+  const applyDefaultColor = (course: Course) => {
+    if (course.getIsCourse() && isBlankColor(course.getColor())) {
+      course.setColor(DEFAULT_COURSE_COLOR);
+      changed = true;
+    }
+  };
+
+  courseData.classListStorage.forEach(applyDefaultColor);
+  courseData.classStorage.forEach((row) =>
+    row.forEach(applyDefaultColor),
+  );
+  return changed;
+}
+
 function Transfer(data: any) {
   let temp: Course[][] = [];
   for (let i = 0; i < data.length; i++) {
@@ -92,7 +121,7 @@ const store: Module<State, any> = {
     show_ColorPick: false,
     chooseCard: null,
     cardMode: 0,
-    defaultColor: env.VITE_CARD_DEFAULT_COLOR,
+    defaultColor: DEFAULT_COURSE_COLOR,
     showTable: true,
     show_credit: false,
     searchTime_status: false,
@@ -128,6 +157,7 @@ const store: Module<State, any> = {
       if (TotalCourseData === null) {
         console.log("initAll debug");
         state.TotalCourseData = OldDataTransfer();
+        state.TotalCourseData.forEach(normalizeCourseColors);
         console.log(state.TotalCourseData);
         localStorage.setItem(
           "TotalCourseData",
@@ -136,6 +166,7 @@ const store: Module<State, any> = {
         return;
       }
       state.TotalCourseData = JSON.parse(TotalCourseData);
+      let colorsNormalized = false;
       for (let i = 0; i < state.TotalCourseData.length; i++) {
         state.TotalCourseData[i].classStorage = rowspanize(
           Transfer(state.TotalCourseData[i].classStorage),
@@ -144,6 +175,15 @@ const store: Module<State, any> = {
           Transfer_class_list(
             state.TotalCourseData[i].classListStorage,
           );
+        colorsNormalized =
+          normalizeCourseColors(state.TotalCourseData[i]) ||
+          colorsNormalized;
+      }
+      if (colorsNormalized) {
+        localStorage.setItem(
+          "TotalCourseData",
+          JSON.stringify(state.TotalCourseData),
+        );
       }
     },
     // initCourseFromLocalstorage(state: State) {
@@ -280,6 +320,30 @@ const store: Module<State, any> = {
     },
     setDefaultColor(state: State, color: string) {
       state.defaultColor = color;
+    },
+    updateCourseAppearance(
+      state: State,
+      update: CourseAppearanceUpdate,
+    ) {
+      const courseData = state.TotalCourseData[state.activeIndex];
+      if (!courseData) return;
+
+      const updateCourse = (course: Course) => {
+        if (course.getUuid() !== update.uuid) return;
+        if (update.color !== undefined) course.setColor(update.color);
+        if (update.textColor !== undefined) {
+          course.setTextColor(update.textColor);
+        }
+      };
+
+      courseData.classListStorage.forEach(updateCourse);
+      courseData.classStorage.forEach((row) =>
+        row.forEach(updateCourse),
+      );
+      localStorage.setItem(
+        "TotalCourseData",
+        JSON.stringify(state.TotalCourseData),
+      );
     },
     setShowTable(state: State, Bool: boolean) {
       state.showTable = Bool;
@@ -448,6 +512,12 @@ const store: Module<State, any> = {
     setDefaultColor(context: any, color: string) {
       // console.log(color)
       context.commit("setDefaultColor", color);
+    },
+    updateCourseAppearance(
+      context: any,
+      update: CourseAppearanceUpdate,
+    ) {
+      context.commit("updateCourseAppearance", update);
     },
     setShowTable(context: any, Bool: boolean) {
       // console.log("change")

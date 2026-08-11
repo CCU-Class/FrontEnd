@@ -220,7 +220,7 @@ export function push_to_table(mode: Number, item: any) {
         classroom: item.class_room,
         is_title: false,
         is_course: true,
-        color: env.VITE_CARD_DEFAAULT_COLOR,
+        color: env.VITE_CARD_DEFAULT_COLOR,
         Credit: item.credit,
         ID: item.id,
         is_custom: false,
