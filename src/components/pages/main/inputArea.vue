@@ -32,38 +32,57 @@
           <Custom v-if="searchType == '自定義新增課程'" />
         </div>
         <hr class="mx-3 my-3 text-slate-300" />
-        <div class="flex place-content-end items-center">
+        <div
+          class="flex w-full flex-col gap-2 lg:flex-row lg:place-content-center lg:items-center">
+          <!-- 顯示學分 -->
           <div
-            class="flex justify-between items-center"
+            class="flex w-full items-start justify-center lg:w-auto"
             @click="toggleActive1 = !toggleActive1">
             <div
-              class="w-12 h-6 flex items-center bg-gray-300 rounded-full duration-300 ease-in-out"
+              class="w-12 h-6 flex shrink-0 items-center bg-gray-300 rounded-full duration-300 ease-in-out"
               :class="{ 'bg-orange-300': toggleActive1 }">
               <div
                 class="bg-white w-5 h-5 rounded-full shadow-md transform duration-300 ease-in-out"
                 :class="{ 'translate-x-7': toggleActive1 }"></div>
             </div>
-            <span class="mx-3 py-1 min-w-[4rem]"> 顯示學分 </span>
+
+            <span class="ml-3 py-1 whitespace-nowrap">
+              顯示學分
+            </span>
           </div>
-          <button class="btn-normal w-[8rem]" v-on:click="show_list">
-            課程列表
-            <CaretDownOutlined />
-          </button>
-          <button class="btn-normal w-[8rem]" v-on:click="clearTable">
-            清空課表
-            <DeleteOutlined />
-          </button>
-          <button
-            class="btn-normal w-[8rem]"
-            v-on:click="shareTable"
-            id="share">
-            分享課表
-            <ExportOutlined />
-          </button>
-          <button class="btn-normal w-[8rem]" v-on:click="download">
-            下載課表
-            <DownloadOutlined />
-          </button>
+
+          <!-- 4 個按鈕部分 -->
+          <div
+            class="grid w-full min-w-0 grid-cols-2 gap-2 md:grid-cols-4 md:gap-3 lg:flex lg:w-auto lg:gap-2">
+            <button
+              class="btn-normal inline-flex w-full min-w-0 items-center justify-center gap-1.5 lg:w-[8rem]"
+              v-on:click="show_list">
+              <span>課程列表</span>
+              <CaretDownOutlined class="shrink-0 text-sm" />
+            </button>
+
+            <button
+              class="btn-normal inline-flex w-full min-w-0 items-center justify-center gap-1.5 lg:w-[8rem]"
+              v-on:click="clearTable">
+              <span>清空課表</span>
+              <DeleteOutlined class="shrink-0 text-sm" />
+            </button>
+
+            <button
+              class="btn-normal inline-flex w-full min-w-0 items-center justify-center gap-1.5 lg:w-[8rem]"
+              v-on:click="shareTable"
+              id="share">
+              <span>分享課表</span>
+              <ExportOutlined class="shrink-0 text-sm" />
+            </button>
+
+            <button
+              class="btn-normal inline-flex w-full min-w-0 items-center justify-center gap-1.5 lg:w-[8rem]"
+              v-on:click="download">
+              <span>下載課表</span>
+              <DownloadOutlined class="shrink-0 text-sm" />
+            </button>
+          </div>
         </div>
         <div id="class_list" v-if="class_list_visible === true">
           <p class="text-right py-2 mx-3" v-show="show_credit">
