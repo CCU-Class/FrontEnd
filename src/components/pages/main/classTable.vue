@@ -1,7 +1,7 @@
 <template>
   <section class="w-full max-w-full select-none">
     <div
-      v-if="TimeMode"
+      v-if="canSelectTime"
       class="sticky top-0 z-30 mx-1 mb-2 flex flex-wrap items-center justify-between gap-2 rounded-lg bg-purple-50 px-3 py-2 shadow-md">
       <div>
         <p class="font-semibold text-purple-900">
@@ -61,7 +61,7 @@
         <div
           ref="timelineDays"
           class="timeline-days"
-          :class="{ 'timeline-days--selecting': TimeMode }"
+          :class="{ 'timeline-days--selecting': canSelectTime }"
           @pointerdown="startTimeSelection"
           @pointermove="moveTimeSelection"
           @pointerup="finishTimeSelection"
@@ -120,7 +120,7 @@
           </div>
 
           <div
-            v-if="TimeMode"
+            v-if="canSelectTime"
             class="timeline-selection-layer"
             aria-label="選取課程搜尋時間">
             <div
@@ -266,6 +266,12 @@ const activeCourseData = computed(
 );
 const showCredit = computed(() => store.state.course.show_credit);
 const TimeMode = computed(() => store.state.course.timeSearchMode);
+const isTimeSearchOpen = computed(
+  () => store.state.course.searchTime_status,
+);
+const canSelectTime = computed(
+  () => TimeMode.value && !isTimeSearchOpen.value,
+);
 const sessions = computed(() => {
   const data = activeCourseData.value;
   if (!data) return [];
@@ -421,7 +427,7 @@ function pointerToSelection(event) {
 }
 
 function startTimeSelection(event) {
-  if (!TimeMode.value) return;
+  if (!canSelectTime.value) return;
   event.preventDefault();
   const point = pointerToSelection(event);
   if (!point) return;
@@ -433,7 +439,7 @@ function startTimeSelection(event) {
 }
 
 function moveTimeSelection(event) {
-  if (!TimeMode.value || !timeSelection.dragging) return;
+  if (!canSelectTime.value || !timeSelection.dragging) return;
   event.preventDefault();
   const point = pointerToSelection(event);
   if (point) timeSelection.endIndex = point.slot;
@@ -473,6 +479,10 @@ function submitTimeSelection() {
 
 watch(TimeMode, (enabled) => {
   if (!enabled) clearTimeSelection();
+});
+
+watch(isTimeSearchOpen, (open) => {
+  if (open) clearTimeSelection();
 });
 
 watch(selectedSession, (session, previousSession) => {

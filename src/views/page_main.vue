@@ -11,9 +11,6 @@ import Modal from "@components/pages/main/modal.vue";
 import course_tab from "@components/pages/main/course_tab.vue";
 import store from "../store";
 
-const show_search_mode = computed(
-  () => store.state.course.timeSearchMode,
-);
 import { Splitpanes, Pane } from "splitpanes";
 import "splitpanes/dist/splitpanes.css";
 
@@ -25,25 +22,16 @@ watch(status, async (val) => {
 });
 
 import { getVisitCount, visitWeb } from "@functions/web_statistic.ts";
-import Time from "../components/pages/main/serach_modes/time.vue";
-import TimeSelection from "../components/pages/main/timeSelection.vue";
 const visitCount = ref(0);
 
 onUnmounted(() => {
   document.body.style.overflow = "auto";
 });
 
-const left = ref();
-const wid = ref();
-const resizeObserver = new ResizeObserver((entries) => {
-  wid.value = entries.slice(-1)[0].target.clientWidth;
-});
-
 onMounted(async () => {
   let succ = await visitWeb("main"); // 訪問網站 目前在後台測試已經成功
   visitCount.value = await getVisitCount("main");
   console.log(`visit count: ${visitCount.value}`);
-  resizeObserver.observe(left.value);
 });
 </script>
 
@@ -57,12 +45,11 @@ onMounted(async () => {
         <pane class="w-full min-w-0" min-size="50" size="70">
           <div
             class="h-full w-full min-w-0"
-            :class="{ main_page_left: status }"
-            ref="left">
+            :class="{ main_page_left: status }">
             <inputArea />
             <Colorpick />
             <course_tab />
-            <timeSelection :message="wid" />
+            <timeSelection />
             <classTable />
           </div>
         </pane>

@@ -1,106 +1,116 @@
 <template>
-  <div
-    class="fixed z-30 top-0 left-0 h-screen w-screen flex items-center backdrop-blur-sm"
-    v-show="status"
-    :style="{ width: widthnum }">
+  <Teleport to="body">
     <div
-      class="max-h-4/6 w-full md:w-6/12 mx-auto bg-white px-3 py-2 rounded-lg drop-shadow-xl">
-      <div class="px-6 py-6">
-        <div
-          class="flex justify-between border-b border-b-orange-200 pb-2 mb-2">
-          <div class="text-2xl font-bold text-orange-300">
-            課程時間搜尋
-          </div>
-          <CloseCircleOutlined
-            class="text-2xl font-bold cursor-pointer text-purple-900"
-            @click="close" />
-        </div>
-        <div
-          class="mx-1"
-          v-if="search_class_list_in_timemode.length && !isLoading">
-          <div class="flex items-center" @click="clickState()">
+      v-if="status"
+      class="fixed inset-0 z-[60] flex items-end justify-center bg-black/40 p-3 sm:items-center"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="time-search-title"
+      @pointerdown.stop>
+      <div
+        class="max-h-[85dvh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white px-3 py-2 shadow-2xl">
+        <div class="px-6 py-6">
+          <div
+            class="flex justify-between border-b border-b-orange-200 pb-2 mb-2">
             <div
-              class="w-[4.2em] h-6 flex items-center bg-gray-300 rounded-full duration-300 ease-in-out"
-              :class="{
-                'bg-orange-300': toggle == 1,
-                'bg-purple-300': toggle == 2,
-              }">
-              <div
-                class="bg-white w-5 h-5 rounded-full shadow-md transform duration-300 ease-in-out"
-                :class="{
-                  'translate-x-6': toggle == 1,
-                  'translate-x-12': toggle == 2,
-                }"></div>
-            </div>
-            <span class="mx-3 py-1 min-w-[4rem]" v-if="toggle == 0">
-              顯示所有課程
-            </span>
-            <span class="mx-3 py-1 min-w-[4rem]" v-if="toggle == 1">
-              僅顯示通識課程
-            </span>
-            <span class="mx-3 py-1 min-w-[4rem]" v-if="toggle == 2">
-              僅顯示非通識課程
-            </span>
-          </div>
-        </div>
-        <div
-          class="overflow-x-hidden mt-4 overflow-y-auto max-h-80"
-          v-show="search_inform">
-          <loadingSpinner
-            v-if="isLoading"
-            style="height: auto"></loadingSpinner>
-          <div
-            v-for="item in filteredClassList"
-            class="w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white cursor-pointer border-2"
-            :class="{ conflict: item.conflict }"
-            @click="show_inform(item)">
-            {{ item.class_name }} {{ item.teacher }}
-            {{ item.class_time }}
-          </div>
-          <div
-            v-if="!search_class_list_in_timemode.length && !isLoading"
-            class="text-center">
-            此時段無課程
-          </div>
-        </div>
-        <div v-show="show_content_search_by_time" class="mt-4">
-          <div
-            class="bg-green-100/60 w-full h-40 border-green-200 pd-5 py-3 px-3 border-2 font-mono mt-6 flex">
-            <!-- 使用到selectedCourse -->
-            <div class="text-sm w-full pt-2">
-              <p>課程ID: {{ selectedCoursesearchtime.id }}</p>
-              <p>
-                課程名稱: {{ selectedCoursesearchtime.class_name }}
-              </p>
-              <p>教師: {{ selectedCoursesearchtime.teacher }}</p>
-              <p>學分: {{ selectedCoursesearchtime.credit }}</p>
-              <p>教室: {{ selectedCoursesearchtime.class_room }}</p>
-              <p>時間: {{ selectedCoursesearchtime.class_time }}</p>
+              id="time-search-title"
+              class="text-2xl font-bold text-orange-300">
+              課程時間搜尋
             </div>
             <CloseCircleOutlined
-              class="text-gray-900"
-              @click="close_inform" />
+              class="text-2xl font-bold cursor-pointer text-purple-900"
+              @click="close" />
           </div>
-          <div class="flex w-full h-8 p-2">
+          <div
+            class="mx-1"
+            v-if="search_class_list_in_timemode.length && !isLoading">
+            <div class="flex items-center" @click="clickState()">
+              <div
+                class="w-[4.2em] h-6 flex items-center bg-gray-300 rounded-full duration-300 ease-in-out"
+                :class="{
+                  'bg-orange-300': toggle == 1,
+                  'bg-purple-300': toggle == 2,
+                }">
+                <div
+                  class="bg-white w-5 h-5 rounded-full shadow-md transform duration-300 ease-in-out"
+                  :class="{
+                    'translate-x-6': toggle == 1,
+                    'translate-x-12': toggle == 2,
+                  }"></div>
+              </div>
+              <span class="mx-3 py-1 min-w-[4rem]" v-if="toggle == 0">
+                顯示所有課程
+              </span>
+              <span class="mx-3 py-1 min-w-[4rem]" v-if="toggle == 1">
+                僅顯示通識課程
+              </span>
+              <span class="mx-3 py-1 min-w-[4rem]" v-if="toggle == 2">
+                僅顯示非通識課程
+              </span>
+            </div>
+          </div>
+          <div
+            class="overflow-x-hidden mt-4 overflow-y-auto max-h-80"
+            v-show="search_inform">
+            <loadingSpinner
+              v-if="isLoading"
+              style="height: auto"></loadingSpinner>
             <div
-              v-if="!showComment"
-              class="m-auto text-base rounded-2xl bg-green-200 px-3 py-1 hover:bg-green-300"
-              @click="show_comment(selectedCoursesearchtime.id)">
-              查看評價
+              v-for="item in filteredClassList"
+              class="w-full bg-white/70 px-1 py-1 hover:bg-orange-300 hover:text-white cursor-pointer border-2"
+              :class="{ conflict: item.conflict }"
+              @click="show_inform(item)">
+              {{ item.class_name }} {{ item.teacher }}
+              {{ item.class_time }}
             </div>
             <div
-              class="m-auto text-base rounded-2xl bg-green-200 px-3 py-1 hover:bg-green-300"
-              @click="
-                push_to_table(2, selectedCoursesearchtime) && close()
-              ">
-              加入課表
+              v-if="
+                !search_class_list_in_timemode.length && !isLoading
+              "
+              class="text-center">
+              此時段無課程
             </div>
           </div>
+          <div v-show="show_content_search_by_time" class="mt-4">
+            <div
+              class="bg-green-100/60 w-full h-40 border-green-200 pd-5 py-3 px-3 border-2 font-mono mt-6 flex">
+              <!-- 使用到selectedCourse -->
+              <div class="text-sm w-full pt-2">
+                <p>課程ID: {{ selectedCoursesearchtime.id }}</p>
+                <p>
+                  課程名稱: {{ selectedCoursesearchtime.class_name }}
+                </p>
+                <p>教師: {{ selectedCoursesearchtime.teacher }}</p>
+                <p>學分: {{ selectedCoursesearchtime.credit }}</p>
+                <p>教室: {{ selectedCoursesearchtime.class_room }}</p>
+                <p>時間: {{ selectedCoursesearchtime.class_time }}</p>
+              </div>
+              <CloseCircleOutlined
+                class="text-gray-900"
+                @click="close_inform" />
+            </div>
+            <div class="flex w-full h-8 p-2">
+              <div
+                v-if="!showComment"
+                class="m-auto text-base rounded-2xl bg-green-200 px-3 py-1 hover:bg-green-300"
+                @click="show_comment(selectedCoursesearchtime.id)">
+                查看評價
+              </div>
+              <div
+                class="m-auto text-base rounded-2xl bg-green-200 px-3 py-1 hover:bg-green-300"
+                @click="
+                  push_to_table(2, selectedCoursesearchtime) &&
+                    close()
+                ">
+                加入課表
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-between"></div>
         </div>
-        <div class="flex justify-between"></div>
       </div>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <script setup>
@@ -153,18 +163,6 @@ const filteredClassList = computed(() => {
     return search_class_list_in_timemode.value.filter(
       (item) => item.department && !item.department.includes("通識"),
     );
-});
-
-// 使用defineProps来访问prop
-const width = defineProps(["message"]);
-const widthnum = ref();
-
-watch(width, async () => {
-  // console.log(width.message);
-  widthnum.value = width.message + "px";
-  // console.log(widthnum.value);
-  // console.log(out.value.clientWidth);
-  // out.value.width = width.message;
 });
 
 const show_inform = (course) => {
