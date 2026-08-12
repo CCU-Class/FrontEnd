@@ -2,7 +2,7 @@
   <section class="w-full max-w-full select-none">
     <div
       v-if="canSelectTime"
-      class="sticky top-0 z-30 mx-1 mb-2 flex flex-wrap items-center justify-between gap-2 rounded-lg bg-purple-50 px-3 py-2 shadow-md">
+      class="sticky top-0 z-30 mx-auto mb-2 flex w-full min-w-0 flex-wrap items-center justify-between gap-2 rounded-lg bg-purple-50 px-3 py-2 shadow-md md:w-[calc(100%-2rem)] md:max-w-[960px]">
       <div>
         <p class="font-semibold text-purple-900">
           拖曳選取要搜尋的時段
