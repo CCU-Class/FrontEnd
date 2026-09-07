@@ -56,6 +56,11 @@
             :style="{ top: `${hourOffset(hour)}px` }">
             {{ String(hour).padStart(2, "0") }}:00
           </span>
+
+          <div
+            v-if="canSelectTime && hasSelection"
+            class="timeline-selection-guide"
+            :style="selectionGuideStyle"></div>
         </aside>
 
         <div
@@ -314,6 +319,24 @@ const selectionStyle = computed(() => {
   return {
     left: `${((timeSelection.weekday - 1) / 6) * 100}%`,
     width: `${100 / 6}%`,
+    top: `${start * (TIMELINE_HOUR_HEIGHT / 2)}px`,
+    height: `${(end - start + 1) * (TIMELINE_HOUR_HEIGHT / 2)}px`,
+  };
+});
+
+// 用於左側輔助顯示條
+const selectionGuideStyle = computed(() => {
+  const start = Math.min(
+    timeSelection.startIndex,
+    timeSelection.endIndex,
+  );
+
+  const end = Math.max(
+    timeSelection.startIndex,
+    timeSelection.endIndex,
+  );
+
+  return {
     top: `${start * (TIMELINE_HOUR_HEIGHT / 2)}px`,
     height: `${(end - start + 1) * (TIMELINE_HOUR_HEIGHT / 2)}px`,
   };

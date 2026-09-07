@@ -239,7 +239,7 @@ thead > tr > th {
 
 .timeline-hour-label {
   position: absolute;
-  right: 0.25rem;
+  right: 0.55rem;
   transform: translateY(-50%);
   white-space: nowrap;
   font-size: 0.58rem;
@@ -385,6 +385,15 @@ thead > tr > th {
   font-size: clamp(0.5rem, 2.3vw, 0.67rem);
   font-weight: 700;
   line-height: 1.12;
+}
+
+.timeline-selection-guide {
+  position: absolute;
+  right: 0.05rem;
+  width: 0.2rem;
+  background: rgb(126 34 206 / 0.75);
+  z-index: 20;
+  pointer-events: none;
 }
 
 .timeline-selection-layer {
