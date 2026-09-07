@@ -155,7 +155,7 @@
 
         <dl
           class="grid grid-cols-[5rem_1fr] gap-x-3 gap-y-2 px-5 py-4 text-sm">
-          <dt class="text-gray-500">實際時間</dt>
+          <dt class="text-gray-500">課程時間</dt>
           <dd>{{ selectedTimeLabel }}</dd>
           <dt class="text-gray-500">教室</dt>
           <dd>{{ selectedCourse.getClassroom() || "未提供" }}</dd>
