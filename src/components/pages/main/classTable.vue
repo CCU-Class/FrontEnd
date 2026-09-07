@@ -96,9 +96,6 @@
                     {{ formatMinute(session.endMinute) }}
                   </span>
                 </span>
-                <span class="timeline-course-period">
-                  {{ session.periodLabel }}
-                </span>
                 <span class="timeline-course-name">
                   {{ session.course.getCourseName() }}
                 </span>
