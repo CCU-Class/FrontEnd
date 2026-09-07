@@ -36,7 +36,7 @@
           class="flex w-full flex-col gap-2 lg:flex-row lg:place-content-center lg:items-center">
           <!-- 顯示學分 -->
           <div
-            class="flex w-full items-start justify-center lg:w-auto"
+            class="flex w-full items-center justify-center lg:w-auto"
             @click="toggleActive1 = !toggleActive1">
             <div
               class="w-12 h-6 flex shrink-0 items-center bg-gray-300 rounded-full duration-300 ease-in-out"
