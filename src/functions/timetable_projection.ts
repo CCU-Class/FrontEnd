@@ -1,4 +1,9 @@
-import { Course, courseToEndIndex, courseToStartIndex } from "./general";
+import {
+  Course,
+  courseToEndIndex,
+  courseToStartIndex,
+  courseToTime,
+} from "./general";
 
 export const TIMELINE_START_MINUTE = 7 * 60;
 export const TIMELINE_END_MINUTE = 22 * 60;
@@ -31,40 +36,22 @@ const weekdayMap: Record<string, number> = {
   六: 6,
 };
 
-const numericStarts = [
-  "07:10", "08:10", "09:10", "10:10", "11:10",
-  "12:10", "13:10", "14:10", "15:10", "16:10",
-  "17:10", "18:10", "19:10", "20:10", "21:10",
-];
-const letterStarts = [
-  "07:15", "08:45", "10:15", "11:45", "13:15",
-  "14:45", "16:15", "17:45", "19:15", "20:45",
-];
-
 function timeToMinute(time: string): number {
   const [hour, minute] = time.split(":").map(Number);
   return hour * 60 + minute;
 }
 
-export const PERIOD_DEFINITIONS: Record<string, PeriodDefinition> = {};
+export const PERIOD_DEFINITIONS: Record<string, PeriodDefinition> =
+  {};
 
-numericStarts.forEach((time, index) => {
+Object.entries(courseToTime).forEach(([code, time]) => {
   const startMinute = timeToMinute(time);
-  const code = String(index + 1);
+  const duration = /^\d+$/.test(code) ? 50 : 75;
+
   PERIOD_DEFINITIONS[code] = {
     code,
     startMinute,
-    endMinute: startMinute + 50,
-  };
-});
-
-letterStarts.forEach((time, index) => {
-  const startMinute = timeToMinute(time);
-  const code = String.fromCharCode("A".charCodeAt(0) + index);
-  PERIOD_DEFINITIONS[code] = {
-    code,
-    startMinute,
-    endMinute: startMinute + 75,
+    endMinute: startMinute + duration,
   };
 });
 
@@ -86,7 +73,9 @@ function parseCodes(value: string): string[] {
   const normalized = value.trim().toUpperCase();
   if (!normalized) return [];
 
-  const rangeParts = normalized.split(/[~-]/).map((part) => part.trim());
+  const rangeParts = normalized
+    .split(/[~-]/)
+    .map((part) => part.trim());
   if (rangeParts.length === 2) {
     return expandRange(rangeParts[0], rangeParts[1]);
   }
@@ -99,7 +88,9 @@ function parseCodes(value: string): string[] {
 
 function sessionsFromCourse(course: Course): TimetableSession[] {
   const rawTime = course.getStartTime() || "";
-  const segments = [...rawTime.matchAll(/([一二三四五六])([^\s一二三四五六]+)/g)];
+  const segments = [
+    ...rawTime.matchAll(/([一二三四五六])([^\s一二三四五六]+)/g),
+  ];
   const sessions: TimetableSession[] = [];
 
   for (const segment of segments) {
@@ -116,7 +107,9 @@ function sessionsFromCourse(course: Course): TimetableSession[] {
       const first = group[0];
       const last = group[group.length - 1];
       const periodLabel =
-        group.length === 1 ? first.code : `${first.code}–${last.code}`;
+        group.length === 1
+          ? first.code
+          : `${first.code}–${last.code}`;
       sessions.push({
         key: `${course.getUuid()}-${weekday}-${first.startMinute}`,
         weekday,
@@ -133,7 +126,10 @@ function sessionsFromCourse(course: Course): TimetableSession[] {
 
     for (const definition of definitions) {
       const previous = group[group.length - 1];
-      if (previous && definition.startMinute - previous.endMinute > 15) {
+      if (
+        previous &&
+        definition.startMinute - previous.endMinute > 15
+      ) {
         flush();
       }
       group.push(definition);
@@ -144,13 +140,18 @@ function sessionsFromCourse(course: Course): TimetableSession[] {
   return sessions;
 }
 
-function inferFallbackPeriod(startIndex: number, endIndex: number, startTime: string) {
+function inferFallbackPeriod(
+  startIndex: number,
+  endIndex: number,
+  startTime: string,
+) {
   const candidates = Object.values(PERIOD_DEFINITIONS).filter(
     (period) => courseToStartIndex[period.code] === startIndex,
   );
-  const preferred = candidates.find(
-    (period) => `${String(Math.floor(period.startMinute / 60)).padStart(2, "0")}:${String(period.startMinute % 60).padStart(2, "0")}` === startTime,
-  ) ?? candidates[0];
+  const preferred =
+    candidates.find(
+      (period) => formatMinute(period.startMinute) === startTime,
+    ) ?? candidates[0];
 
   if (!preferred) {
     return {
@@ -160,7 +161,9 @@ function inferFallbackPeriod(startIndex: number, endIndex: number, startTime: st
     };
   }
 
-  const sameSeries = /^\d+$/.test(preferred.code) ? /^\d+$/ : /^[A-J]$/;
+  const sameSeries = /^\d+$/.test(preferred.code)
+    ? /^\d+$/
+    : /^[A-J]$/;
   const matching = Object.values(PERIOD_DEFINITIONS)
     .filter(
       (period) =>
@@ -175,11 +178,16 @@ function inferFallbackPeriod(startIndex: number, endIndex: number, startTime: st
     startMinute: preferred.startMinute,
     endMinute: last.endMinute,
     periodLabel:
-      matching.length > 1 ? `${preferred.code}–${last.code}` : preferred.code,
+      matching.length > 1
+        ? `${preferred.code}–${last.code}`
+        : preferred.code,
   };
 }
 
-function sessionsFromMatrix(matrix: Course[][], knownKeys: Set<string>) {
+function sessionsFromMatrix(
+  matrix: Course[][],
+  knownKeys: Set<string>,
+) {
   const sessions: TimetableSession[] = [];
   for (let weekday = 1; weekday <= 6; weekday++) {
     const column = weekday + 2;
@@ -226,7 +234,10 @@ function assignOverlapColumns(sessions: TimetableSession[]) {
   for (let weekday = 1; weekday <= 6; weekday++) {
     const daySessions = sessions
       .filter((session) => session.weekday === weekday)
-      .sort((a, b) => a.startMinute - b.startMinute || a.endMinute - b.endMinute);
+      .sort(
+        (a, b) =>
+          a.startMinute - b.startMinute || a.endMinute - b.endMinute,
+      );
     let cluster: TimetableSession[] = [];
     let clusterEnd = -1;
 
@@ -234,17 +245,21 @@ function assignOverlapColumns(sessions: TimetableSession[]) {
       if (!cluster.length) return;
       const laneEnds: number[] = [];
       for (const session of cluster) {
-        let lane = laneEnds.findIndex((end) => end <= session.startMinute);
+        let lane = laneEnds.findIndex(
+          (end) => end <= session.startMinute,
+        );
         if (lane < 0) lane = laneEnds.length;
         laneEnds[lane] = session.endMinute;
         session.overlapIndex = lane;
       }
-      for (const session of cluster) session.overlapCount = laneEnds.length;
+      for (const session of cluster)
+        session.overlapCount = laneEnds.length;
       cluster = [];
     };
 
     for (const session of daySessions) {
-      if (cluster.length && session.startMinute >= clusterEnd) flush();
+      if (cluster.length && session.startMinute >= clusterEnd)
+        flush();
       cluster.push(session);
       clusterEnd = Math.max(clusterEnd, session.endMinute);
     }
@@ -272,7 +287,9 @@ export function projectTimetableSessions(
 }
 
 export function minuteToTimelineOffset(minute: number): number {
-  return ((minute - TIMELINE_START_MINUTE) * TIMELINE_HOUR_HEIGHT) / 60;
+  return (
+    ((minute - TIMELINE_START_MINUTE) * TIMELINE_HOUR_HEIGHT) / 60
+  );
 }
 
 export function formatMinute(minute: number): string {
