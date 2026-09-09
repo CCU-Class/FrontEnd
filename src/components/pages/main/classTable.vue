@@ -206,11 +206,13 @@
                   }"></div>
 
                 <!-- Sessions -->
-                <div
+                <button
                   v-for="session in sessionsByDay[weekday]"
                   :key="session.key"
-                  class="absolute inset-x-0.5 z-10 overflow-hidden rounded-md border border-white/70 px-1 py-0.5 text-center shadow-sm"
-                  :style="sessionStyle(session)">
+                  type="button"
+                  class="absolute inset-x-0.5 z-10 cursor-pointer overflow-hidden rounded-md border border-white/70 px-1 py-0.5 text-center shadow-sm transition hover:brightness-95"
+                  :style="sessionStyle(session)"
+                  @click="openCourseDetails(session)">
                   <div
                     class="flex h-full min-w-0 flex-col items-center justify-center overflow-hidden">
                     <span class="w-full text-[10px] leading-tight">
@@ -229,7 +231,7 @@
                       {{ session.course.getClassroom() }}
                     </span>
                   </div>
-                </div>
+                </button>
               </div>
             </div>
           </div>
@@ -237,6 +239,110 @@
       </div>
     </div>
   </div>
+  <Teleport to="body">
+    <div
+      v-if="selectedSession && selectedCourse"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="course-detail-title"
+      @click.self="closeCourseDetails">
+      <div
+        class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
+        <!-- Header -->
+        <header
+          class="flex items-start justify-between border-b border-orange-100 bg-orange-50 px-5 py-4">
+          <div>
+            <p class="text-sm font-semibold text-orange-600">
+              星期{{ selectedSession.weekday }}
+              ·
+              {{ selectedTimeLabel }}
+            </p>
+
+            <h2
+              id="course-detail-title"
+              class="mt-1 text-xl font-bold text-gray-900">
+              {{ selectedCourse.getCourseName() }}
+            </h2>
+          </div>
+
+          <button
+            type="button"
+            class="rounded-full px-3 py-1 text-xl text-gray-500 hover:bg-gray-100"
+            aria-label="關閉課程資訊"
+            @click="closeCourseDetails">
+            ×
+          </button>
+        </header>
+
+        <!-- Course detail -->
+        <dl
+          class="grid grid-cols-[5rem_1fr] gap-x-3 gap-y-3 px-5 py-5 text-sm">
+          <dt class="text-gray-500">課程時間</dt>
+          <dd>
+            {{ selectedTimeLabel }}
+          </dd>
+
+          <dt class="text-gray-500">教室</dt>
+          <dd>
+            {{ selectedCourse.getClassroom() || "未提供" }}
+          </dd>
+
+          <dt class="text-gray-500">教師</dt>
+          <dd>
+            {{ selectedCourse.getTeacher() || "未提供" }}
+          </dd>
+
+          <dt class="text-gray-500">學分</dt>
+          <dd>
+            {{ selectedCourse.getCredit() ?? "未提供" }}
+          </dd>
+
+          <dt class="text-gray-500">系所</dt>
+          <dd>
+            {{ selectedCourse.getDepartment() || "未提供" }}
+          </dd>
+
+          <dt class="text-gray-500">年級</dt>
+          <dd>
+            {{ selectedCourse.getGrade() || "未提供" }}
+          </dd>
+        </dl>
+
+        <!-- Existing course actions -->
+        <footer
+          class="grid grid-cols-2 gap-2 border-t border-gray-100 bg-gray-50 p-4">
+          <button
+            type="button"
+            class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm hover:bg-gray-100"
+            @click="editSelectedCourse(1)">
+            修改顏色
+          </button>
+
+          <button
+            type="button"
+            class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm hover:bg-gray-100"
+            @click="editSelectedCourse(2)">
+            文字樣式
+          </button>
+
+          <button
+            type="button"
+            class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm hover:bg-gray-100"
+            @click="openSelectedCourseComment">
+            查看評價
+          </button>
+
+          <button
+            type="button"
+            class="rounded-lg border border-red-200 bg-white px-3 py-2 text-sm text-red-700 hover:bg-red-50"
+            @click="deleteSelectedCourse">
+            刪除課程
+          </button>
+        </footer>
+      </div>
+    </div>
+  </Teleport>
 </template>
 
 <script setup>
@@ -268,7 +374,7 @@ import {
   courseDelete,
   decreaseCredit,
 } from "@functions/course_delete.ts";
-
+import { show_comment } from "@functions/ccuplus";
 import { Splitpanes, Pane } from "splitpanes";
 import "splitpanes/dist/splitpanes.css";
 import { useStore } from "vuex";
@@ -348,6 +454,81 @@ let selectClassTable = ref([]);
 let selectDisplay = ref([]);
 
 let TimeMode = computed(() => store.state.course.timeSearchMode);
+
+const selectedSession = ref(null);
+
+const selectedCourse = computed(
+  () => selectedSession.value?.course ?? null,
+);
+
+const selectedTimeLabel = computed(() => {
+  if (!selectedSession.value) {
+    return "";
+  }
+
+  return `${formatMinute(
+    selectedSession.value.startMinute,
+  )} – ${formatMinute(selectedSession.value.endMinute)}`;
+});
+
+function openCourseDetails(session) {
+  selectedSession.value = session;
+}
+
+function closeCourseDetails() {
+  selectedSession.value = null;
+}
+
+function editSelectedCourse(mode) {
+  const course = selectedSession.value?.course;
+
+  if (!course) {
+    return;
+  }
+
+  if (mode === 1) {
+    store.dispatch("setDefaultColor", course.getColor());
+  } else if (mode === 2) {
+    store.dispatch("setDefaultColor", course.getTextColor());
+  } else {
+    return;
+  }
+
+  store.dispatch("setCardMode", mode);
+  store.dispatch("setChooseCard", course);
+
+  closeCourseDetails();
+
+  store.dispatch("changeShowColorPick", true);
+}
+
+function deleteSelectedCourse() {
+  const course = selectedSession.value?.course;
+
+  if (!course) {
+    return;
+  }
+
+  delete_course(course);
+  closeCourseDetails();
+}
+
+function openSelectedCourseComment() {
+  const course = selectedSession.value?.course;
+
+  if (!course) {
+    return;
+  }
+  const courseId = course.getId();
+
+  if (!courseId) {
+    return;
+  }
+
+  closeCourseDetails();
+
+  show_comment(courseId);
+}
 
 let inputValue = searchInput.value.trim();
 let single_row_data = ref([]);
