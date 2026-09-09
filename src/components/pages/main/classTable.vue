@@ -107,7 +107,7 @@
           </div>
         </div>
 
-        <div class="z-10 w-full flex">
+        <div v-if="TimeMode" class="z-10 w-full flex">
           <table
             class="bg-orange-100 w-full border-separate"
             id="class_table">
@@ -117,14 +117,16 @@
                 <th class="table-head w-[8.5rem]" colspan="2">
                   節次
                 </th>
-                <th class="table-head">星期一</th>
-                <th class="table-head">星期二</th>
-                <th class="table-head">星期三</th>
-                <th class="table-head">星期四</th>
-                <th class="table-head">星期五</th>
-                <th class="table-head">星期六</th>
+
+                <th
+                  v-for="weekday in week"
+                  :key="weekday"
+                  class="table-head">
+                  星期{{ weekday }}
+                </th>
               </tr>
             </thead>
+
             <tbody v-if="show">
               <tr
                 v-for="row in TotalCourseData[activeIndex]
@@ -137,6 +139,100 @@
               </tr>
             </tbody>
           </table>
+        </div>
+        <div v-else class="w-full">
+          <!-- Header -->
+          <div
+            class="grid border-b border-orange-300/50"
+            style="
+              grid-template-columns: 3.5rem repeat(6, minmax(0, 1fr));
+            ">
+            <div
+              class="flex items-center justify-center py-2 text-xs font-semibold text-orange-900">
+              時間
+            </div>
+
+            <div
+              v-for="weekday in week"
+              :key="weekday"
+              class="flex items-center justify-center border-l border-orange-300/30 py-2 text-sm font-semibold text-orange-900">
+              星期{{ weekday }}
+            </div>
+          </div>
+
+          <!-- Timeline body -->
+          <div
+            class="grid"
+            style="grid-template-columns: 3.5rem minmax(0, 1fr)">
+            <!-- Time axis -->
+            <aside
+              class="relative border-r border-orange-300/40"
+              :style="{
+                height: `${timelineHeight}px`,
+              }">
+              <span
+                v-for="hour in timelineHours"
+                :key="hour"
+                class="absolute inset-x-0 text-center text-[10px] leading-none text-orange-900/70"
+                :style="{
+                  top: `${minuteToTimelineOffset(hour * 60)}px`,
+                  transform:
+                    hour === 7
+                      ? 'translateY(0)'
+                      : hour === 22
+                        ? 'translateY(-100%)'
+                        : 'translateY(-50%)',
+                }">
+                {{ String(hour).padStart(2, "0") }}:00
+              </span>
+            </aside>
+
+            <!-- Six weekday lanes -->
+            <div class="grid grid-cols-6 min-w-0">
+              <div
+                v-for="weekday in week"
+                :key="weekday"
+                class="relative min-w-0 border-r border-orange-300/30 last:border-r-0"
+                :style="{
+                  height: `${timelineHeight}px`,
+                }">
+                <!-- Hour grid -->
+                <div
+                  v-for="hour in timelineHours"
+                  :key="hour"
+                  class="pointer-events-none absolute inset-x-0 border-t border-orange-300/25"
+                  :style="{
+                    top: `${minuteToTimelineOffset(hour * 60)}px`,
+                  }"></div>
+
+                <!-- Sessions -->
+                <div
+                  v-for="session in sessionsByDay[weekday]"
+                  :key="session.key"
+                  class="absolute inset-x-0.5 z-10 overflow-hidden rounded-md border border-white/70 px-1 py-0.5 text-center shadow-sm"
+                  :style="sessionStyle(session)">
+                  <div
+                    class="flex h-full min-w-0 flex-col items-center justify-center overflow-hidden">
+                    <span class="w-full text-[10px] leading-tight">
+                      {{ formatMinute(session.startMinute) }}
+                      –
+                      {{ formatMinute(session.endMinute) }}
+                    </span>
+
+                    <span
+                      class="w-full break-words text-xs font-semibold leading-tight">
+                      {{ session.course.getCourseName() }}
+                    </span>
+
+                    <span
+                      class="w-full break-words text-[10px] leading-tight">
+                      {{ session.course.getClassroom() }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -159,7 +255,7 @@ import {
   Course,
   InitTable,
   GetCourseTable,
-  WeekDayToInt
+  WeekDayToInt,
 } from "@functions/general";
 import renderImage from "@functions/image_render.ts";
 import {
@@ -230,7 +326,9 @@ const classes = [
 ];
 
 const TIMELINE_START_MINUTE = 7 * 60;
+const TIMELINE_END_MINUTE = 22 * 60;
 const TIMELINE_SLOT_MINUTES = 30;
+const TIMELINE_HOUR_HEIGHT = 64;
 
 const className = ref();
 const classRoom = ref();
@@ -346,6 +444,7 @@ const state = reactive({
   checked: false,
 });
 
+// for "HH:mm" -> 430
 function timeToMinute(time) {
   if (typeof time !== "string") return NaN;
 
@@ -358,6 +457,24 @@ function timeToMinute(time) {
   return hour * 60 + minute;
 }
 
+// for 430 -> "HH:mm"
+function formatMinute(minute) {
+  const hour = Math.floor(minute / 60);
+  const minutes = minute % 60;
+
+  return `${String(hour).padStart(2, "0")}:${String(minutes).padStart(
+    2,
+    "0",
+  )}`;
+}
+
+function minuteToTimelineOffset(minute) {
+  return (
+    ((minute - TIMELINE_START_MINUTE) * TIMELINE_HOUR_HEIGHT) / 60
+  );
+}
+
+const timelineHeight = minuteToTimelineOffset(TIMELINE_END_MINUTE);
 
 const timelineSessions = computed(() => {
   const matrix =
@@ -371,8 +488,7 @@ const timelineSessions = computed(() => {
 
   for (let rowIndex = 0; rowIndex < matrix.length; rowIndex++) {
     for (const weekday of week) {
-      const course =
-        matrix[rowIndex]?.[WeekDayToInt[weekday]];
+      const course = matrix[rowIndex]?.[WeekDayToInt[weekday]];
 
       if (!course?.getIsCourse()) {
         continue;
@@ -386,8 +502,7 @@ const timelineSessions = computed(() => {
         continue;
       }
 
-      const startMinute =
-        timeToMinute(course.getStartTime());
+      const startMinute = timeToMinute(course.getStartTime());
 
       if (!Number.isFinite(startMinute)) {
         continue;
@@ -395,8 +510,7 @@ const timelineSessions = computed(() => {
 
       const endMinute =
         TIMELINE_START_MINUTE +
-        (rowIndex + length) *
-          TIMELINE_SLOT_MINUTES;
+        (rowIndex + length) * TIMELINE_SLOT_MINUTES;
 
       sessions.push({
         key: `${course.getUuid()}-${weekday}-${rowIndex}`,
@@ -411,4 +525,35 @@ const timelineSessions = computed(() => {
   return sessions;
 });
 
+const timelineHours = Array.from(
+  {
+    length: (TIMELINE_END_MINUTE - TIMELINE_START_MINUTE) / 60 + 1,
+  },
+  (_, index) => index + 7,
+);
+
+const sessionsByDay = computed(() => {
+  const result = Object.fromEntries(
+    week.map((weekday) => [weekday, []]),
+  );
+
+  for (const session of timelineSessions.value) {
+    result[session.weekday].push(session);
+  }
+
+  return result;
+});
+
+function sessionStyle(session) {
+  const top = minuteToTimelineOffset(session.startMinute);
+
+  const bottom = minuteToTimelineOffset(session.endMinute);
+
+  return {
+    top: `${top}px`,
+    height: `${bottom - top}px`,
+    backgroundColor: session.course.getColor(),
+    color: session.course.getTextColor(),
+  };
+}
 </script>
