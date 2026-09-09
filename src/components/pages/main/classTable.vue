@@ -159,6 +159,7 @@ import {
   Course,
   InitTable,
   GetCourseTable,
+  WeekDayToInt
 } from "@functions/general";
 import renderImage from "@functions/image_render.ts";
 import {
@@ -227,6 +228,10 @@ const classes = [
   "I",
   "J",
 ];
+
+const TIMELINE_START_MINUTE = 7 * 60;
+const TIMELINE_SLOT_MINUTES = 30;
+
 const className = ref();
 const classRoom = ref();
 const weekDay = ref("星期");
@@ -340,4 +345,70 @@ async function refresh_table() {
 const state = reactive({
   checked: false,
 });
+
+function timeToMinute(time) {
+  if (typeof time !== "string") return NaN;
+
+  const [hour, minute] = time.split(":").map(Number);
+
+  if (!Number.isFinite(hour) || !Number.isFinite(minute)) {
+    return NaN;
+  }
+
+  return hour * 60 + minute;
+}
+
+
+const timelineSessions = computed(() => {
+  const matrix =
+    TotalCourseData.value?.[activeIndex.value]?.classStorage;
+
+  if (!Array.isArray(matrix)) {
+    return [];
+  }
+
+  const sessions = [];
+
+  for (let rowIndex = 0; rowIndex < matrix.length; rowIndex++) {
+    for (const weekday of week) {
+      const course =
+        matrix[rowIndex]?.[WeekDayToInt[weekday]];
+
+      if (!course?.getIsCourse()) {
+        continue;
+      }
+
+      const length = course.getLength();
+
+      // rowspanize() 已將連續區段的長度
+      // 設定在該區段第一格。
+      if (!length) {
+        continue;
+      }
+
+      const startMinute =
+        timeToMinute(course.getStartTime());
+
+      if (!Number.isFinite(startMinute)) {
+        continue;
+      }
+
+      const endMinute =
+        TIMELINE_START_MINUTE +
+        (rowIndex + length) *
+          TIMELINE_SLOT_MINUTES;
+
+      sessions.push({
+        key: `${course.getUuid()}-${weekday}-${rowIndex}`,
+        weekday,
+        startMinute,
+        endMinute,
+        course,
+      });
+    }
+  }
+
+  return sessions;
+});
+
 </script>
