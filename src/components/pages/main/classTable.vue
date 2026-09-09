@@ -107,7 +107,7 @@
           </div>
         </div>
 
-        <div class="z-10 w-full flex">
+        <div v-if="TimeMode" class="z-10 w-full flex">
           <table
             class="bg-orange-100 w-full border-separate"
             id="class_table">
@@ -117,14 +117,16 @@
                 <th class="table-head w-[8.5rem]" colspan="2">
                   節次
                 </th>
-                <th class="table-head">星期一</th>
-                <th class="table-head">星期二</th>
-                <th class="table-head">星期三</th>
-                <th class="table-head">星期四</th>
-                <th class="table-head">星期五</th>
-                <th class="table-head">星期六</th>
+
+                <th
+                  v-for="weekday in week"
+                  :key="weekday"
+                  class="table-head">
+                  星期{{ weekday }}
+                </th>
               </tr>
             </thead>
+
             <tbody v-if="show">
               <tr
                 v-for="row in TotalCourseData[activeIndex]
@@ -138,9 +140,209 @@
             </tbody>
           </table>
         </div>
+        <div v-else class="w-full">
+          <!-- Header -->
+          <div
+            class="grid border-b border-orange-300/50"
+            style="
+              grid-template-columns: 3.5rem repeat(6, minmax(0, 1fr));
+            ">
+            <div
+              class="flex items-center justify-center py-2 text-xs font-semibold text-orange-900">
+              時間
+            </div>
+
+            <div
+              v-for="weekday in week"
+              :key="weekday"
+              class="flex items-center justify-center border-l border-orange-300/30 py-2 text-sm font-semibold text-orange-900">
+              星期{{ weekday }}
+            </div>
+          </div>
+
+          <!-- Timeline body -->
+          <div
+            class="grid"
+            style="grid-template-columns: 3.5rem minmax(0, 1fr)">
+            <!-- Time axis -->
+            <aside
+              class="relative border-r border-orange-300/40"
+              :style="{
+                height: `${timelineHeight}px`,
+              }">
+              <span
+                v-for="hour in timelineHours"
+                :key="hour"
+                class="absolute inset-x-0 text-center text-[10px] leading-none text-orange-900/70"
+                :style="{
+                  top: `${minuteToTimelineOffset(hour * 60)}px`,
+                  transform:
+                    hour === 7
+                      ? 'translateY(0)'
+                      : hour === 22
+                        ? 'translateY(-100%)'
+                        : 'translateY(-50%)',
+                }">
+                {{ String(hour).padStart(2, "0") }}:00
+              </span>
+            </aside>
+
+            <!-- Six weekday lanes -->
+            <div class="grid grid-cols-6 min-w-0">
+              <div
+                v-for="weekday in week"
+                :key="weekday"
+                class="relative min-w-0 border-r border-orange-300/30 last:border-r-0"
+                :style="{
+                  height: `${timelineHeight}px`,
+                }">
+                <!-- Hour grid -->
+                <div
+                  v-for="hour in timelineHours"
+                  :key="hour"
+                  class="pointer-events-none absolute inset-x-0 border-t border-orange-300/25"
+                  :style="{
+                    top: `${minuteToTimelineOffset(hour * 60)}px`,
+                  }"></div>
+
+                <!-- Sessions -->
+                <button
+                  v-for="session in sessionsByDay[weekday]"
+                  :key="session.key"
+                  type="button"
+                  class="absolute inset-x-0.5 z-10 cursor-pointer overflow-hidden rounded-md border border-white/70 px-1 py-0.5 text-center shadow-sm transition hover:brightness-95"
+                  :style="sessionStyle(session)"
+                  @click="openCourseDetails(session)">
+                  <div
+                    class="flex h-full min-w-0 flex-col items-center justify-center overflow-hidden">
+                    <span class="w-full text-[10px] leading-tight">
+                      {{ formatMinute(session.startMinute) }}
+                      –
+                      {{ formatMinute(session.endMinute) }}
+                    </span>
+
+                    <span
+                      class="w-full break-words text-xs font-semibold leading-tight">
+                      {{ session.course.getCourseName() }}
+                    </span>
+
+                    <span
+                      class="w-full break-words text-[10px] leading-tight">
+                      {{ session.course.getClassroom() }}
+                    </span>
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
+  <Teleport to="body">
+    <div
+      v-if="selectedSession && selectedCourse"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="course-detail-title"
+      @click.self="closeCourseDetails">
+      <div
+        class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
+        <!-- Header -->
+        <header
+          class="flex items-start justify-between border-b border-orange-100 bg-orange-50 px-5 py-4">
+          <div>
+            <p class="text-sm font-semibold text-orange-600">
+              星期{{ selectedSession.weekday }}
+              ·
+              {{ selectedTimeLabel }}
+            </p>
+
+            <h2
+              id="course-detail-title"
+              class="mt-1 text-xl font-bold text-gray-900">
+              {{ selectedCourse.getCourseName() }}
+            </h2>
+          </div>
+
+          <button
+            type="button"
+            class="rounded-full px-3 py-1 text-xl text-gray-500 hover:bg-gray-100"
+            aria-label="關閉課程資訊"
+            @click="closeCourseDetails">
+            ×
+          </button>
+        </header>
+
+        <!-- Course detail -->
+        <dl
+          class="grid grid-cols-[5rem_1fr] gap-x-3 gap-y-3 px-5 py-5 text-sm">
+          <dt class="text-gray-500">課程時間</dt>
+          <dd>
+            {{ selectedTimeLabel }}
+          </dd>
+
+          <dt class="text-gray-500">教室</dt>
+          <dd>
+            {{ selectedCourse.getClassroom() || "未提供" }}
+          </dd>
+
+          <dt class="text-gray-500">教師</dt>
+          <dd>
+            {{ selectedCourse.getTeacher() || "未提供" }}
+          </dd>
+
+          <dt class="text-gray-500">學分</dt>
+          <dd>
+            {{ selectedCourse.getCredit() ?? "未提供" }}
+          </dd>
+
+          <dt class="text-gray-500">系所</dt>
+          <dd>
+            {{ selectedCourse.getDepartment() || "未提供" }}
+          </dd>
+
+          <dt class="text-gray-500">年級</dt>
+          <dd>
+            {{ selectedCourse.getGrade() || "未提供" }}
+          </dd>
+        </dl>
+
+        <!-- Existing course actions -->
+        <footer
+          class="grid grid-cols-2 gap-2 border-t border-gray-100 bg-gray-50 p-4">
+          <button
+            type="button"
+            class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm hover:bg-gray-100"
+            @click="editSelectedCourse(1)">
+            修改顏色
+          </button>
+
+          <button
+            type="button"
+            class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm hover:bg-gray-100"
+            @click="editSelectedCourse(2)">
+            文字樣式
+          </button>
+
+          <button
+            type="button"
+            class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm hover:bg-gray-100"
+            @click="openSelectedCourseComment">
+            查看評價
+          </button>
+
+          <button
+            type="button"
+            class="rounded-lg border border-red-200 bg-white px-3 py-2 text-sm text-red-700 hover:bg-red-50"
+            @click="deleteSelectedCourse">
+            刪除課程
+          </button>
+        </footer>
+      </div>
+    </div>
+  </Teleport>
 </template>
 
 <script setup>
@@ -159,6 +361,7 @@ import {
   Course,
   InitTable,
   GetCourseTable,
+  WeekDayToInt,
 } from "@functions/general";
 import renderImage from "@functions/image_render.ts";
 import {
@@ -171,7 +374,7 @@ import {
   courseDelete,
   decreaseCredit,
 } from "@functions/course_delete.ts";
-
+import { show_comment } from "@functions/ccuplus";
 import { Splitpanes, Pane } from "splitpanes";
 import "splitpanes/dist/splitpanes.css";
 import { useStore } from "vuex";
@@ -227,6 +430,12 @@ const classes = [
   "I",
   "J",
 ];
+
+const TIMELINE_START_MINUTE = 7 * 60;
+const TIMELINE_END_MINUTE = 22 * 60;
+const TIMELINE_SLOT_MINUTES = 30;
+const TIMELINE_HOUR_HEIGHT = 64;
+
 const className = ref();
 const classRoom = ref();
 const weekDay = ref("星期");
@@ -245,6 +454,81 @@ let selectClassTable = ref([]);
 let selectDisplay = ref([]);
 
 let TimeMode = computed(() => store.state.course.timeSearchMode);
+
+const selectedSession = ref(null);
+
+const selectedCourse = computed(
+  () => selectedSession.value?.course ?? null,
+);
+
+const selectedTimeLabel = computed(() => {
+  if (!selectedSession.value) {
+    return "";
+  }
+
+  return `${formatMinute(
+    selectedSession.value.startMinute,
+  )} – ${formatMinute(selectedSession.value.endMinute)}`;
+});
+
+function openCourseDetails(session) {
+  selectedSession.value = session;
+}
+
+function closeCourseDetails() {
+  selectedSession.value = null;
+}
+
+function editSelectedCourse(mode) {
+  const course = selectedSession.value?.course;
+
+  if (!course) {
+    return;
+  }
+
+  if (mode === 1) {
+    store.dispatch("setDefaultColor", course.getColor());
+  } else if (mode === 2) {
+    store.dispatch("setDefaultColor", course.getTextColor());
+  } else {
+    return;
+  }
+
+  store.dispatch("setCardMode", mode);
+  store.dispatch("setChooseCard", course);
+
+  closeCourseDetails();
+
+  store.dispatch("changeShowColorPick", true);
+}
+
+function deleteSelectedCourse() {
+  const course = selectedSession.value?.course;
+
+  if (!course) {
+    return;
+  }
+
+  delete_course(course);
+  closeCourseDetails();
+}
+
+function openSelectedCourseComment() {
+  const course = selectedSession.value?.course;
+
+  if (!course) {
+    return;
+  }
+  const courseId = course.getId();
+
+  if (!courseId) {
+    return;
+  }
+
+  closeCourseDetails();
+
+  show_comment(courseId);
+}
 
 let inputValue = searchInput.value.trim();
 let single_row_data = ref([]);
@@ -340,4 +624,117 @@ async function refresh_table() {
 const state = reactive({
   checked: false,
 });
+
+// for "HH:mm" -> 430
+function timeToMinute(time) {
+  if (typeof time !== "string") return NaN;
+
+  const [hour, minute] = time.split(":").map(Number);
+
+  if (!Number.isFinite(hour) || !Number.isFinite(minute)) {
+    return NaN;
+  }
+
+  return hour * 60 + minute;
+}
+
+// for 430 -> "HH:mm"
+function formatMinute(minute) {
+  const hour = Math.floor(minute / 60);
+  const minutes = minute % 60;
+
+  return `${String(hour).padStart(2, "0")}:${String(minutes).padStart(
+    2,
+    "0",
+  )}`;
+}
+
+function minuteToTimelineOffset(minute) {
+  return (
+    ((minute - TIMELINE_START_MINUTE) * TIMELINE_HOUR_HEIGHT) / 60
+  );
+}
+
+const timelineHeight = minuteToTimelineOffset(TIMELINE_END_MINUTE);
+
+const timelineSessions = computed(() => {
+  const matrix =
+    TotalCourseData.value?.[activeIndex.value]?.classStorage;
+
+  if (!Array.isArray(matrix)) {
+    return [];
+  }
+
+  const sessions = [];
+
+  for (let rowIndex = 0; rowIndex < matrix.length; rowIndex++) {
+    for (const weekday of week) {
+      const course = matrix[rowIndex]?.[WeekDayToInt[weekday]];
+
+      if (!course?.getIsCourse()) {
+        continue;
+      }
+
+      const length = course.getLength();
+
+      // rowspanize() 已將連續區段的長度
+      // 設定在該區段第一格。
+      if (!length) {
+        continue;
+      }
+
+      const startMinute = timeToMinute(course.getStartTime());
+
+      if (!Number.isFinite(startMinute)) {
+        continue;
+      }
+
+      const endMinute =
+        TIMELINE_START_MINUTE +
+        (rowIndex + length) * TIMELINE_SLOT_MINUTES;
+
+      sessions.push({
+        key: `${course.getUuid()}-${weekday}-${rowIndex}`,
+        weekday,
+        startMinute,
+        endMinute,
+        course,
+      });
+    }
+  }
+
+  return sessions;
+});
+
+const timelineHours = Array.from(
+  {
+    length: (TIMELINE_END_MINUTE - TIMELINE_START_MINUTE) / 60 + 1,
+  },
+  (_, index) => index + 7,
+);
+
+const sessionsByDay = computed(() => {
+  const result = Object.fromEntries(
+    week.map((weekday) => [weekday, []]),
+  );
+
+  for (const session of timelineSessions.value) {
+    result[session.weekday].push(session);
+  }
+
+  return result;
+});
+
+function sessionStyle(session) {
+  const top = minuteToTimelineOffset(session.startMinute);
+
+  const bottom = minuteToTimelineOffset(session.endMinute);
+
+  return {
+    top: `${top}px`,
+    height: `${bottom - top}px`,
+    backgroundColor: session.course.getColor(),
+    color: session.course.getTextColor(),
+  };
+}
 </script>
