@@ -52,11 +52,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div id="main" class="flex">
-    <div>
+  <div id="main" class="flex w-full min-w-0 max-w-full">
+    <div class="w-full min-w-0">
       <Navbar />
       <Box />
-      <splitpanes class="bg-white">
+      <splitpanes class="w-full min-w-0 bg-white">
         <pane class="w-full" min-size="50" size="70">
           <div
             class="h-full"
