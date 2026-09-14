@@ -282,7 +282,10 @@
           <dd>
             {{ selectedTimeLabel }}
           </dd>
-
+          <dt class="text-gray-500">節次</dt>
+          <dd>
+            {{ selectedSession.periodLabel || "未提供" }}
+          </dd>
           <dt class="text-gray-500">教室</dt>
           <dd>
             {{ selectedCourse.getClassroom() || "未提供" }}
@@ -362,6 +365,9 @@ import {
   InitTable,
   GetCourseTable,
   WeekDayToInt,
+  courseToTime,
+  courseToStartIndex,
+  courseToEndIndex,
 } from "@functions/general";
 import renderImage from "@functions/image_render.ts";
 import {
@@ -698,6 +704,11 @@ const timelineSessions = computed(() => {
         weekday,
         startMinute,
         endMinute,
+        periodLabel: getClassPeriod(
+          rowIndex,
+          length,
+          course,
+        ),
         course,
       });
     }
@@ -737,4 +748,57 @@ function sessionStyle(session) {
     color: session.course.getTextColor(),
   };
 }
+
+function getClassPeriod(rowIndex, length, course) {
+  const startTime = course.getStartTime();
+
+  // Custom courses keeeping their original period in the classListStorage.
+  if (course.getIsCustom()) {
+    const courseList =
+      TotalCourseData.value?.[activeIndex.value]?.classListStorage ?? [];
+
+    const originalCourse = courseList.find(
+      (item) => item.getUuid() === course.getUuid(),
+    );
+
+    const originalTime = originalCourse?.getStartTime();
+
+    if (typeof originalTime === "string") {
+      // e.g. "一1~D" -> "1 ~ D"
+      return originalTime.slice(1).replace("~", " ~ ");
+    }
+  }
+
+  const endIndex = rowIndex + length;
+
+  const startPeriod = classes.find(
+    (period) =>
+      courseToStartIndex[period] === rowIndex &&
+      courseToTime[period] === startTime,
+  );
+
+  if (startPeriod == null) {
+    return "";
+  }
+
+  const sameTypePeriods = classes.filter(
+    (period) => typeof period === typeof startPeriod,
+  );
+
+  const endPeriod = sameTypePeriods.find(
+    (period) => courseToEndIndex[period] === endIndex,
+  );
+
+  if (endPeriod == null) {
+    return String(startPeriod);
+  }
+
+  const startPosition = sameTypePeriods.indexOf(startPeriod);
+  const endPosition = sameTypePeriods.indexOf(endPeriod);
+
+  return sameTypePeriods
+    .slice(startPosition, endPosition + 1)
+    .join(", ");
+}
+
 </script>
